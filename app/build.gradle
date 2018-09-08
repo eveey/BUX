@@ -92,7 +92,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Kotlin
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     // Support
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
@@ -137,13 +137,11 @@ dependencies {
 
     // Utils
     implementation "com.jakewharton.threetenabp:threetenabp:$threeTenAndroidVersion"
-    implementation "com.afollestad.material-dialogs:core:$materialDialogsVersion"
 
     // Test
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
-    testImplementation "io.kotlintest:kotlintest-runner-junit5:$kotlintestVersion"
     testImplementation "org.threeten:threetenbp:$threeTenVersion"
     testImplementation "org.assertj:assertj-core:$assertJVersion"
 
