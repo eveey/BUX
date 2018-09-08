@@ -42,7 +42,6 @@ class NetworkModule {
                     readTimeout(NETWORK_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                     writeTimeout(NETWORK_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                     addInterceptor(authInterceptor)
-                    addInterceptor(headersInterceptor)
                     addInterceptor(ChuckInterceptor(context))
                     if (BuildConfig.DEBUG) {
                         addInterceptor(loggingInterceptor)

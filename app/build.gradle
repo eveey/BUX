@@ -11,6 +11,12 @@ apply plugin: 'org.jlleitschuh.gradle.ktlint'
 android {
     compileSdkVersion targetSdk.toInteger()
     buildToolsVersion buildToolsVer
+
+    def STRING = 'String'
+    def AUTH_TOKEN = 'AUTH_TOKEN'
+    def BASE_API_URL = 'BASE_API_URL'
+    def BASE_RTF_URL = 'BASE_RTF_URL'
+
     defaultConfig {
         applicationId "com.evastos.bux"
         minSdkVersion minSdk.toInteger()
@@ -18,6 +24,7 @@ android {
         versionCode 1
         versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField STRING, AUTH_TOKEN, '"eyJhbGciOiJIUzI1NiJ9.eyJyZWZyZXNoYWJsZSI6ZmFsc2UsInN1YiI6ImJiMGNkYTJiLWExMGUtNGVkMy1hZDVhLTBmODJiNGMxNTJjNCIsImF1ZCI6ImJldGEuZ2V0YnV4LmNvbSIsInNjcCI6WyJhcHA6bG9naW4iLCJydGY6bG9naW4iXSwiZXhwIjoxODIwODQ5Mjc5LCJpYXQiOjE1MDU0ODkyNzksImp0aSI6ImI3MzlmYjgwLTM1NzUtNGIwMS04NzUxLTMzZDFhNGRjOGY5MiIsImNpZCI6Ijg0NzM2MjI5MzkifQ.M5oANIi2nBtSfIfhyUMqJnex-JYg6Sm92KPYaUL9GKg"'
     }
 
     buildTypes {
@@ -35,16 +42,14 @@ android {
 
     flavorDimensions 'api'
 
-    def STRING = 'String'
-    def BASE_API_URL = 'BASE_API_URL'
-    def BASE_RTF_URL = 'BASE_RTF_URL'
-
     productFlavors {
+
         development {
+            // Only for debugging using the emulator, run bux-server.jar on your local host
             dimension 'api'
             applicationIdSuffix '.dev'
-            buildConfigField STRING, BASE_API_URL, '"http://localhost:8080"'
-            buildConfigField STRING, BASE_RTF_URL, '"http://localhost:8080"'
+            buildConfigField STRING, BASE_API_URL, '"http://10.0.2.2:8080/"'
+            buildConfigField STRING, BASE_RTF_URL, '"http://10.0.2.2:8080/"'
         }
 
         beta {
