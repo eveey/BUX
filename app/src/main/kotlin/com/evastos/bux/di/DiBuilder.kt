@@ -14,5 +14,4 @@ abstract class DiBuilder {
 
     @ContributesAndroidInjector
     abstract fun bindProductFeedActivity(): ProductFeedActivity
-
 }

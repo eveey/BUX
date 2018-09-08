@@ -31,10 +31,10 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttp(
-            @AppContext context: Context,
-            loggingInterceptor: HttpLoggingInterceptor,
-            authInterceptor: AuthInterceptor,
-            headersInterceptor: HeadersInterceptor
+        @AppContext context: Context,
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor,
+        headersInterceptor: HeadersInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
                 .apply {

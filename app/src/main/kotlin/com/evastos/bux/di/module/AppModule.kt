@@ -21,6 +21,8 @@ class AppModule {
     @Provides
     @Singleton
     fun provideSchedulers(): RxSchedulers {
-        return RxSchedulers(Schedulers.io(), AndroidSchedulers.mainThread(), Schedulers.computation())
+        return RxSchedulers(Schedulers.io(),
+            AndroidSchedulers.mainThread(),
+            Schedulers.computation())
     }
 }

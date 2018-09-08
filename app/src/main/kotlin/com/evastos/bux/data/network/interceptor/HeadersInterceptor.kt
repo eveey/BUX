@@ -2,7 +2,7 @@ package com.evastos.bux.data.network.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class HeadersInterceptor @Inject constructor() : Interceptor {
