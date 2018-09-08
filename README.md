@@ -1,5 +1,5 @@
 # BUX
-Demo
+Playground app
 
 ## Network
 Using Tinder/Scarlet for WebSocket connections
