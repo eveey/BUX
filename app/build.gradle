@@ -8,7 +8,6 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'org.jlleitschuh.gradle.ktlint'
 
-
 android {
     compileSdkVersion targetSdk.toInteger()
     buildToolsVersion buildToolsVer
@@ -17,13 +16,13 @@ android {
         minSdkVersion minSdk.toInteger()
         targetSdkVersion targetSdk.toInteger()
         versionCode 1
-        versionName "1.0.0"
+        versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-            debuggable true
+             true
             minifyEnabled false
         }
 
@@ -38,7 +37,7 @@ android {
 
     def STRING = 'String'
     def BASE_API_URL = 'BASE_API_URL'
-    def BASE_RTF_URL = 'BASE_API_URL'
+    def BASE_RTF_URL = 'BASE_RTF_URL'
 
     productFlavors {
         development {
@@ -56,8 +55,8 @@ android {
         }
     }
 
-    packagingOptions {
-        exclude 'META-INF/rxjava.properties'
+    dataBinding {
+        enabled = true
     }
 
     sourceSets {
@@ -120,6 +119,14 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    // LiveData & ViewModel
+    implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
+    implementation "android.arch.lifecycle:viewmodel:$lifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$lifecycleVersion"
+
+    // Data binding
+    kapt "com.android.databinding:compiler:$dataBindingVersion"
 
     // RX
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
