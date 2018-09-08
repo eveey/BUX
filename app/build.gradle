@@ -4,30 +4,156 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'org.jlleitschuh.gradle.ktlint'
+
+
 android {
-    compileSdkVersion 28
+    compileSdkVersion targetSdk.toInteger()
+    buildToolsVersion buildToolsVer
     defaultConfig {
         applicationId "com.evastos.bux"
-        minSdkVersion 19
-        targetSdkVersion 28
+        minSdkVersion minSdk.toInteger()
+        targetSdkVersion targetSdk.toInteger()
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
+        }
+
+        release {
+            debuggable false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    flavorDimensions 'api'
+
+    def STRING = 'String'
+    def BASE_API_URL = 'BASE_API_URL'
+    def BASE_RTF_URL = 'BASE_API_URL'
+
+    productFlavors {
+        development {
+            dimension 'api'
+            applicationIdSuffix '.dev'
+            buildConfigField STRING, BASE_API_URL, '"http://localhost:8080"'
+            buildConfigField STRING, BASE_RTF_URL, '"http://localhost:8080"'
+        }
+
+        beta {
+            dimension 'api'
+            applicationIdSuffix '.beta'
+            buildConfigField STRING, BASE_API_URL, '"https://api.beta.getbux.com/"'
+            buildConfigField STRING, BASE_RTF_URL, '"https://rtf.beta.getbux.com/"'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+
+    applicationVariants.all { variant ->
+        variant.getCompileConfiguration().resolutionStrategy {
+            force "com.android.support:support-v7:$supportLibVersion"
+            force "com.android.support:support-v4:$supportLibVersion"
+            force "com.android.support:design:$supportLibVersion"
+        }
+
+        variant.getRuntimeConfiguration().resolutionStrategy {
+            force "com.android.support:design:$supportLibVersion"
+        }
+    }
+
+    lintOptions {
+        abortOnError = true
+    }
+
+    androidExtensions {
+        experimental = true
     }
 }
 
 dependencies {
+    // Local libs
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    // Support
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:recyclerview-v7:$supportLibVersion"
+    implementation "com.android.support:cardview-v7:$supportLibVersion"
+    implementation "com.android.support:design:$supportLibVersion"
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+    implementation "androidx.core:core-ktx:$ktxVersion"
+
+    // Network
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    implementation "com.github.tinder.scarlet:scarlet:$scarletVersion"
+
+    // Dependency injection
+    implementation "javax.annotation:javax.annotation-api:$javaAnnotationVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    // RX
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+    implementation "nl.littlerobots.rxlint:rxlint:$rxLintVersion"
+
+    // RX binding
+    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion"
+
+    // Logging
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
+    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+
+    // Utils
+    implementation "com.jakewharton.threetenabp:threetenabp:$threeTenAndroidVersion"
+
+    // Test
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation "org.threeten:threetenbp:$threeTenVersion"
+    testImplementation "org.assertj:assertj-core:$assertJVersion"
+
+    // Android Test
+    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+}
+
+ktlint {
+    debug = true
+    verbose = true
+    android = true
+    outputToConsole = true
+    reporters = ["PLAIN"]
 }
