@@ -33,7 +33,7 @@
 -keepattributes Signature
 -keepattributes Exceptions
 
-# dagger
+# Dagger
 -dontwarn com.google.errorprone.annotations.*
 
 # OkHttp
@@ -60,7 +60,6 @@
     public static ** valueOf(java.lang.String);
 }
 
-# QuickPermissions
 -dontwarn android.databinding.**
 -dontwarn com.android.databinding.library.**
 -keep class android.databinding.** { *; }
