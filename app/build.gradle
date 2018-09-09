@@ -46,6 +46,7 @@ android {
         release {
             debuggable false
             minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -53,7 +54,6 @@ android {
     flavorDimensions 'api'
 
     productFlavors {
-
         development {
             // Only for debugging using the emulator, run bux-server.jar on your local host
             dimension 'api'

@@ -11,11 +11,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ProductViewModel @Inject constructor(
-    private val productInteractor: Interactors.ProductInteractor,
+    productInteractor: Interactors.ProductInteractor,
     rxSchedulers: RxSchedulers) : BaseViewModel(rxSchedulers) {
     init {
         disposables.addAll(productInteractor
-                .execute(ProductId("sb26513"))
+                .getProductData(ProductId("sb26513"))
                 .applySchedulers(rxSchedulers)
                 .subscribe(
                     { productData: ProductData? ->

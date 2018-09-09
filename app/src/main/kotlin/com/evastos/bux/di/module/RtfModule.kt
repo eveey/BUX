@@ -10,7 +10,6 @@ import com.tinder.scarlet.Lifecycle
 import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
 import com.tinder.scarlet.messageadapter.moshi.MoshiMessageAdapter
-import com.tinder.scarlet.retry.ExponentialBackoffStrategy
 import com.tinder.scarlet.streamadapter.rxjava2.RxJava2StreamAdapterFactory
 import com.tinder.scarlet.websocket.okhttp.newWebSocketFactory
 import dagger.Module
@@ -29,8 +28,9 @@ class RtfModule {
     @Provides
     @Singleton
     fun provideScarlet(client: OkHttpClient, moshi: Moshi, lifecycle: Lifecycle): Scarlet {
+        val url = BuildConfig.BASE_RTF_URL + RTF_SUBSCRIPTIONS
         return Scarlet.Builder()
-                .webSocketFactory(client.newWebSocketFactory(BuildConfig.BASE_RTF_URL + RTF_SUBSCRIPTIONS))
+                .webSocketFactory(client.newWebSocketFactory(url))
                 .addMessageAdapterFactory(MoshiMessageAdapter.Factory(moshi = moshi))
                 .addStreamAdapterFactory(RxJava2StreamAdapterFactory())
                 .lifecycle(lifecycle)

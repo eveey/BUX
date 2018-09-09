@@ -14,7 +14,7 @@ class ProductInteractor @Inject constructor(
     private val apiExceptionMapper: ApiExceptionMapper
 ) : Interactors.ProductInteractor {
 
-    override fun execute(request: ProductId): Single<ProductData> =
+    override fun getProductData(request: ProductId): Single<ProductData> =
             apiService.getProductData(request.productId)
                     .mapException(apiExceptionMapper)
 }

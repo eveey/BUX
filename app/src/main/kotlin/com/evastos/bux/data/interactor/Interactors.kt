@@ -2,20 +2,22 @@ package com.evastos.bux.data.interactor
 
 import com.evastos.bux.data.model.api.request.ProductId
 import com.evastos.bux.data.model.api.response.ProductData
-import com.evastos.bux.data.model.rtf.update.UpdateEvent
 import com.evastos.bux.data.model.rtf.connection.ConnectEvent
-import com.evastos.bux.data.model.rtf.subscription.SubscribeEvent
-import com.tinder.scarlet.WebSocket
+import com.evastos.bux.data.model.rtf.update.UpdateEvent
 import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface Interactors {
 
-    interface ProductInteractor : Interactor<ProductId, Single<ProductData>>
+    interface ProductInteractor {
+        fun getProductData(request: ProductId): Single<ProductData>
+    }
 
-    interface ProductFeedConnectionInteractor : Interactor<Unit, Flowable<WebSocket.Event.OnConnectionOpened<ConnectEvent>>>
+    interface ProductFeedInteractor {
+        fun connect(): Flowable<ConnectEvent>
 
-    interface ProductFeedSubscriptionInteractor : Interactor<SubscribeEvent, Unit>
+        fun subscribeToChannel(subscribeTo: ProductId, unsubscribeFrom: ProductId? = null): Boolean
 
-    interface ProductFeedUpdateInteractor : Interactor<Unit, UpdateEvent>
+        fun observeUpdates(): Flowable<UpdateEvent>
+    }
 }

@@ -1,6 +1,6 @@
 package com.evastos.bux.ui.product.feed
 
-import com.evastos.bux.data.interactor.product.feed.ProductFeedInteractor
+import com.evastos.bux.data.interactor.Interactors
 import com.evastos.bux.data.model.api.request.ProductId
 import com.evastos.bux.data.model.rtf.connection.ConnectEventType
 import com.evastos.bux.data.rx.RxSchedulers
@@ -10,7 +10,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ProductFeedViewModel @Inject constructor(
-    productFeedInteractor: ProductFeedInteractor,
+    productFeedInteractor: Interactors.ProductFeedInteractor,
     rxSchedulers: RxSchedulers
 ) : BaseViewModel(rxSchedulers) {
 
