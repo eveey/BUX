@@ -1,8 +1,8 @@
 package com.evastos.bux.di.module
 
 import com.evastos.bux.BuildConfig
+import com.evastos.bux.data.exception.api.ApiExceptionMapper
 import com.evastos.bux.data.service.ApiService
-import com.evastos.bux.data.util.ApiExceptionMapper
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

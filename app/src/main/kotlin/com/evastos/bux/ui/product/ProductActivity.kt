@@ -2,7 +2,6 @@ package com.evastos.bux.ui.product
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import com.evastos.bux.R
 import com.evastos.bux.ui.base.BaseActivity
@@ -19,12 +18,16 @@ class ProductActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
 
+        with(supportActionBar) {
+            title = getString(R.string.activity_product_title)
+        }
+
         productViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ProductViewModel::class.java)
 
         clickButton.debounceClicks()
                 .subscribe {
-                    startActivity(Intent(this, ProductFeedActivity::class.java))
+                    startActivity(ProductFeedActivity.newIntent(this))
                 }
     }
 }

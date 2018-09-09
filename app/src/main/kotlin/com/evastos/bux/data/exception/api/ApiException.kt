@@ -1,4 +1,4 @@
-package com.evastos.bux.data.model.api.exception
+package com.evastos.bux.data.exception.api
 
 sealed class ApiException : Throwable() {
 

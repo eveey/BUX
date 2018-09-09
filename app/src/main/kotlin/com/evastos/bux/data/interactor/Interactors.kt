@@ -6,8 +6,5 @@ import io.reactivex.Single
 
 interface Interactors {
 
-    interface ProductDataInteractor : Interactor<ProductId, Single<ProductData>>
-//
-//    interface LoginInteractor : Interactor<LoginRequest, Single<LoginResponse>>
-
+    interface ProductInteractor : Interactor<ProductId, Single<ProductData>>
 }

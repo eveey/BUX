@@ -3,7 +3,6 @@ package com.evastos.bux.di.module
 import android.content.Context
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.network.interceptor.AuthInterceptor
-import com.evastos.bux.data.network.interceptor.HeadersInterceptor
 import com.evastos.bux.di.qualifier.AppContext
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
@@ -33,8 +32,7 @@ class NetworkModule {
     fun provideOkHttp(
         @AppContext context: Context,
         loggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor,
-        headersInterceptor: HeadersInterceptor
+        authInterceptor: AuthInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
                 .apply {
