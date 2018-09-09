@@ -40,8 +40,4 @@ class ApiModule {
     fun provideApiExceptionMapper(moshi: Moshi): ApiExceptionMapper {
         return ApiExceptionMapper(moshi)
     }
-
-    @Provides
-    @Singleton
-    fun provideMoshi(): Moshi = Moshi.Builder().build()
 }

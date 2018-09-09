@@ -2,7 +2,9 @@ package com.evastos.bux.di.module
 
 import android.content.Context
 import com.evastos.bux.BuxApp
+import com.evastos.bux.data.interactor.product.feed.ProductFeedInteractor
 import com.evastos.bux.data.rx.RxSchedulers
+import com.evastos.bux.data.service.RtfService
 import com.evastos.bux.di.qualifier.AppContext
 import dagger.Module
 import dagger.Provides
@@ -24,5 +26,11 @@ class AppModule {
         return RxSchedulers(Schedulers.io(),
             AndroidSchedulers.mainThread(),
             Schedulers.computation())
+    }
+
+    @Provides
+    @Singleton
+    fun providesProductFeedInteractor(rtfService: RtfService): ProductFeedInteractor {
+        return ProductFeedInteractor(rtfService)
     }
 }

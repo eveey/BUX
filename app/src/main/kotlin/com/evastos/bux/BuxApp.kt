@@ -1,5 +1,7 @@
 package com.evastos.bux
 
+import android.content.Context
+import android.support.multidex.MultiDex
 import com.evastos.bux.di.component.DaggerAppComponent
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
@@ -24,6 +26,11 @@ class BuxApp : DaggerApplication() {
 
         initLogging()
         initDateTimeLibrary()
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 
     private fun initLogging() {

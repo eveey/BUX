@@ -12,9 +12,9 @@ import javax.inject.Inject
 
 class ProductViewModel @Inject constructor(
     private val productInteractor: Interactors.ProductInteractor,
-    private val rxSchedulers: RxSchedulers) : BaseViewModel() {
+    rxSchedulers: RxSchedulers) : BaseViewModel(rxSchedulers) {
     init {
-        disposables.add(productInteractor
+        disposables.addAll(productInteractor
                 .execute(ProductId("sb26513"))
                 .applySchedulers(rxSchedulers)
                 .subscribe(
@@ -35,4 +35,5 @@ class ProductViewModel @Inject constructor(
                 )
         )
     }
+
 }
