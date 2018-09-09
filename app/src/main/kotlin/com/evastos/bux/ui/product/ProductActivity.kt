@@ -25,9 +25,8 @@ class ProductActivity : BaseActivity() {
         productViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ProductViewModel::class.java)
 
-        clickButton.debounceClicks()
-                .subscribe {
-                    startActivity(ProductFeedActivity.newIntent(this))
-                }
+        clickButton.debounceClicks().subscribe {
+            startActivity(ProductFeedActivity.newIntent(this))
+        }
     }
 }

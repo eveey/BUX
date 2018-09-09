@@ -1,10 +1,8 @@
 package com.evastos.bux.di.module
 
 import android.app.Application
-import android.content.Context
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.service.RtfService
-import com.evastos.bux.di.qualifier.AppContext
 import com.squareup.moshi.Moshi
 import com.tinder.scarlet.Lifecycle
 import com.tinder.scarlet.Scarlet
@@ -31,7 +29,7 @@ class RtfModule {
         val url = BuildConfig.BASE_RTF_URL + RTF_SUBSCRIPTIONS
         return Scarlet.Builder()
                 .webSocketFactory(client.newWebSocketFactory(url))
-                .addMessageAdapterFactory(MoshiMessageAdapter.Factory(moshi = moshi))
+                .addMessageAdapterFactory(MoshiMessageAdapter.Factory(moshi))
                 .addStreamAdapterFactory(RxJava2StreamAdapterFactory())
                 .lifecycle(lifecycle)
                 .build()
@@ -39,8 +37,8 @@ class RtfModule {
 
     @Provides
     @Singleton
-    fun provideLifecycle(@AppContext context: Context): Lifecycle {
-        return AndroidLifecycle.ofApplicationForeground(context as Application)
+    fun provideLifecycle(application: Application): Lifecycle {
+        return AndroidLifecycle.ofApplicationForeground(application)
     }
 
     @Provides
