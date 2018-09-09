@@ -2,6 +2,7 @@ package com.evastos.bux.di.module
 
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.service.ApiService
+import com.evastos.bux.data.util.ApiExceptionMapper
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -32,6 +33,12 @@ class ApiModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiExceptionMapper(moshi: Moshi): ApiExceptionMapper {
+        return ApiExceptionMapper(moshi)
     }
 
     @Provides

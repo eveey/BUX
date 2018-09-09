@@ -1,6 +1,6 @@
 package com.evastos.bux.data.service
 
-import com.evastos.bux.data.model.response.ProductData
+import com.evastos.bux.data.model.api.response.ProductData
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

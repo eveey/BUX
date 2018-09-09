@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">BUX</string>
+    <string name="app_name" translatable="false">BUX</string>
+    <string name="error_message_server_unavailable">Service is temporarily unavailable. Please try again later.</string>
+    <string name="error_message_unauthorized">You don\'t have permissions to perform this request. Please contact support.</string>
+    <string name="error_message_network">Something went wrong. Please check your internet connection or try again later.</string>
+    <string name="error_message_general">Something went wrong. Please try again.</string>
+    <string name="error_message_product_not_found">Product with identifier %s does not exist.</string>
 </resources>

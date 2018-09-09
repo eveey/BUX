@@ -1,4 +1,4 @@
-package com.evastos.bux.data.model.response
+package com.evastos.bux.data.model.api.response
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -11,5 +11,3 @@ data class ProductData(
     @Json(name = "currentPrice") val currentPrice: Price?,
     @Json(name = "closingPrice") val closingPrice: Price?
 )
-
-
