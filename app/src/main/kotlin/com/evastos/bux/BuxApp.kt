@@ -1,6 +1,5 @@
 package com.evastos.bux
 
-import android.os.StrictMode
 import com.evastos.bux.di.component.DaggerAppComponent
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
@@ -24,31 +23,12 @@ class BuxApp : DaggerApplication() {
         instance = this
 
         initLogging()
-        initStrictMode()
         initDateTimeLibrary()
     }
 
     private fun initLogging() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        }
-    }
-
-    private fun initStrictMode() {
-        if (BuildConfig.DEBUG) {
-            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
-                    .detectDiskReads()
-                    .detectDiskWrites()
-                    .detectNetwork()
-                    .penaltyLog()
-                    .build())
-            StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
-                    .detectLeakedSqlLiteObjects()
-                    .detectLeakedClosableObjects()
-                    .detectActivityLeaks()
-                    .detectLeakedRegistrationObjects()
-                    .penaltyLog()
-                    .build())
         }
     }
 
