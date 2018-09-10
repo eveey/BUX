@@ -41,14 +41,20 @@ class ProductFeedViewModel @Inject constructor(
             Maybe.concat(isConnected(), connect())
                     .firstOrError()
                     .flatMapPublisher { connectEvent ->
-                        if (connectEvent.eventType == ConnectEventType.CONNECTED) {
-                            val isSubscribed = productFeedInteractor.subscribeToChannel(productId)
-                            if (isSubscribed) {
-                                return@flatMapPublisher productFeedInteractor.observeUpdates()
+                        return@flatMapPublisher when (connectEvent.eventType) {
+                            ConnectEventType.CONNECTED -> {
+                                productFeedInteractor.subscribeToChannel(
+                                    productId,
+                                    rtfConnectionManager.subscribedProductId)
+                                        .let { subscribed ->
+                                            if (subscribed) {
+                                                productFeedInteractor.observeUpdates()
+                                            }
+                                        }
+                                Flowable.error<UpdateEvent>(NotSubscribedException())
                             }
-                            return@flatMapPublisher Flowable.error<UpdateEvent>(NotSubscribedException())
+                            else -> Flowable.error<UpdateEvent>(NotConnectedException())
                         }
-                        return@flatMapPublisher Flowable.error<UpdateEvent>(NotConnectedException())
                     }
                     .filter {
                         it.channel == Channel.TRADING_QUOTE
