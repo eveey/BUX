@@ -10,11 +10,11 @@ import com.evastos.bux.data.model.rtf.connection.ConnectEventType
 import com.evastos.bux.data.model.rtf.update.Channel
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
+import com.evastos.bux.data.rx.throttleLastMillis
 import com.evastos.bux.ui.base.BaseViewModel
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ProductFeedViewModel @Inject constructor(
@@ -58,10 +58,7 @@ class ProductFeedViewModel @Inject constructor(
                     .filter {
                         it.channel == Channel.TRADING_QUOTE
                     }
-                    .throttleLast(
-                        THROTTLE_INTERVAL,
-                        TimeUnit.MILLISECONDS,
-                        rxSchedulers.computationScheduler)
+                    .throttleLastMillis(THROTTLE_INTERVAL)
                     .applySchedulers(rxSchedulers)
                     .subscribe({ updateEvent ->
                         Timber.d(updateEvent.toString())

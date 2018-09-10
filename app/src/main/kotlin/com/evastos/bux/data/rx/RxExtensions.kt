@@ -5,6 +5,8 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 fun <T> Single<T>.applySchedulers(rxSchedulers: RxSchedulers): Single<T> {
     return this.subscribeOn(rxSchedulers.ioScheduler).observeOn(rxSchedulers.mainThreadScheduler)
@@ -30,4 +32,8 @@ fun <T, E : Throwable> Single<T>.mapException(exceptionMapper: ExceptionMapper<E
             }
         }
     }
+}
+
+fun <T> Flowable<T>.throttleLastMillis(intervalDurationMillis: Long): Flowable<T> {
+    return throttleLast(intervalDurationMillis, TimeUnit.MILLISECONDS, Schedulers.computation())
 }
