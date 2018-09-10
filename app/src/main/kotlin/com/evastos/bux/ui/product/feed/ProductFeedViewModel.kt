@@ -1,55 +1,88 @@
 package com.evastos.bux.ui.product.feed
 
+import com.evastos.bux.data.exception.rtf.RtfException.NotConnectedException
+import com.evastos.bux.data.exception.rtf.RtfException.NotSubscribedException
 import com.evastos.bux.data.interactor.Interactors
+import com.evastos.bux.data.manager.RtfConnectionManager
 import com.evastos.bux.data.model.api.request.ProductId
+import com.evastos.bux.data.model.rtf.connection.ConnectEvent
 import com.evastos.bux.data.model.rtf.connection.ConnectEventType
+import com.evastos.bux.data.model.rtf.update.Channel
+import com.evastos.bux.data.model.rtf.update.UpdateEvent
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
 import com.evastos.bux.ui.base.BaseViewModel
+import io.reactivex.Flowable
+import io.reactivex.Maybe
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ProductFeedViewModel @Inject constructor(
-    productFeedInteractor: Interactors.ProductFeedInteractor,
+    private val productFeedInteractor: Interactors.ProductFeedInteractor,
+    private val rtfConnectionManager: RtfConnectionManager,
     rxSchedulers: RxSchedulers
 ) : BaseViewModel(rxSchedulers) {
 
-    private var isConnected = false
+    companion object {
+        private const val THROTTLE_INTERVAL = 500L
+    }
+
+    private var subscribeToProductFun: (ProductId) -> Unit
 
     init {
-        // ugly temporary
-        if (isConnected.not()) {
-            disposables.add(productFeedInteractor.connect()
-                    .applySchedulers(rxSchedulers)
-                    .subscribe({
-                        Timber.d(it.toString(), "")
-                        if (it.eventType == ConnectEventType.CONNECTED) {
-                            isConnected = true
-                            productFeedInteractor
-                                    .subscribeToChannel(ProductId("sb26513"))
-                            disposables.addAll(productFeedInteractor.observeUpdates()
-                                    .applySchedulers(rxSchedulers)
-                                    .subscribe({ updateEvent ->
-                                        Timber.d(updateEvent.toString(), "")
-                                    }, { throwable ->
-                                        Timber.d(throwable.toString(), "")
-                                    }))
-                        }
-                    }, {
-                        Timber.d(it.toString(), "")
-                    }))
-        } else {
+        val productId = ProductId("sb26513")
+        subscribeToProductFun = { subscribeToProduct(productId) }
+        subscribeToProduct(productId)
+    }
 
-            productFeedInteractor
-                    .subscribeToChannel(ProductId("sb26513"))
-            disposables.addAll(productFeedInteractor.observeUpdates()
+    private fun subscribeToProduct(productId: ProductId) {
+        disposables.add(
+            Maybe.concat(isConnected(), connect())
+                    .firstOrError()
+                    .flatMapPublisher { connectEvent ->
+                        if (connectEvent.eventType == ConnectEventType.CONNECTED) {
+                            val isSubscribed = productFeedInteractor.subscribeToChannel(productId)
+                            if (isSubscribed) {
+                                return@flatMapPublisher productFeedInteractor.observeUpdates()
+                            }
+                            return@flatMapPublisher Flowable.error<UpdateEvent>(NotSubscribedException())
+                        }
+                        return@flatMapPublisher Flowable.error<UpdateEvent>(NotConnectedException())
+                    }
+                    .filter {
+                        it.channel == Channel.TRADING_QUOTE
+                    }
+                    .throttleLast(
+                        THROTTLE_INTERVAL,
+                        TimeUnit.MILLISECONDS,
+                        rxSchedulers.computationScheduler)
                     .applySchedulers(rxSchedulers)
                     .subscribe({ updateEvent ->
-                        Timber.d(updateEvent.toString(), "")
+                        Timber.d(updateEvent.toString())
                     }, { throwable ->
-                        Timber.d(throwable.toString(), "")
+                        Timber.e(throwable)
                     }))
-        }
+    }
 
+    private fun isConnected(): Maybe<ConnectEvent> {
+        rtfConnectionManager.currentConnection?.let { currentConnection ->
+            if (currentConnection.eventType == ConnectEventType.CONNECTED) {
+                return Maybe.just(currentConnection)
+            }
+        }
+        return Maybe.empty()
+    }
+
+    private fun connect(): Maybe<ConnectEvent> {
+        return productFeedInteractor.connect()
+                .filter {
+                    it.eventType != null
+                }
+                .doOnNext { connectEvent ->
+                    rtfConnectionManager.currentConnection = connectEvent
+                    Timber.d(connectEvent.toString())
+                }
+                .firstElement()
     }
 }

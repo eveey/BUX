@@ -5,6 +5,7 @@ import com.evastos.bux.di.DiBuilder
 import com.evastos.bux.di.module.ApiModule
 import com.evastos.bux.di.module.AppModule
 import com.evastos.bux.di.module.InteractorsModule
+import com.evastos.bux.di.module.ManagerModule
 import com.evastos.bux.di.module.NetworkModule
 import com.evastos.bux.di.module.RtfModule
 import com.evastos.bux.di.module.ViewModelModule
@@ -22,6 +23,7 @@ import javax.inject.Singleton
     NetworkModule::class,
     ApiModule::class,
     RtfModule::class,
-    InteractorsModule::class
+    InteractorsModule::class,
+    ManagerModule::class
 ])
 interface AppComponent : AndroidInjector<BuxApp>

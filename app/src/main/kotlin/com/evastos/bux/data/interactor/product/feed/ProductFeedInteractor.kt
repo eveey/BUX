@@ -19,7 +19,11 @@ class ProductFeedInteractor @Inject constructor(
     }
 
     override fun subscribeToChannel(subscribeTo: ProductId, unsubscribeFrom: ProductId?): Boolean {
-        return rtfService.sendSubscribe(SubscribeEvent(listOf(SubscribeChannel.TradingProductChannel(subscribeTo)), emptyList()))
+        val subscribeList = listOf(SubscribeChannel.TradingProductChannel(subscribeTo))
+        val unsubscribeList = unsubscribeFrom?.let {
+            listOf(SubscribeChannel.TradingProductChannel(it))
+        }
+        return rtfService.sendSubscribe(SubscribeEvent(subscribeList, unsubscribeList))
     }
 
     override fun observeUpdates(): Flowable<UpdateEvent> {
