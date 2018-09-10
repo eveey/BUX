@@ -20,9 +20,7 @@ class ProductFeedInteractor @Inject constructor(
 
     override fun subscribeToChannel(subscribeTo: ProductId, unsubscribeFrom: ProductId?): Boolean {
         val subscribeList = listOf(SubscribeChannel.TradingProductChannel(subscribeTo))
-        val unsubscribeList = unsubscribeFrom?.let {
-            listOf(SubscribeChannel.TradingProductChannel(it))
-        }
+        val unsubscribeList = if (unsubscribeFrom != null) listOf(SubscribeChannel.TradingProductChannel(unsubscribeFrom)) else emptyList()
         return rtfService.sendSubscribe(SubscribeEvent(subscribeList, unsubscribeList))
     }
 

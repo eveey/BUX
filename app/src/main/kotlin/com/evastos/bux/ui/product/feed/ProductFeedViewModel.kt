@@ -8,7 +8,6 @@ import com.evastos.bux.data.model.api.request.ProductId
 import com.evastos.bux.data.model.rtf.connection.ConnectEvent
 import com.evastos.bux.data.model.rtf.connection.ConnectEventType
 import com.evastos.bux.data.model.rtf.update.Channel
-import com.evastos.bux.data.model.rtf.update.UpdateEvent
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
 import com.evastos.bux.ui.base.BaseViewModel
@@ -44,16 +43,16 @@ class ProductFeedViewModel @Inject constructor(
                         return@flatMapPublisher when (connectEvent.eventType) {
                             ConnectEventType.CONNECTED -> {
                                 productFeedInteractor.subscribeToChannel(
-                                    productId,
-                                    rtfConnectionManager.subscribedProductId)
+                                    productId)
                                         .let { subscribed ->
                                             if (subscribed) {
                                                 productFeedInteractor.observeUpdates()
+                                            } else {
+                                                Flowable.error(NotSubscribedException())
                                             }
                                         }
-                                Flowable.error<UpdateEvent>(NotSubscribedException())
                             }
-                            else -> Flowable.error<UpdateEvent>(NotConnectedException())
+                            else -> Flowable.error(NotConnectedException())
                         }
                     }
                     .filter {

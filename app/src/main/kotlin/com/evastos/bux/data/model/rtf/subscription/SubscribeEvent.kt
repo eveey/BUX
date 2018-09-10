@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class SubscribeEvent(
-    @Json(name = "subscribeTo") val subscribeTo: List<SubscribeChannel>?,
-    @Json(name = "unsubscribeFrom") val unsubscribeFrom: List<SubscribeChannel>?
+    @Json(name = "subscribeTo") val subscribeTo: List<SubscribeChannel>,
+    @Json(name = "unsubscribeFrom") val unsubscribeFrom: List<SubscribeChannel>
 )
