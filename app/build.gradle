@@ -19,12 +19,31 @@ android {
 
     defaultConfig {
         applicationId "com.evastos.bux"
+
         minSdkVersion minSdk.toInteger()
         targetSdkVersion targetSdk.toInteger()
+
         versionCode 1
         versionName "0.1.0"
+
+        multiDexEnabled = true
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField STRING, AUTH_TOKEN, '"eyJhbGciOiJIUzI1NiJ9.eyJyZWZyZXNoYWJsZSI6ZmFsc2UsInN1YiI6ImJiMGNkYTJiLWExMGUtNGVkMy1hZDVhLTBmODJiNGMxNTJjNCIsImF1ZCI6ImJldGEuZ2V0YnV4LmNvbSIsInNjcCI6WyJhcHA6bG9naW4iLCJydGY6bG9naW4iXSwiZXhwIjoxODIwODQ5Mjc5LCJpYXQiOjE1MDU0ODkyNzksImp0aSI6ImI3MzlmYjgwLTM1NzUtNGIwMS04NzUxLTMzZDFhNGRjOGY5MiIsImNpZCI6Ijg0NzM2MjI5MzkifQ.M5oANIi2nBtSfIfhyUMqJnex-JYg6Sm92KPYaUL9GKg"'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(defaultConfig.applicationId + '.jks')
+            storePassword 'android'
+            keyAlias 'buxkeystore'
+            keyPassword 'android'
+        }
     }
 
     buildTypes {
@@ -35,7 +54,8 @@ android {
 
         release {
             debuggable false
-            minifyEnabled true
+            minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -43,7 +63,6 @@ android {
     flavorDimensions 'api'
 
     productFlavors {
-
         development {
             // Only for debugging using the emulator, run bux-server.jar on your local host
             dimension 'api'
@@ -93,7 +112,7 @@ android {
 
 dependencies {
     // Local libs
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
@@ -116,6 +135,10 @@ dependencies {
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     implementation "com.github.tinder.scarlet:scarlet:$scarletVersion"
+    implementation "com.github.tinder.scarlet:scarlet-websocket-okhttp:$scarletVersion"
+    implementation "com.github.tinder.scarlet:scarlet-lifecycle-android:$scarletVersion"
+    implementation "com.github.tinder.scarlet:scarlet-message-adapter-moshi:$scarletVersion"
+    implementation "com.github.tinder.scarlet:scarlet-stream-adapter-rxjava2:$scarletVersion"
 
     // Dependency injection
     implementation "javax.annotation:javax.annotation-api:$javaAnnotationVersion"
@@ -128,7 +151,7 @@ dependencies {
     // LiveData & ViewModel
     implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
     implementation "android.arch.lifecycle:viewmodel:$lifecycleVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$lifecycleVersion"
+    kapt "android.arch.lifecycle:compiler:$lifecycleVersion"
 
     // Data binding
     kapt "com.android.databinding:compiler:$dataBindingVersion"
@@ -144,11 +167,15 @@ dependencies {
 
     // Logging
     implementation "com.jakewharton.timber:timber:$timberVersion"
-    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
-    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    implementation "com.readystatesoftware.chuck:library:$chuckVersion"
+//    debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
+//    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuckVersion"
 
     // Utils
     implementation "com.jakewharton.threetenabp:threetenabp:$threeTenAndroidVersion"
+
+    // Multidex
+    implementation "com.android.support:multidex:$multidexVersion"
 
     // Test
     testImplementation "junit:junit:$junitVersion"

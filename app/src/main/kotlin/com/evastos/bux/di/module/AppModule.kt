@@ -1,5 +1,6 @@
 package com.evastos.bux.di.module
 
+import android.app.Application
 import android.content.Context
 import com.evastos.bux.BuxApp
 import com.evastos.bux.data.rx.RxSchedulers
@@ -18,11 +19,17 @@ class AppModule {
     @AppContext
     fun provideAppContext(): Context = BuxApp.instance
 
+    @Singleton
+    @Provides
+    fun provideApplication(): Application = BuxApp.instance
+
     @Provides
     @Singleton
     fun provideSchedulers(): RxSchedulers {
-        return RxSchedulers(Schedulers.io(),
+        return RxSchedulers(
+            Schedulers.io(),
             AndroidSchedulers.mainThread(),
-            Schedulers.computation())
+            Schedulers.computation()
+        )
     }
 }

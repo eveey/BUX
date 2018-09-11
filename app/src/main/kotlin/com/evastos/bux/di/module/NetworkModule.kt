@@ -3,8 +3,10 @@ package com.evastos.bux.di.module
 import android.content.Context
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.network.interceptor.AuthInterceptor
+import com.evastos.bux.data.util.MoshiAdapter
 import com.evastos.bux.di.qualifier.AppContext
 import com.readystatesoftware.chuck.ChuckInterceptor
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -13,17 +15,19 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+@Suppress("unused")
 @Module
 class NetworkModule {
 
     companion object {
         private const val NETWORK_TIMEOUT_SECONDS = 30L
+        private const val TIMBER_NETWORK_TAG = "api_call"
     }
 
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor { message -> Timber.tag("api_call").d(message) }
+        return HttpLoggingInterceptor { message -> Timber.tag(TIMBER_NETWORK_TAG).d(message) }
                 .apply { level = HttpLoggingInterceptor.Level.BODY }
     }
 
@@ -46,4 +50,8 @@ class NetworkModule {
                     }
                 }.build()
     }
+
+    @Provides
+    @Singleton
+    fun provideMoshi(): Moshi = Moshi.Builder().add(MoshiAdapter()).build()
 }
