@@ -34,9 +34,9 @@ class BuxApp : DaggerApplication() {
     }
 
     private fun initLogging() {
-        if (BuildConfig.DEBUG) {
+//        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        }
+//        }
     }
 
     private fun initDateTimeLibrary() {

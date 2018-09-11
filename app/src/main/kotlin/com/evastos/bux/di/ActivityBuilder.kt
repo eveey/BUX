@@ -7,11 +7,11 @@ import dagger.android.ContributesAndroidInjector
 
 @Suppress("unused")
 @Module
-abstract class DiBuilder {
+abstract class ActivityBuilder {
 
     @ContributesAndroidInjector
-    abstract fun bindProductActivity(): ProductActivity
+    internal abstract fun bindProductActivity(): ProductActivity
 
     @ContributesAndroidInjector
-    abstract fun bindProductFeedActivity(): ProductFeedActivity
+    internal abstract fun bindProductFeedActivity(): ProductFeedActivity
 }

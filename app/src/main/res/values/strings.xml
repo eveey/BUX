@@ -1,10 +1,23 @@
 <resources>
     <string name="app_name" translatable="false">BUX</string>
-    <string name="activity_product_title">BUX Product</string>
-    <string name="activity_product_feed_title">BUX Product Feed</string>
-    <string name="error_message_server_unavailable">Service is temporarily unavailable. Please try again later.</string>
-    <string name="error_message_unauthorized">You don\'t have permissions to perform this request. Please contact support.</string>
-    <string name="error_message_network">Something went wrong. Please check your internet connection or try again later.</string>
-    <string name="error_message_general">Something went wrong. Please try again.</string>
-    <string name="error_message_product_not_found">Product with identifier %s does not exist.</string>
+
+    <string name="activity_product_title">Product</string>
+    <string name="activity_product_feed_title">Product Feed</string>
+
+    <string name="product_identification_input_hint">Product identification</string>
+    <string name="product_details_button">Get details</string>
+
+    <string name="action_retry">Retry</string>
+
+    <string name="api_error_server_unavailable">Service is temporarily unavailable. Please try again later.</string>
+    <string name="api_error_unauthorized">You don\'t have permissions to perform this request. Please contact support.</string>
+    <string name="api_error_network">Failed to get product details. Please check your internet connection or try again later.</string>
+    <string name="api_error_general">Something went wrong. Please try again.</string>
+    <string name="api_error_product_not_found">Product with identifier %s does not exist.</string>
+
+    <string name="rtf_error_not_connected">Failed to connect to product feed. Please try again.</string>
+    <string name="rtf_error_not_subscribed">Failed to subscribe to product feed. Please try again.</string>
+    <string name="rtf_error_network">Failed to get product feed. Please check your internet connection or try again later.</string>
+    <string name="rtf_error_general">Failed to get product feed. Please contact support or try again later.</string>
+
 </resources>

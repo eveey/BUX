@@ -2,19 +2,19 @@ package com.evastos.bux.data.interactor.product
 
 import com.evastos.bux.data.exception.api.ApiExceptionMapper
 import com.evastos.bux.data.interactor.Interactors
-import com.evastos.bux.data.model.api.request.ProductId
-import com.evastos.bux.data.model.api.response.ProductData
+import com.evastos.bux.data.model.product.ProductId
+import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.rx.mapException
 import com.evastos.bux.data.service.ApiService
 import io.reactivex.Single
 import javax.inject.Inject
 
-class ProductInteractor @Inject constructor(
+class ProductDetailsInteractor @Inject constructor(
     private val apiService: ApiService,
     private val apiExceptionMapper: ApiExceptionMapper
 ) : Interactors.ProductInteractor {
 
-    override fun getProductData(request: ProductId): Single<ProductData> =
-            apiService.getProductData(request.productId)
+    override fun getProductDetails(request: ProductId): Single<ProductDetails> =
+            apiService.getProductDetails(request.productId)
                     .mapException(apiExceptionMapper)
 }

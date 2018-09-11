@@ -1,6 +1,7 @@
 package com.evastos.bux.di.module
 
 import android.app.Application
+import android.arch.lifecycle.LifecycleOwner
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.service.RtfService
 import com.squareup.moshi.Moshi
@@ -24,21 +25,18 @@ class RtfModule {
     }
 
     @Provides
-    @Singleton
-    fun provideScarlet(client: OkHttpClient, moshi: Moshi, lifecycle: Lifecycle): Scarlet {
+    fun provideScarletBuilder(client: OkHttpClient, moshi: Moshi): Scarlet.Builder {
         val url = BuildConfig.BASE_RTF_URL + RTF_SUBSCRIPTIONS
         return Scarlet.Builder()
                 .webSocketFactory(client.newWebSocketFactory(url))
                 .addMessageAdapterFactory(MoshiMessageAdapter.Factory(moshi))
                 .addStreamAdapterFactory(RxJava2StreamAdapterFactory())
-                .lifecycle(lifecycle)
-                .build()
     }
 
     @Provides
     @Singleton
-    fun provideLifecycle(application: Application): Lifecycle {
-        return AndroidLifecycle.ofApplicationForeground(application)
+    fun provideLifecycle(application: Application, lifecycleOwner: LifecycleOwner): Lifecycle {
+        return AndroidLifecycle.ofLifecycleOwnerForeground(application, lifecycleOwner)
     }
 
     @Provides

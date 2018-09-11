@@ -3,23 +3,23 @@ package com.evastos.bux.ui.product.feed
 import com.evastos.bux.data.exception.rtf.RtfException.NotConnectedException
 import com.evastos.bux.data.exception.rtf.RtfException.NotSubscribedException
 import com.evastos.bux.data.interactor.Interactors
-import com.evastos.bux.data.manager.RtfConnectionManager
-import com.evastos.bux.data.model.api.request.ProductId
-import com.evastos.bux.data.model.rtf.connection.ConnectEvent
-import com.evastos.bux.data.model.rtf.connection.ConnectEventType
+import com.evastos.bux.data.model.product.ProductId
+import com.evastos.bux.data.model.rtf.connection.ConnectEventType.CONNECTED
 import com.evastos.bux.data.model.rtf.update.Channel
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
 import com.evastos.bux.data.rx.throttleLastMillis
+import com.evastos.bux.data.service.RtfService
 import com.evastos.bux.ui.base.BaseViewModel
+import com.tinder.scarlet.Lifecycle
+import com.tinder.scarlet.Scarlet
 import io.reactivex.Flowable
-import io.reactivex.Maybe
 import timber.log.Timber
 import javax.inject.Inject
 
 class ProductFeedViewModel @Inject constructor(
     private val productFeedInteractor: Interactors.ProductFeedInteractor,
-    private val rtfConnectionManager: RtfConnectionManager,
+    private val scarletBuilder: Scarlet.Builder,
     rxSchedulers: RxSchedulers
 ) : BaseViewModel(rxSchedulers) {
 
@@ -27,26 +27,27 @@ class ProductFeedViewModel @Inject constructor(
         private const val THROTTLE_INTERVAL = 500L
     }
 
-    private var subscribeToProductFun: (ProductId) -> Unit
+    private lateinit var productId: ProductId
 
-    init {
-        val productId = ProductId("sb26513")
-        subscribeToProductFun = { subscribeToProduct(productId) }
-        subscribeToProduct(productId)
+    private var productFeedRequest: ((ProductId) -> Unit)? = null
+
+    fun subscribeToProductFeed(productId: ProductId, lifecycle: Lifecycle) {
+        this.productId = productId
+        val rtfService = scarletBuilder.lifecycle(lifecycle).build().create<RtfService>()
+        subscribeToProduct(rtfService)
+        productFeedRequest = { subscribeToProduct(rtfService = rtfService) }
     }
 
-    private fun subscribeToProduct(productId: ProductId) {
+    private fun subscribeToProduct(rtfService: RtfService) {
         disposables.add(
-            Maybe.concat(isConnected(), connect())
-                    .firstOrError()
+            connect(rtfService)
                     .flatMapPublisher { connectEvent ->
                         return@flatMapPublisher when (connectEvent.eventType) {
-                            ConnectEventType.CONNECTED -> {
-                                productFeedInteractor.subscribeToChannel(
-                                    productId)
+                            CONNECTED -> {
+                                productFeedInteractor.subscribeToChannel(rtfService, productId)
                                         .let { subscribed ->
                                             if (subscribed) {
-                                                productFeedInteractor.observeUpdates()
+                                                productFeedInteractor.observeUpdates(rtfService)
                                             } else {
                                                 Flowable.error(NotSubscribedException())
                                             }
@@ -67,24 +68,13 @@ class ProductFeedViewModel @Inject constructor(
                     }))
     }
 
-    private fun isConnected(): Maybe<ConnectEvent> {
-        rtfConnectionManager.currentConnection?.let { currentConnection ->
-            if (currentConnection.eventType == ConnectEventType.CONNECTED) {
-                return Maybe.just(currentConnection)
-            }
-        }
-        return Maybe.empty()
-    }
-
-    private fun connect(): Maybe<ConnectEvent> {
-        return productFeedInteractor.connect()
-                .filter {
-                    it.eventType != null
-                }
-                .doOnNext { connectEvent ->
-                    rtfConnectionManager.currentConnection = connectEvent
-                    Timber.d(connectEvent.toString())
-                }
-                .firstElement()
-    }
+    private fun connect(rtfService: RtfService) =
+            productFeedInteractor.connect(rtfService)
+                    .doOnNext {
+                        Timber.d(it.toString())
+                    }
+                    .skipWhile {
+                        it.eventType == null
+                    }
+                    .firstOrError()
 }

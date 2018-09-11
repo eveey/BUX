@@ -37,6 +37,15 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+        release {
+            storeFile file(defaultConfig.applicationId + '.jks')
+            storePassword 'android'
+            keyAlias 'buxkeystore'
+            keyPassword 'android'
+        }
+    }
+
     buildTypes {
         debug {
             debuggable true
@@ -45,8 +54,8 @@ android {
 
         release {
             debuggable false
-            minifyEnabled true
-            useProguard true
+            minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -102,8 +111,9 @@ android {
 }
 
 dependencies {
+
     // Local libs
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
@@ -158,8 +168,9 @@ dependencies {
 
     // Logging
     implementation "com.jakewharton.timber:timber:$timberVersion"
-    debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
-    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuckVersion"
+    implementation "com.readystatesoftware.chuck:library:$chuckVersion"
+//    debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
+//    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuckVersion"
 
     // Utils
     implementation "com.jakewharton.threetenabp:threetenabp:$threeTenAndroidVersion"
