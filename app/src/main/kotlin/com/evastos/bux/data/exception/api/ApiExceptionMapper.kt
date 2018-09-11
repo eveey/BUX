@@ -21,23 +21,25 @@ class ApiExceptionMapper(private val moshi: Moshi) : ExceptionMapper<ApiExceptio
 
     override fun map(throwable: Throwable): ApiException {
         // SocketTimeoutException or UnknownHostException
+        var exception: ApiException = UnknownException()
         if (throwable is IOException) {
-            return NetworkException()
+            exception = NetworkException()
         }
         if (throwable is HttpException) {
             if (throwable.code() == HttpURLConnection.HTTP_NOT_FOUND) {
-                return NotFoundException()
-            }
-            val responseBody = throwable.response().errorBody()?.string()
-            responseBody?.let { errorResponse ->
-                val apiError = moshi.adapter(ApiError::class.java).fromJson(errorResponse)
-                return when (apiError?.errorCode) {
-                    TRADING_002 -> ServerException(apiError.message)
-                    AUTH_007, AUTH_014, AUTH_009, AUTH_008 -> AuthException(apiError.message)
-                    else -> UnknownException()
+                exception = NotFoundException()
+            } else {
+                val responseBody = throwable.response().errorBody()?.string()
+                responseBody?.let { errorResponse ->
+                    val apiError = moshi.adapter(ApiError::class.java).fromJson(errorResponse)
+                    exception = when (apiError?.errorCode) {
+                        TRADING_002 -> ServerException(apiError.message)
+                        AUTH_007, AUTH_014, AUTH_009, AUTH_008 -> AuthException(apiError.message)
+                        else -> UnknownException()
+                    }
                 }
             }
         }
-        return UnknownException()
+        return exception
     }
 }

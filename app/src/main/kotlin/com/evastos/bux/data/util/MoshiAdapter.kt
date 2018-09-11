@@ -16,7 +16,7 @@ class MoshiAdapter {
 
     @FromJson
     fun subscribeChannelToJson(string: String): SubscribeChannel? {
-        return null
+        return SubscribeChannel.TradingProductChannel(ProductId(string))
     }
 
     @FromJson

@@ -111,7 +111,6 @@ android {
 }
 
 dependencies {
-
     // Local libs
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
@@ -152,7 +151,7 @@ dependencies {
     // LiveData & ViewModel
     implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
     implementation "android.arch.lifecycle:viewmodel:$lifecycleVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$lifecycleVersion"
+    kapt "android.arch.lifecycle:compiler:$lifecycleVersion"
 
     // Data binding
     kapt "com.android.databinding:compiler:$dataBindingVersion"
