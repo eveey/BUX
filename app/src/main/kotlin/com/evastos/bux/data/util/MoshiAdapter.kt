@@ -1,6 +1,5 @@
 package com.evastos.bux.data.util
 
-import com.evastos.bux.data.model.ProductId
 import com.evastos.bux.data.model.rtf.update.Channel
 import com.evastos.bux.data.model.rtf.subscription.SubscribeChannel
 import com.squareup.moshi.FromJson
@@ -16,7 +15,7 @@ class MoshiAdapter {
 
     @FromJson
     fun subscribeChannelToJson(string: String): SubscribeChannel? {
-        return SubscribeChannel.TradingProductChannel(ProductId(string))
+        return SubscribeChannel.TradingProductChannel(string)
     }
 
     @FromJson
@@ -25,10 +24,5 @@ class MoshiAdapter {
             return channel
         }
         return Channel.UNKNOWN
-    }
-
-    @FromJson
-    fun productIdFromJson(string: String): ProductId {
-        return ProductId(string)
     }
 }

@@ -1,12 +1,15 @@
 package com.evastos.bux.ui.util
 
+import android.app.Activity
 import android.support.design.widget.Snackbar
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.evastos.bux.R
 import com.jakewharton.rxbinding2.view.clicks
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
+
 
 private const val DEBOUNCE_MILLIS = 300L
 
@@ -33,10 +36,10 @@ fun View.disable() {
     isEnabled = false
 }
 
-fun showSnackbar(
+fun showSnackbarForView(
     view: View,
     snackbarMessage: String,
-    actionMessage: String,
+    actionMessage: String? = null,
     action: (() -> Unit)? = null): Snackbar {
     return Snackbar.make(view, snackbarMessage, Snackbar.LENGTH_INDEFINITE)
             .apply {
@@ -54,4 +57,9 @@ fun Snackbar?.hideIfShown() {
             it.dismiss()
         }
     }
+}
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }

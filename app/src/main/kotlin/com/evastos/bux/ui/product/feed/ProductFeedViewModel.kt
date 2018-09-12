@@ -1,12 +1,14 @@
 package com.evastos.bux.ui.product.feed
 
+import android.arch.lifecycle.MutableLiveData
+import com.evastos.bux.data.exception.rtf.RtfException
 import com.evastos.bux.data.exception.rtf.RtfException.NotConnectedException
 import com.evastos.bux.data.exception.rtf.RtfException.NotSubscribedException
 import com.evastos.bux.data.interactor.Repositories
-import com.evastos.bux.data.model.ProductId
-import com.evastos.bux.data.model.TradingProducts
+import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.model.rtf.connection.ConnectEventType.CONNECTED
 import com.evastos.bux.data.model.rtf.update.Channel
+import com.evastos.bux.data.model.rtf.update.UpdateEventBody
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
 import com.evastos.bux.data.rx.throttleLastMillis
@@ -18,10 +20,10 @@ import io.reactivex.Flowable
 import timber.log.Timber
 import javax.inject.Inject
 
-class ProductFeedViewModel @Inject constructor(
+class ProductFeedViewModel
+@Inject constructor(
     private val productFeedRepository: Repositories.ProductFeedRepository,
     private val scarletBuilder: Scarlet.Builder,
-    private val tradingProducts: TradingProducts,
     rxSchedulers: RxSchedulers
 ) : BaseViewModel(rxSchedulers) {
 
@@ -29,43 +31,64 @@ class ProductFeedViewModel @Inject constructor(
         private const val THROTTLE_INTERVAL = 500L
     }
 
-    private lateinit var productId: ProductId
+    private lateinit var productFeedRetry: (() -> Unit)
 
-    private var productFeedRequest: ((ProductId) -> Unit)? = null
+    val tradingProductLiveData = MutableLiveData<ProductDetails>()
 
-    fun subscribeToProductFeed(productId: ProductId, lifecycle: Lifecycle) {
-        this.productId = productId
+    val productFeedUpdateLiveData = MutableLiveData<UpdateEventBody>()
+
+    val productFeedExceptionLiveData = MutableLiveData<RtfException>()
+
+    fun subscribeToProductFeed(productDetails: ProductDetails, lifecycle: Lifecycle) {
+        tradingProductLiveData.value = productDetails
+
+        // we need to build RtfService with reference to the Activity lifecycle instead of Application lifecycle
         val rtfService = scarletBuilder.lifecycle(lifecycle).build().create<RtfService>()
-        subscribeToProduct(rtfService)
-        productFeedRequest = { subscribeToProduct(rtfService = rtfService) }
+        subscribeToProduct(rtfService, productDetails.securityId)
+        productFeedRetry = { subscribeToProduct(rtfService, productDetails.securityId) }
     }
 
-    private fun subscribeToProduct(rtfService: RtfService) {
+    fun retrySubscribe() {
+        productFeedRetry.invoke()
+    }
+
+    private fun subscribeToProduct(rtfService: RtfService, productIdentifier: String) {
         disposables.add(
             connect(rtfService)
                     .flatMapPublisher { connectEvent ->
                         return@flatMapPublisher when (connectEvent.eventType) {
                             CONNECTED -> {
-                                productFeedRepository.subscribeToChannel(rtfService, productId)
-                                        .let { subscribed ->
-                                            if (subscribed) {
-                                                productFeedRepository.observeUpdates(rtfService)
-                                            } else {
-                                                Flowable.error(NotSubscribedException())
-                                            }
-                                        }
+                                productFeedRepository.subscribeToChannel(
+                                    rtfService,
+                                    productIdentifier
+                                ).let { subscribed ->
+                                    if (subscribed) {
+                                        productFeedRepository.observeUpdates(rtfService)
+                                    } else {
+                                        Flowable.error(NotSubscribedException())
+                                    }
+                                }
                             }
                             else -> Flowable.error(NotConnectedException())
                         }
-                    }
-                    .filter {
+                    }.filter {
+                        Timber.d(it.toString())
                         it.channel == Channel.TRADING_QUOTE
-                    }
-                    .throttleLastMillis(THROTTLE_INTERVAL)
+                    }.throttleLastMillis(THROTTLE_INTERVAL)
                     .applySchedulers(rxSchedulers)
                     .subscribe({ updateEvent ->
-                        Timber.d(updateEvent.toString())
+                        Timber.i(updateEvent.toString())
+                        if (updateEvent.body != null) {
+                            productFeedUpdateLiveData.postValue(updateEvent.body)
+                        } else {
+                            productFeedExceptionLiveData.postValue(RtfException.UnknownException())
+                        }
                     }, { throwable ->
+                        if (throwable is RtfException) {
+                            productFeedExceptionLiveData.postValue(throwable)
+                        } else {
+                            productFeedExceptionLiveData.postValue(RtfException.UnknownException())
+                        }
                         Timber.e(throwable)
                     }))
     }

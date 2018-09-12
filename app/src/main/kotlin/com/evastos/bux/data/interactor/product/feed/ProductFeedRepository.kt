@@ -1,7 +1,6 @@
 package com.evastos.bux.data.interactor.product.feed
 
 import com.evastos.bux.data.interactor.Repositories
-import com.evastos.bux.data.model.ProductId
 import com.evastos.bux.data.model.rtf.connection.ConnectEvent
 import com.evastos.bux.data.model.rtf.subscription.SubscribeChannel
 import com.evastos.bux.data.model.rtf.subscription.SubscribeEvent
@@ -18,8 +17,8 @@ class ProductFeedRepository @Inject constructor() : Repositories.ProductFeedRepo
 
     override fun subscribeToChannel(
         rtfService: RtfService,
-        subscribeTo: ProductId,
-        unsubscribeFrom: ProductId?
+        subscribeTo: String,
+        unsubscribeFrom: String?
     ): Boolean {
         val subscribeList = listOf(SubscribeChannel.TradingProductChannel(subscribeTo))
         val unsubscribeList = if (unsubscribeFrom != null) {
