@@ -1,4 +1,4 @@
-package com.evastos.bux.data.model.product
+package com.evastos.bux.data.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

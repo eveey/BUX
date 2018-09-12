@@ -1,4 +1,4 @@
-package com.evastos.bux.di.qualifier
+package com.evastos.bux.inject.qualifier
 
 import android.arch.lifecycle.ViewModel
 import dagger.MapKey

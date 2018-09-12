@@ -1,9 +1,9 @@
 package com.evastos.bux.ui.product
 
 import com.evastos.bux.data.exception.api.ApiException
-import com.evastos.bux.data.interactor.Interactors
+import com.evastos.bux.data.interactor.Repositories
 import com.evastos.bux.data.model.api.response.ProductDetails
-import com.evastos.bux.data.model.product.ProductId
+import com.evastos.bux.data.model.ProductId
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
 import com.evastos.bux.ui.base.BaseViewModel
@@ -12,12 +12,12 @@ import javax.inject.Inject
 
 class ProductViewModel
 @Inject constructor(
-    private val productInteractor: Interactors.ProductInteractor,
+    private val productDetailsRepository: Repositories.ProductDetailsRepository,
     rxSchedulers: RxSchedulers
 ) : BaseViewModel(rxSchedulers) {
 
     fun getProductDetails(productId: ProductId) {
-        disposables.add(productInteractor
+        disposables.add(productDetailsRepository
                 .getProductDetails(productId)
                 .applySchedulers(rxSchedulers)
                 .subscribe(
@@ -38,5 +38,4 @@ class ProductViewModel
                 )
         )
     }
-
 }

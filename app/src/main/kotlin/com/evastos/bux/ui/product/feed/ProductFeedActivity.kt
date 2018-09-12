@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import com.evastos.bux.R
-import com.evastos.bux.data.model.product.ProductId
+import com.evastos.bux.data.model.ProductId
 import com.evastos.bux.ui.base.BaseActivity
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
 

@@ -1,6 +1,6 @@
 package com.evastos.bux.data.util
 
-import com.evastos.bux.data.model.product.ProductId
+import com.evastos.bux.data.model.ProductId
 import com.evastos.bux.data.model.rtf.update.Channel
 import com.evastos.bux.data.model.rtf.subscription.SubscribeChannel
 import com.squareup.moshi.FromJson

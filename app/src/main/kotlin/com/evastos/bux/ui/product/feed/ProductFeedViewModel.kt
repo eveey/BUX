@@ -2,8 +2,9 @@ package com.evastos.bux.ui.product.feed
 
 import com.evastos.bux.data.exception.rtf.RtfException.NotConnectedException
 import com.evastos.bux.data.exception.rtf.RtfException.NotSubscribedException
-import com.evastos.bux.data.interactor.Interactors
-import com.evastos.bux.data.model.product.ProductId
+import com.evastos.bux.data.interactor.Repositories
+import com.evastos.bux.data.model.ProductId
+import com.evastos.bux.data.model.TradingProducts
 import com.evastos.bux.data.model.rtf.connection.ConnectEventType.CONNECTED
 import com.evastos.bux.data.model.rtf.update.Channel
 import com.evastos.bux.data.rx.RxSchedulers
@@ -18,8 +19,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ProductFeedViewModel @Inject constructor(
-    private val productFeedInteractor: Interactors.ProductFeedInteractor,
+    private val productFeedRepository: Repositories.ProductFeedRepository,
     private val scarletBuilder: Scarlet.Builder,
+    private val tradingProducts: TradingProducts,
     rxSchedulers: RxSchedulers
 ) : BaseViewModel(rxSchedulers) {
 
@@ -44,10 +46,10 @@ class ProductFeedViewModel @Inject constructor(
                     .flatMapPublisher { connectEvent ->
                         return@flatMapPublisher when (connectEvent.eventType) {
                             CONNECTED -> {
-                                productFeedInteractor.subscribeToChannel(rtfService, productId)
+                                productFeedRepository.subscribeToChannel(rtfService, productId)
                                         .let { subscribed ->
                                             if (subscribed) {
-                                                productFeedInteractor.observeUpdates(rtfService)
+                                                productFeedRepository.observeUpdates(rtfService)
                                             } else {
                                                 Flowable.error(NotSubscribedException())
                                             }
@@ -69,7 +71,7 @@ class ProductFeedViewModel @Inject constructor(
     }
 
     private fun connect(rtfService: RtfService) =
-            productFeedInteractor.connect(rtfService)
+            productFeedRepository.connect(rtfService)
                     .doOnNext {
                         Timber.d(it.toString())
                     }

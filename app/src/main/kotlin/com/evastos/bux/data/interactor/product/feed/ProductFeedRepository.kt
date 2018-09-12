@@ -1,7 +1,7 @@
 package com.evastos.bux.data.interactor.product.feed
 
-import com.evastos.bux.data.interactor.Interactors
-import com.evastos.bux.data.model.product.ProductId
+import com.evastos.bux.data.interactor.Repositories
+import com.evastos.bux.data.model.ProductId
 import com.evastos.bux.data.model.rtf.connection.ConnectEvent
 import com.evastos.bux.data.model.rtf.subscription.SubscribeChannel
 import com.evastos.bux.data.model.rtf.subscription.SubscribeEvent
@@ -10,7 +10,7 @@ import com.evastos.bux.data.service.RtfService
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class ProductFeedInteractor @Inject constructor() : Interactors.ProductFeedInteractor {
+class ProductFeedRepository @Inject constructor() : Repositories.ProductFeedRepository {
 
     override fun connect(rtfService: RtfService): Flowable<ConnectEvent> {
         return rtfService.connect()
