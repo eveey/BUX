@@ -1,9 +1,10 @@
 package com.evastos.bux.ui.product
 
 import com.evastos.bux.data.exception.api.ApiException
-import com.evastos.bux.data.interactor.Interactors
+import com.evastos.bux.data.repository.Repositories
 import com.evastos.bux.data.model.api.response.ProductDetails
-import com.evastos.bux.data.model.product.ProductId
+import com.evastos.bux.data.model.livedata.ProductResource
+import com.evastos.bux.data.model.livedata.SingleLiveEvent
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
 import com.evastos.bux.ui.base.BaseViewModel
@@ -12,31 +13,42 @@ import javax.inject.Inject
 
 class ProductViewModel
 @Inject constructor(
-    private val productInteractor: Interactors.ProductInteractor,
+    private val productDetailsRepository: Repositories.ProductDetailsRepository,
     rxSchedulers: RxSchedulers
 ) : BaseViewModel(rxSchedulers) {
 
-    fun getProductDetails(productId: ProductId) {
-        disposables.add(productInteractor
-                .getProductDetails(productId)
-                .applySchedulers(rxSchedulers)
-                .subscribe(
-                    { productDetails: ProductDetails? ->
-                        Timber.i(productDetails.toString())
-                    },
-                    { t: Throwable? ->
-                        if (t is ApiException.AuthException) {
-                            Timber.e(t.errorMessage)
+    val productLiveData = SingleLiveEvent<ProductResource>()
+
+    private lateinit var productDetailsRetry: () -> Unit
+
+    fun getProductDetails(productIdentifier: String) {
+        productDetailsRetry = { getProductDetails(productIdentifier) }
+        productLiveData.postValue(ProductResource.loading())
+        disposables.add(
+            productDetailsRepository
+                    .getProductDetails(productIdentifier)
+                    .applySchedulers(rxSchedulers)
+                    .subscribe(
+                        { productDetails: ProductDetails ->
+                            productLiveData.postValue(
+                                ProductResource.success(productDetails))
+                            Timber.i(productDetails.toString())
+                        },
+                        { t: Throwable ->
+                            if (t is ApiException) {
+                                productLiveData.postValue(
+                                    ProductResource.error(t))
+                            } else {
+                                productLiveData.postValue(
+                                    ProductResource.error(ApiException.UnknownException()))
+                            }
+                            Timber.e(t)
                         }
-                        if (t is ApiException.ServerException) {
-                            Timber.e(t.errorMessage)
-                        }
-                        if (t is ApiException.NotFoundException) {
-                            Timber.e("product not found")
-                        }
-                    }
-                )
+                    )
         )
     }
 
+    fun retryGetProductDetails() {
+        productDetailsRetry.invoke()
+    }
 }

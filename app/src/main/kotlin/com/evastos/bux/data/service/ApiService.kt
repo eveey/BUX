@@ -7,6 +7,6 @@ import retrofit2.http.Path
 
 interface ApiService {
 
-    @GET("core/21/products/{productId}")
-    fun getProductDetails(@Path("productId") productId: String): Single<ProductDetails>
+    @GET("core/21/products/{identifier}")
+    fun getProductDetails(@Path("identifier") productId: String): Single<ProductDetails>
 }

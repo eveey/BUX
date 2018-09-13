@@ -1,7 +1,6 @@
-package com.evastos.bux.data.interactor.product.feed
+package com.evastos.bux.data.repository.product.feed
 
-import com.evastos.bux.data.interactor.Interactors
-import com.evastos.bux.data.model.product.ProductId
+import com.evastos.bux.data.repository.Repositories
 import com.evastos.bux.data.model.rtf.connection.ConnectEvent
 import com.evastos.bux.data.model.rtf.subscription.SubscribeChannel
 import com.evastos.bux.data.model.rtf.subscription.SubscribeEvent
@@ -10,7 +9,7 @@ import com.evastos.bux.data.service.RtfService
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class ProductFeedInteractor @Inject constructor() : Interactors.ProductFeedInteractor {
+class ProductFeedRepository @Inject constructor() : Repositories.ProductFeedRepository {
 
     override fun connect(rtfService: RtfService): Flowable<ConnectEvent> {
         return rtfService.connect()
@@ -18,8 +17,8 @@ class ProductFeedInteractor @Inject constructor() : Interactors.ProductFeedInter
 
     override fun subscribeToChannel(
         rtfService: RtfService,
-        subscribeTo: ProductId,
-        unsubscribeFrom: ProductId?
+        subscribeTo: String,
+        unsubscribeFrom: String?
     ): Boolean {
         val subscribeList = listOf(SubscribeChannel.TradingProductChannel(subscribeTo))
         val unsubscribeList = if (unsubscribeFrom != null) {

@@ -1,10 +1,10 @@
-package com.evastos.bux.di.module
+package com.evastos.bux.inject.module
 
 import android.content.Context
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.network.interceptor.AuthInterceptor
 import com.evastos.bux.data.util.MoshiAdapter
-import com.evastos.bux.di.qualifier.AppContext
+import com.evastos.bux.inject.qualifier.AppContext
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module

@@ -8,4 +8,3 @@ data class UpdateEvent(
     @Json(name = "t") val channel: Channel?,
     @Json(name = "body") val body: UpdateEventBody?) {
 }
-

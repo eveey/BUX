@@ -1,6 +1,50 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+
+    ext.buildConfig = [
+            'minSdk'     : 19,
+            'compileSdk' : 28,
+            'targetSdk'  : 28,
+            'buildToolsVersion' : '28.0.2',
+            'packageName': 'com.evastos.bux',
+    ]
+
+    ext.versions = [
+            'gradleBuildToolsVersion' : '3.1.4',
+            'ktlintVersion'           : '3.2.0',
+            'detektVersion'           : '1.0.0.RC8',
+            'appCompatVersion'        : '28.0.0-rc02',
+            'testRunnerVersion'       : '1.0.2',
+            'espressoVersion'         : '3.0.2',
+            'kotlinVersion'           : '1.2.70',
+            'ktxVersion'              : '0.3',
+            'supportLibVersion'       : '27.1.1',
+            'constraintLayoutVersion' : '1.1.3',
+            'okhttpVersion'           : '3.10.0',
+            'retrofitVersion'         : '2.4.0',
+            'moshiVersion'            : '1.6.0',
+            'timberVersion'           : '4.7.1',
+            'chuckVersion'            : '1.1.0',
+            'javaAnnotationVersion'   : '1.3.2',
+            'daggerVersion'           : '2.17',
+            'dataBindingVersion'      : '3.1.4',
+            'rxJavaVersion'           : '2.2.1',
+            'rxAndroidVersion'        : '2.1.0',
+            'rxKotlinVersion'         : '2.3.0',
+            'rxLintVersion'           : '1.6.1',
+            'rxBindingVersion'        : '2.1.1',
+            'threeTenAndroidVersion'  : '1.1.0',
+            'lifecycleVersion'        : '1.1.1',
+            'junitVersion'            : '4.12',
+            'mockitoVersion'          : '2.18.3',
+            'mockitoKotlinVersion'    : '1.5.0',
+            'threeTenVersion'         : '1.3.1',
+            'assertJVersion'          : '3.10.0',
+            'scarletVersion'          : '0.1.4',
+            'multidexVersion'         : '1.0.3'
+    ]
+
     repositories {
         google()
         jcenter()
@@ -9,10 +53,10 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$gradleBuildToolsVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:$ktlintVersion"
-        classpath "gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
+        classpath "com.android.tools.build:gradle:$versions.gradleBuildToolsVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlinVersion"
+        classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:$versions.ktlintVersion"
+        classpath "gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$versions.detektVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

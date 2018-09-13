@@ -9,8 +9,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jlleitschuh.gradle.ktlint'
 
 android {
-    compileSdkVersion targetSdk.toInteger()
-    buildToolsVersion buildToolsVer
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildToolsVersion
 
     def STRING = 'String'
     def AUTH_TOKEN = 'AUTH_TOKEN'
@@ -18,10 +18,10 @@ android {
     def BASE_RTF_URL = 'BASE_RTF_URL'
 
     defaultConfig {
-        applicationId "com.evastos.bux"
+        applicationId buildConfig.packageName
 
-        minSdkVersion minSdk.toInteger()
-        targetSdkVersion targetSdk.toInteger()
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
 
         versionCode 1
         versionName "0.1.0"
@@ -91,13 +91,13 @@ android {
 
     applicationVariants.all { variant ->
         variant.getCompileConfiguration().resolutionStrategy {
-            force "com.android.support:support-v7:$supportLibVersion"
-            force "com.android.support:support-v4:$supportLibVersion"
-            force "com.android.support:design:$supportLibVersion"
+            force "com.android.support:support-v7:$versions.supportLibVersion"
+            force "com.android.support:support-v4:$versions.supportLibVersion"
+            force "com.android.support:design:$versions.supportLibVersion"
         }
 
         variant.getRuntimeConfiguration().resolutionStrategy {
-            force "com.android.support:design:$supportLibVersion"
+            force "com.android.support:design:$versions.supportLibVersion"
         }
     }
 
@@ -115,78 +115,78 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlinVersion"
 
     // Support
-    implementation "com.android.support:appcompat-v7:$supportLibVersion"
-    implementation "com.android.support:recyclerview-v7:$supportLibVersion"
-    implementation "com.android.support:cardview-v7:$supportLibVersion"
-    implementation "com.android.support:design:$supportLibVersion"
-    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
-    implementation "androidx.core:core-ktx:$ktxVersion"
+    implementation "com.android.support:appcompat-v7:$versions.supportLibVersion"
+    implementation "com.android.support:recyclerview-v7:$versions.supportLibVersion"
+    implementation "com.android.support:cardview-v7:$versions.supportLibVersion"
+    implementation "com.android.support:design:$versions.supportLibVersion"
+    implementation "com.android.support.constraint:constraint-layout:$versions.constraintLayoutVersion"
+    implementation "androidx.core:core-ktx:$versions.ktxVersion"
 
     // Network
-    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
-    implementation "com.squareup.moshi:moshi:$moshiVersion"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    implementation "com.github.tinder.scarlet:scarlet:$scarletVersion"
-    implementation "com.github.tinder.scarlet:scarlet-websocket-okhttp:$scarletVersion"
-    implementation "com.github.tinder.scarlet:scarlet-lifecycle-android:$scarletVersion"
-    implementation "com.github.tinder.scarlet:scarlet-message-adapter-moshi:$scarletVersion"
-    implementation "com.github.tinder.scarlet:scarlet-stream-adapter-rxjava2:$scarletVersion"
+    implementation "com.squareup.okhttp3:okhttp:$versions.okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttpVersion"
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-scalars:$versions.retrofitVersion"
+    implementation "com.squareup.moshi:moshi:$versions.moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshiVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofitVersion"
+    implementation "com.github.tinder.scarlet:scarlet:$versions.scarletVersion"
+    implementation "com.github.tinder.scarlet:scarlet-websocket-okhttp:$versions.scarletVersion"
+    implementation "com.github.tinder.scarlet:scarlet-lifecycle-android:$versions.scarletVersion"
+    implementation "com.github.tinder.scarlet:scarlet-message-adapter-moshi:$versions.scarletVersion"
+    implementation "com.github.tinder.scarlet:scarlet-stream-adapter-rxjava2:$versions.scarletVersion"
 
     // Dependency injection
-    implementation "javax.annotation:javax.annotation-api:$javaAnnotationVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+    implementation "javax.annotation:javax.annotation-api:$versions.javaAnnotationVersion"
+    implementation "com.google.dagger:dagger:$versions.daggerVersion"
+    implementation "com.google.dagger:dagger-android:$versions.daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$versions.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$versions.daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$versions.daggerVersion"
 
     // LiveData & ViewModel
-    implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
-    implementation "android.arch.lifecycle:viewmodel:$lifecycleVersion"
-    kapt "android.arch.lifecycle:compiler:$lifecycleVersion"
+    implementation "android.arch.lifecycle:extensions:$versions.lifecycleVersion"
+    implementation "android.arch.lifecycle:viewmodel:$versions.lifecycleVersion"
+    kapt "android.arch.lifecycle:compiler:$versions.lifecycleVersion"
 
     // Data binding
-    kapt "com.android.databinding:compiler:$dataBindingVersion"
+    kapt "com.android.databinding:compiler:$versions.dataBindingVersion"
 
     // RX
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
-    implementation "nl.littlerobots.rxlint:rxlint:$rxLintVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$versions.rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$versions.rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$versions.rxKotlinVersion"
+    implementation "nl.littlerobots.rxlint:rxlint:$versions.rxLintVersion"
 
     // RX binding
-    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$versions.rxBindingVersion"
 
     // Logging
-    implementation "com.jakewharton.timber:timber:$timberVersion"
-    implementation "com.readystatesoftware.chuck:library:$chuckVersion"
-//    debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
-//    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuckVersion"
+    implementation "com.jakewharton.timber:timber:$versions.timberVersion"
+    implementation "com.readystatesoftware.chuck:library:$versions.chuckVersion"
+//    debugImplementation "com.readystatesoftware.chuck:library:$versions.chuckVersion"
+//    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$versions.chuckVersion"
 
     // Utils
-    implementation "com.jakewharton.threetenabp:threetenabp:$threeTenAndroidVersion"
+    implementation "com.jakewharton.threetenabp:threetenabp:$versions.threeTenAndroidVersion"
 
     // Multidex
-    implementation "com.android.support:multidex:$multidexVersion"
+    implementation "com.android.support:multidex:$versions.multidexVersion"
 
     // Test
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
-    testImplementation "org.threeten:threetenbp:$threeTenVersion"
-    testImplementation "org.assertj:assertj-core:$assertJVersion"
+    testImplementation "junit:junit:$versions.junitVersion"
+    testImplementation "org.mockito:mockito-core:$versions.mockitoVersion"
+    testImplementation "com.nhaarman:mockito-kotlin:$versions.mockitoKotlinVersion"
+    testImplementation "org.threeten:threetenbp:$versions.threeTenVersion"
+    testImplementation "org.assertj:assertj-core:$versions.assertJVersion"
 
     // Android Test
-    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "com.android.support.test:runner:$versions.testRunnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$versions.espressoVersion"
 }
 
 ktlint {

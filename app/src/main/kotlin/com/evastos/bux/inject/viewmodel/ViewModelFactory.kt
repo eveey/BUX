@@ -1,4 +1,4 @@
-package com.evastos.bux.di.viewmodel
+package com.evastos.bux.inject.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

@@ -1,4 +1,4 @@
-package com.evastos.bux.di.module
+package com.evastos.bux.inject.module
 
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.exception.api.ApiExceptionMapper

@@ -1,4 +1,4 @@
-package com.evastos.bux.di.module
+package com.evastos.bux.inject.module
 
 import android.app.Application
 import android.arch.lifecycle.LifecycleOwner

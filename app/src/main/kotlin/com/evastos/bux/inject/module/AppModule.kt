@@ -1,10 +1,10 @@
-package com.evastos.bux.di.module
+package com.evastos.bux.inject.module
 
 import android.app.Application
 import android.content.Context
 import com.evastos.bux.BuxApp
 import com.evastos.bux.data.rx.RxSchedulers
-import com.evastos.bux.di.qualifier.AppContext
+import com.evastos.bux.inject.qualifier.AppContext
 import dagger.Module
 import dagger.Provides
 import io.reactivex.android.schedulers.AndroidSchedulers
