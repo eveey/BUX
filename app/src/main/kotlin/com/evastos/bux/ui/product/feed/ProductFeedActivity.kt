@@ -10,13 +10,17 @@ import com.evastos.bux.R
 import com.evastos.bux.data.exception.rtf.RtfException
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.ui.base.BaseActivity
+import com.evastos.bux.ui.base.network.NetworkConnectivityObserver
+import com.evastos.bux.ui.util.setGone
+import com.evastos.bux.ui.util.setVisible
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
 import kotlinx.android.synthetic.main.activity_product_feed.currentPriceTextView
+import kotlinx.android.synthetic.main.activity_product_feed.networkConnectivityBanner
 import kotlinx.android.synthetic.main.activity_product_feed.previousDayClosingPriceTextView
 import kotlinx.android.synthetic.main.activity_product_feed.productFeedRootView
 import kotlinx.android.synthetic.main.activity_product_feed.tradingProductTextView
 
-class ProductFeedActivity : BaseActivity() {
+class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
 
     companion object {
         private const val EXTRA_PRODUCT_DETAILS = "extraProductDetails"
@@ -59,7 +63,7 @@ class ProductFeedActivity : BaseActivity() {
         productFeedViewModel.productFeedExceptionLiveData.observe(this, Observer { exception ->
             exception?.let {
                 showSnackbar(productFeedRootView, getErrorMessage(it), getString(R.string.action_retry)) {
-                    productFeedViewModel.retrySubscribe()
+                    productFeedViewModel.retrySubscribeToProductFeed()
                 }
             }
         })
@@ -67,6 +71,15 @@ class ProductFeedActivity : BaseActivity() {
         val productDetails = intent.getParcelableExtra<ProductDetails>(EXTRA_PRODUCT_DETAILS)
         productFeedViewModel.subscribeToProductFeed(productDetails,
             AndroidLifecycle.ofLifecycleOwnerForeground(application, this))
+
+        productFeedViewModel.networkConnectivityLiveData.observe(this,
+            Observer { isConnected ->
+                if (isConnected == true) {
+                    networkConnectivityBanner.setVisible()
+                } else {
+                    networkConnectivityBanner.setGone()
+                }
+            })
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -75,6 +88,15 @@ class ProductFeedActivity : BaseActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onNetworkConnectivityAcquired() {
+        networkConnectivityBanner.setGone()
+        productFeedViewModel.retrySubscribeToProductFeed()
+    }
+
+    override fun onNetworkConnectivityLost() {
+        networkConnectivityBanner.setVisible()
     }
 
     private fun getErrorMessage(exception: RtfException?): String {

@@ -6,13 +6,9 @@
     <dimen name="spacing_0.5x">4dp</dimen>
     <dimen name="spacing_0.75x">6dp</dimen>
     <dimen name="spacing_1x">8dp</dimen>
-    <dimen name="spacing_1.25x">10dp</dimen>
-    <dimen name="spacing_1.5x">12dp</dimen>
     <dimen name="spacing_2x">16dp</dimen>
-    <dimen name="spacing_2.5x">20dp</dimen>
     <dimen name="spacing_3x">24dp</dimen>
     <dimen name="spacing_4x">32dp</dimen>
-    <dimen name="spacing_4.5x">36dp</dimen>
     <dimen name="spacing_5x">40dp</dimen>
     <dimen name="spacing_6x">48dp</dimen>
     <dimen name="spacing_7x">56dp</dimen>

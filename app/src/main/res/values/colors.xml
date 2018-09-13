@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="accent">#FFCECE</color>
-    <color name="error">#D73023</color>
+    <color name="error">#EA333D</color>
     <color name="white">@android:color/white</color>
     <color name="black">@android:color/black</color>
     <color name="snackbarBackground">#212121</color>
+    <color name="networkConnectivityBackground">#CCEA333D</color>
 </resources>

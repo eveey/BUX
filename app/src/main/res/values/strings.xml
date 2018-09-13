@@ -5,7 +5,7 @@
     <string name="activity_product_feed_title">Product Feed</string>
 
     <string name="product_identifier_input_hint">Product Identifier</string>
-    <string name="product_details_button">Get product details</string>
+    <string name="product_details_button">Get details</string>
 
     <string name="product_identifier_label">Product identifier:</string>
     <string name="previous_day_closing_price_label">Previous day closing price:</string>
@@ -15,6 +15,7 @@
     <string name="trading_product_label">Trading product</string>
     <string name="not_available">n/a</string>
     <string name="action_retry">Retry</string>
+    <string name="network_connectivity_banner">No network connection</string>
 
     <string name="error_network">Network unavailable. Please check your internet connection or try again later.</string>
     <string name="api_error_server_unavailable">Service is temporarily unavailable. Please try again later.</string>

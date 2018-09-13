@@ -11,7 +11,6 @@ import com.evastos.bux.data.model.rtf.update.Channel
 import com.evastos.bux.data.model.rtf.update.UpdateEventBody
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
-import com.evastos.bux.data.rx.throttleLastMillis
 import com.evastos.bux.data.service.RtfService
 import com.evastos.bux.ui.base.BaseViewModel
 import com.tinder.scarlet.Lifecycle
@@ -26,10 +25,6 @@ class ProductFeedViewModel
     private val scarletBuilder: Scarlet.Builder,
     rxSchedulers: RxSchedulers
 ) : BaseViewModel(rxSchedulers) {
-
-    companion object {
-        private const val THROTTLE_INTERVAL = 500L
-    }
 
     private lateinit var productFeedRetry: (() -> Unit)
 
@@ -48,7 +43,7 @@ class ProductFeedViewModel
         productFeedRetry = { subscribeToProduct(rtfService, productDetails.securityId) }
     }
 
-    fun retrySubscribe() {
+    fun retrySubscribeToProductFeed() {
         productFeedRetry.invoke()
     }
 
@@ -71,10 +66,11 @@ class ProductFeedViewModel
                             }
                             else -> Flowable.error(NotConnectedException())
                         }
-                    }.filter {
-                        Timber.d(it.toString())
+                    }
+                    .filter {
                         it.channel == Channel.TRADING_QUOTE
-                    }.throttleLastMillis(THROTTLE_INTERVAL)
+                    }
+                    .distinctUntilChanged()
                     .applySchedulers(rxSchedulers)
                     .subscribe({ updateEvent ->
                         Timber.i(updateEvent.toString())

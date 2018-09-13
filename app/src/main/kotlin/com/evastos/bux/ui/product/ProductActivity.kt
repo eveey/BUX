@@ -11,21 +11,24 @@ import com.evastos.bux.data.exception.api.ApiException
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.model.livedata.LiveStatus
 import com.evastos.bux.ui.base.BaseActivity
+import com.evastos.bux.ui.base.network.NetworkConnectivityObserver
 import com.evastos.bux.ui.product.feed.ProductFeedActivity
 import com.evastos.bux.ui.util.debounceClicks
 import com.evastos.bux.ui.util.disable
 import com.evastos.bux.ui.util.enable
 import com.evastos.bux.ui.util.hideKeyboard
+import com.evastos.bux.ui.util.setGone
 import com.evastos.bux.ui.util.setInvisible
 import com.evastos.bux.ui.util.setVisible
 import com.jakewharton.rxbinding2.widget.editorActionEvents
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.activity_product.getProductDetailsButton
+import kotlinx.android.synthetic.main.activity_product.networkConnectivityBanner
 import kotlinx.android.synthetic.main.activity_product.productIdentifierInputEditText
 import kotlinx.android.synthetic.main.activity_product.productRootView
 import kotlinx.android.synthetic.main.activity_product.progressBar
 
-class ProductActivity : BaseActivity() {
+class ProductActivity : BaseActivity(), NetworkConnectivityObserver {
 
     companion object {
         private const val ERROR_DELAY_MILLIS = 400L
@@ -39,9 +42,7 @@ class ProductActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
-        with(supportActionBar) {
-            title = getString(R.string.activity_product_title)
-        }
+        supportActionBar?.title = getString(R.string.activity_product_title)
 
         productViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ProductViewModel::class.java)
@@ -102,6 +103,14 @@ class ProductActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onNetworkConnectivityAcquired() {
+        networkConnectivityBanner.setGone()
+    }
+
+    override fun onNetworkConnectivityLost() {
+        networkConnectivityBanner.setVisible()
     }
 
     private fun getProductDetails() {
