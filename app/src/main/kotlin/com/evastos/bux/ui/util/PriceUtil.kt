@@ -18,14 +18,9 @@ class PriceUtil {
         currency?.let {
             currencyNumberFormat.currency = it
         }
-        if (decimalPlaces != null) {
-            currencyNumberFormat.minimumFractionDigits = decimalPlaces
-            currencyNumberFormat.maximumFractionDigits = decimalPlaces
-        } else {
-            currencyNumberFormat.minimumFractionDigits = 2
-            currencyNumberFormat.maximumFractionDigits = 2
-        }
-
+        val minimumFractionDigits = decimalPlaces ?: 2
+        currencyNumberFormat.minimumFractionDigits = minimumFractionDigits
+        currencyNumberFormat.maximumFractionDigits = minimumFractionDigits
         return currencyNumberFormat.format(amount)
     }
 
