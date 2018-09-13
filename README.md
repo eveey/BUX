@@ -1,5 +1,5 @@
 # BUX
-Playground app
+How ViewModel saved my life
 
 ## Network
 Using [Tinder/Scarlet](https://github.com/Tinder/Scarlet) for WebSocket connections:
