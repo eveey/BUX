@@ -1,4 +1,4 @@
-package com.evastos.bux.inject
+package com.evastos.bux.inject.module
 
 import com.evastos.bux.ui.product.ProductActivity
 import com.evastos.bux.ui.product.feed.ProductFeedActivity

@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class ProductPrice(
-    @Json(name = "currency") val currency: String?,
+    @Json(name = "currency") val currency: String?, // ISO 4217 currency code format
     @Json(name = "decimals") val decimals: Int?,
     @Json(name = "amount") val amount: Double?
 ) : Parcelable

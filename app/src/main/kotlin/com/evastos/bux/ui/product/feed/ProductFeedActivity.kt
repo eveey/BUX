@@ -15,6 +15,8 @@ import com.evastos.bux.ui.util.setGone
 import com.evastos.bux.ui.util.setVisible
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
 import kotlinx.android.synthetic.main.activity_product_feed.currentPriceTextView
+import kotlinx.android.synthetic.main.activity_product_feed.lastUpdateLabelTextView
+import kotlinx.android.synthetic.main.activity_product_feed.lastUpdateTexView
 import kotlinx.android.synthetic.main.activity_product_feed.networkConnectivityBanner
 import kotlinx.android.synthetic.main.activity_product_feed.previousDayClosingPriceTextView
 import kotlinx.android.synthetic.main.activity_product_feed.productFeedRootView
@@ -45,28 +47,36 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
         productFeedViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ProductFeedViewModel::class.java)
 
-        productFeedViewModel.tradingProductLiveData
-                .observe(this, Observer { productDetails ->
-                    productDetails?.let {
-                        tradingProductTextView.text = productDetails.displayName
-                        previousDayClosingPriceTextView.text = productDetails.closingPrice?.amount.toString()
-                        currentPriceTextView.text = productDetails.currentPrice?.amount.toString()
-                    }
-                })
+        productFeedViewModel.tradingProductNameLiveData
+                .observe(this,
+                    Observer { tradingProductName ->
+                        tradingProductName?.let {
+                            tradingProductTextView.text = it
+                        }
+                    })
 
-        productFeedViewModel.productFeedUpdateLiveData.observe(this, Observer { updateEventBody ->
-            updateEventBody?.let {
-                currentPriceTextView.text = it.currentPrice.toString()
-            }
-        })
-
-        productFeedViewModel.productFeedExceptionLiveData.observe(this, Observer { exception ->
-            exception?.let {
-                showSnackbar(productFeedRootView, getErrorMessage(it), getString(R.string.action_retry)) {
-                    productFeedViewModel.retrySubscribeToProductFeed()
+        productFeedViewModel.previousDayClosingPriceLiveData.observe(this,
+            Observer { previousDayClosingPrice ->
+                previousDayClosingPrice?.let {
+                    previousDayClosingPriceTextView.text = it
                 }
-            }
-        })
+            })
+
+        productFeedViewModel.currentPriceLiveData.observe(this,
+            Observer { currentPrice ->
+                currentPrice?.let {
+                    currentPriceTextView.text = it
+                }
+            })
+
+        productFeedViewModel.productFeedExceptionLiveData.observe(this,
+            Observer { exception ->
+                exception?.let {
+                    showSnackbar(productFeedRootView, getErrorMessage(it), getString(R.string.action_retry)) {
+                        productFeedViewModel.retrySubscribeToProductFeed()
+                    }
+                }
+            })
 
         val productDetails = intent.getParcelableExtra<ProductDetails>(EXTRA_PRODUCT_DETAILS)
         productFeedViewModel.subscribeToProductFeed(productDetails,
@@ -92,11 +102,16 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
 
     override fun onNetworkConnectivityAcquired() {
         networkConnectivityBanner.setGone()
+        lastUpdateLabelTextView.setGone()
+        lastUpdateTexView.setGone()
         productFeedViewModel.retrySubscribeToProductFeed()
     }
 
     override fun onNetworkConnectivityLost() {
+        lastUpdateTexView.text = productFeedViewModel.lastUpdatedLiveData.value
         networkConnectivityBanner.setVisible()
+        lastUpdateLabelTextView.setVisible()
+        lastUpdateTexView.setVisible()
     }
 
     private fun getErrorMessage(exception: RtfException?): String {

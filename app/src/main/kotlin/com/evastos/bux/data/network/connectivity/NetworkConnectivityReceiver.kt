@@ -6,16 +6,16 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import com.evastos.bux.ui.util.isConnectedToNetwork
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class NetworkConnectivityReceiver : BroadcastReceiver() {
 
-    private val networkConnectivitySubject = BehaviorSubject.create<Boolean>()
+    private val networkConnectivitySubject = PublishSubject.create<Boolean>()
 
     val observable = networkConnectivitySubject as Observable<Boolean>
 
     /* Warning: this method of checking network connectivity will be deprecated.
-    Use NetworkCapabilities available since API level 21 (Marshmallow)
+      Use NetworkCapabilities available since API level 21 (Marshmallow)
      */
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == ConnectivityManager.CONNECTIVITY_ACTION) {

@@ -1,7 +1,7 @@
 package com.evastos.bux.ui.product
 
 import com.evastos.bux.data.exception.api.ApiException
-import com.evastos.bux.data.interactor.Repositories
+import com.evastos.bux.data.repository.Repositories
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.model.livedata.ProductResource
 import com.evastos.bux.data.model.livedata.SingleLiveEvent

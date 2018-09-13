@@ -5,6 +5,7 @@
     android:id="@+id/productFeedRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".ui.product.feed.ProductFeedActivity">
 
     <include
@@ -124,5 +125,34 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/priceDifferenceLabelTextView"
         tools:text="150%" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/lastUpdateLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_1x"
+        android:layout_marginStart="@dimen/spacing_2x"
+        android:layout_marginTop="@dimen/spacing_2x"
+        android:gravity="end"
+        android:text="@string/last_update_label"
+        android:textSize="@dimen/textSizeXSmall"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/lastUpdateTexView"
+        app:layout_constraintTop_toBottomOf="@+id/priceDifferenceLabelTextView" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/lastUpdateTexView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_2x"
+        android:text="@string/not_available"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textSizeXSmall"
+        android:visibility="gone"
+        app:layout_constraintLeft_toRightOf="@+id/lastUpdateLabelTextView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lastUpdateLabelTextView"
+        tools:text="17:24:03" />
 
 </android.support.constraint.ConstraintLayout>

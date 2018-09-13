@@ -11,7 +11,7 @@
     <string name="previous_day_closing_price_label">Previous day closing price:</string>
     <string name="current_price_label">Current price:</string>
     <string name="price_difference_label">Price difference:</string>
-    <string name="last_updated_label">Last updated:</string>
+    <string name="last_update_label">Last update:</string>
     <string name="trading_product_label">Trading product</string>
     <string name="not_available">n/a</string>
     <string name="action_retry">Retry</string>

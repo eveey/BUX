@@ -1,6 +1,6 @@
-package com.evastos.bux.data.interactor.product.feed
+package com.evastos.bux.data.repository.product.feed
 
-import com.evastos.bux.data.interactor.Repositories
+import com.evastos.bux.data.repository.Repositories
 import com.evastos.bux.data.model.rtf.connection.ConnectEvent
 import com.evastos.bux.data.model.rtf.subscription.SubscribeChannel
 import com.evastos.bux.data.model.rtf.subscription.SubscribeEvent

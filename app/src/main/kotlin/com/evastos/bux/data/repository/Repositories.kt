@@ -1,4 +1,4 @@
-package com.evastos.bux.data.interactor
+package com.evastos.bux.data.repository
 
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.model.rtf.connection.ConnectEvent
