@@ -1,4 +1,4 @@
-package com.evastos.bux.ui.product
+package com.evastos.bux.ui.product.identifier
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
@@ -22,32 +22,32 @@ import com.evastos.bux.ui.util.extensions.setInvisible
 import com.evastos.bux.ui.util.extensions.setVisible
 import com.jakewharton.rxbinding2.widget.editorActionEvents
 import com.jakewharton.rxbinding2.widget.textChanges
-import kotlinx.android.synthetic.main.activity_product.getProductDetailsButton
-import kotlinx.android.synthetic.main.activity_product.networkConnectivityBanner
-import kotlinx.android.synthetic.main.activity_product.productIdentifierInputEditText
-import kotlinx.android.synthetic.main.activity_product.productRootView
-import kotlinx.android.synthetic.main.activity_product.progressBar
+import kotlinx.android.synthetic.main.activity_product_identifier.getProductDetailsButton
+import kotlinx.android.synthetic.main.activity_product_identifier.networkConnectivityBanner
+import kotlinx.android.synthetic.main.activity_product_identifier.productIdentifierInputEditText
+import kotlinx.android.synthetic.main.activity_product_identifier.productRootView
+import kotlinx.android.synthetic.main.activity_product_identifier.progressBar
 
-class ProductActivity : BaseActivity(), NetworkConnectivityObserver {
+class ProductIdentifierActivity : BaseActivity(), NetworkConnectivityObserver {
 
     companion object {
         private const val ERROR_DELAY_MILLIS = 400L
     }
 
-    private lateinit var productViewModel: ProductViewModel
+    private lateinit var productIdentifierViewModel: ProductIdentifierViewModel
 
     private val handler = Handler()
 
     @SuppressLint("RxSubscribeOnError", "RxLeakedSubscription")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product)
-        supportActionBar?.title = getString(R.string.activity_product_title)
+        setContentView(R.layout.activity_product_identifier)
+        supportActionBar?.title = getString(R.string.activity_product_identifier_title)
 
-        productViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(ProductViewModel::class.java)
+        productIdentifierViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(ProductIdentifierViewModel::class.java)
 
-        productViewModel.productLiveData.observe(this,
+        productIdentifierViewModel.productLiveData.observe(this,
             Observer { productDetailsResource ->
                 when (productDetailsResource?.liveStatus) {
                     LiveStatus.LOADING -> {
@@ -64,7 +64,7 @@ class ProductActivity : BaseActivity(), NetworkConnectivityObserver {
                             showSnackbar(productRootView,
                                 getErrorMessage(productDetailsResource.exception),
                                 getString(R.string.action_retry)) {
-                                productViewModel.retryGetProductDetails()
+                                productIdentifierViewModel.retryGetProductDetails()
                             }
                         }, ERROR_DELAY_MILLIS)
                     }
@@ -115,7 +115,7 @@ class ProductActivity : BaseActivity(), NetworkConnectivityObserver {
 
     private fun getProductDetails() {
         productIdentifierInputEditText.hideKeyboard()
-        productViewModel.getProductDetails(productIdentifierInputEditText.text.toString())
+        productIdentifierViewModel.getProductDetails(productIdentifierInputEditText.text.toString())
     }
 
     private fun navigateToProductFeed(productDetails: ProductDetails) {

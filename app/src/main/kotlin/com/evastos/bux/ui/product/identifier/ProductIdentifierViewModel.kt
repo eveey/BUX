@@ -1,4 +1,4 @@
-package com.evastos.bux.ui.product
+package com.evastos.bux.ui.product.identifier
 
 import com.evastos.bux.data.exception.api.ApiException
 import com.evastos.bux.data.repository.Repositories
@@ -11,7 +11,7 @@ import com.evastos.bux.ui.base.BaseViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
-class ProductViewModel
+class ProductIdentifierViewModel
 @Inject constructor(
     private val productDetailsRepository: Repositories.ProductDetailsRepository,
     rxSchedulers: RxSchedulers

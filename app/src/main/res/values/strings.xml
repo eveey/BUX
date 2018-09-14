@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">BUX</string>
 
-    <string name="activity_product_title">Product</string>
+    <string name="activity_product_identifier_title">Product</string>
     <string name="activity_product_feed_title">Product Feed</string>
-
-    <string name="product_identifier_input_hint">Product Identifier</string>
+    <string name="product_identifier_input_hint">Identifier</string>
     <string name="product_details_button">Get details</string>
 
     <string name="product_identifier_label">Product identifier:</string>
@@ -28,5 +27,4 @@
     <string name="rtf_error_not_subscribed">Failed to subscribe to product feed. Please try again.</string>
     <string name="rtf_error_network">@string/error_network</string>
     <string name="rtf_error_general">Failed to get product feed. Please contact support or try again later.</string>
-
 </resources>

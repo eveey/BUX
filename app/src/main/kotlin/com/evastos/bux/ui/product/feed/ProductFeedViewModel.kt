@@ -139,5 +139,4 @@ class ProductFeedViewModel
                         it.eventType == null
                     }
                     .firstOrError()
-
 }

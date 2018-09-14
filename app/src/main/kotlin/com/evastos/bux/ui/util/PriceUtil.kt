@@ -4,16 +4,16 @@ import timber.log.Timber
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Wrapper around Locale, NumberFormat and Currency classes.
  * Utility class for displaying locale-aware formatted prices.
  */
-class PriceUtil constructor() {
+class PriceUtil @Inject constructor(private val numberUtil: NumberUtil) {
 
     companion object {
         private const val DEFAULT_DECIMAL_PLACES = 2
-        private val percentFull = 100.toBigDecimal()
     }
 
     /**
@@ -48,19 +48,8 @@ class PriceUtil constructor() {
         if (previousPrice == null || currentPrice == null) {
             return ""
         }
-        val differencePercent: BigDecimal = if (previousPrice == BigDecimal.ZERO) {
-            percentFull
-        } else if (currentPrice == BigDecimal.ZERO) {
-            -percentFull
-        } else if (currentPrice > previousPrice) {
-            (currentPrice / previousPrice) * percentFull
-        } else {
-            -(currentPrice / previousPrice) * percentFull
-        }
-        val percentFormat = NumberFormat.getPercentInstance()
-        percentFormat.minimumFractionDigits = 0
-        percentFormat.maximumFractionDigits = 0
-        return percentFormat.format(differencePercent)
+        val differencePercent = numberUtil.getPercentDifference(previousPrice, currentPrice)
+        return NumberFormat.getPercentInstance().format(differencePercent)
     }
 
     private fun getCurrency(currencyCode: String?): Currency? {
