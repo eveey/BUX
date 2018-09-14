@@ -23,10 +23,10 @@ class RtfModule {
     }
 
     @Provides
-    fun provideScarletBuilder(client: OkHttpClient, moshi: Moshi): Scarlet.Builder {
+    fun provideScarletBuilder(okhttpClient: OkHttpClient, moshi: Moshi): Scarlet.Builder {
         val url = BuildConfig.BASE_RTF_URL + RTF_SUBSCRIPTIONS
         return Scarlet.Builder()
-                .webSocketFactory(client.newWebSocketFactory(url))
+                .webSocketFactory(okhttpClient.newWebSocketFactory(url))
                 .addMessageAdapterFactory(MoshiMessageAdapter.Factory(moshi))
                 .addStreamAdapterFactory(RxJava2StreamAdapterFactory())
     }

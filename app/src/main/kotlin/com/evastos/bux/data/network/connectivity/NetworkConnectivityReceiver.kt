@@ -17,6 +17,7 @@ class NetworkConnectivityReceiver : BroadcastReceiver() {
     /* Warning: this method for checking network connectivity will be deprecated.
       Use NetworkCapabilities available since API level 21 (Marshmallow)
      */
+    @Suppress("DEPRECATION")
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == ConnectivityManager.CONNECTIVITY_ACTION) {
             networkConnectivitySubject.onNext(context.isConnectedToNetwork())

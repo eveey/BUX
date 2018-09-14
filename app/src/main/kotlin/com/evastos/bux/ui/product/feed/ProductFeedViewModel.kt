@@ -3,6 +3,7 @@ package com.evastos.bux.ui.product.feed
 import android.arch.lifecycle.MutableLiveData
 import com.evastos.bux.data.exception.rtf.RtfExceptionMessageProvider
 import com.evastos.bux.data.model.api.response.ProductDetails
+import com.evastos.bux.data.model.rtf.update.UpdateEvent
 import com.evastos.bux.data.repository.Repositories
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
@@ -39,19 +40,27 @@ class ProductFeedViewModel
         lastUpdatedLiveData.postValue(dateTimeUtil.getTimeNow())
 
         with(productDetails.closingPrice) {
-            val previousDayClosingPrice = priceUtil.getLocalisedPrice(this?.amount, this?.currency, this?.decimals)
+            val previousDayClosingPrice = priceUtil.getLocalisedPrice(
+                this?.amount,
+                this?.currency,
+                this?.decimals
+            )
             previousDayClosingPriceLiveData.postValue(previousDayClosingPrice)
         }
 
         with(productDetails.currentPrice) {
-            val currentPrice = priceUtil.getLocalisedPrice(this?.amount, this?.currency, this?.decimals)
+            val currentPrice = priceUtil.getLocalisedPrice(
+                this?.amount,
+                this?.currency,
+                this?.decimals
+            )
             currentPriceLiveData.postValue(currentPrice)
         }
 
-        val priceDifference =
-                priceUtil.getPriceDifferencePercent(
-                    productDetails.closingPrice?.amount,
-                    productDetails.currentPrice?.amount)
+        val priceDifference = priceUtil.getPriceDifferencePercent(
+            productDetails.closingPrice?.amount,
+            productDetails.currentPrice?.amount
+        )
         priceDifferenceLiveData.postValue(priceDifference)
 
         // keep connection alive during the activity lifecycle instead of application lifecycle
@@ -74,23 +83,27 @@ class ProductFeedViewModel
                     }
                     .distinctUntilChanged()
                     .applySchedulers(rxSchedulers)
-                    .subscribe({ updateEvent ->
-                        Timber.i(updateEvent.toString())
-                        val currentPrice =
-                                priceUtil.getLocalisedPrice(
-                                    updateEvent.body.currentPrice,
-                                    productDetails.currentPrice?.currency,
-                                    productDetails.currentPrice?.decimals)
-                        currentPriceLiveData.value = currentPrice
-                        val priceDifference =
-                                priceUtil.getPriceDifferencePercent(
-                                    productDetails.closingPrice?.amount,
-                                    updateEvent.body.currentPrice)
-                        priceDifferenceLiveData.value = priceDifference
+                    .subscribe({ event ->
+                        Timber.i(event.toString())
+                        currentPriceLiveData.value = getCurrentPrice(productDetails, event)
+                        priceDifferenceLiveData.value = getPriceDifference(productDetails, event)
                     }, { throwable ->
                         exceptionLiveData.value = exceptionMessageProvider.getMessage(throwable)
                         Timber.e(throwable)
                     })
         )
+    }
+
+    private fun getCurrentPrice(productDetails: ProductDetails, updateEvent: UpdateEvent): String {
+        return priceUtil.getLocalisedPrice(
+            updateEvent.body.currentPrice,
+            productDetails.currentPrice?.currency,
+            productDetails.currentPrice?.decimals)
+    }
+
+    private fun getPriceDifference(productDetails: ProductDetails, updateEvent: UpdateEvent): String {
+        return priceUtil.getPriceDifferencePercent(
+            productDetails.closingPrice?.amount,
+            updateEvent.body.currentPrice)
     }
 }

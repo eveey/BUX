@@ -22,10 +22,10 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient, moshi: Moshi): Retrofit {
+    fun provideRetrofit(okhttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder().apply {
             baseUrl(BuildConfig.BASE_API_URL)
-            client(client)
+            client(okhttpClient)
             addConverterFactory(ScalarsConverterFactory.create())
             addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             addConverterFactory(MoshiConverterFactory.create(moshi))

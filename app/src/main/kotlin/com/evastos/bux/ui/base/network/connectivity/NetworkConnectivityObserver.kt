@@ -1,4 +1,4 @@
-package com.evastos.bux.ui.network.connectivity
+package com.evastos.bux.ui.base.network.connectivity
 
 /**
  * Observes the network connectivity change events.

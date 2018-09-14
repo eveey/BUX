@@ -20,19 +20,19 @@ class ProductIdentifierViewModel
 
     val productDetailsLiveData = SingleLiveEvent<ProductDetails>()
     val errorMessageLiveData = MutableLiveData<String>()
-    val progressShowLiveData = MutableLiveData<Boolean>()
+    val progressVisibleLiveData = MutableLiveData<Boolean>()
 
     private lateinit var productDetailsRetry: () -> Unit
 
     fun getProductDetails(productIdentifier: String) {
         productDetailsRetry = { getProductDetails(productIdentifier) }
-        progressShowLiveData.postValue(true)
+        progressVisibleLiveData.postValue(true)
         disposables.clear()
         disposables.add(
             productDetailsRepository
                     .getProductDetails(productIdentifier)
                     .doFinally {
-                        progressShowLiveData.postValue(false)
+                        progressVisibleLiveData.postValue(false)
                     }
                     .applySchedulers(rxSchedulers)
                     .subscribe(
