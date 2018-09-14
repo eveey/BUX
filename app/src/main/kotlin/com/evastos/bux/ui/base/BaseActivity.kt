@@ -11,7 +11,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.evastos.bux.data.network.connectivity.NetworkConnectivityReceiver
-import com.evastos.bux.ui.base.network.NetworkConnectivityObserver
+import com.evastos.bux.ui.base.network.connectivity.NetworkConnectivityObserver
 import com.evastos.bux.ui.util.extensions.hideIfShown
 import com.evastos.bux.ui.util.extensions.showSnackbarForView
 import dagger.android.AndroidInjection

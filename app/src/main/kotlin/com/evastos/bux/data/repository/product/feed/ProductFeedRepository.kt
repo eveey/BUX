@@ -1,10 +1,10 @@
 package com.evastos.bux.data.repository.product.feed
 
-import com.evastos.bux.data.repository.Repositories
 import com.evastos.bux.data.model.rtf.connection.ConnectEvent
 import com.evastos.bux.data.model.rtf.subscription.SubscribeChannel
 import com.evastos.bux.data.model.rtf.subscription.SubscribeEvent
 import com.evastos.bux.data.model.rtf.update.UpdateEvent
+import com.evastos.bux.data.repository.Repositories
 import com.evastos.bux.data.service.RtfService
 import io.reactivex.Flowable
 import javax.inject.Inject

@@ -57,7 +57,13 @@ class ProductFeedViewModel
             currentPriceLiveData.value = currentPrice
         }
 
-        // keep connection alive during this Activity lifecycle instead of Application lifecycle
+        val priceDifference =
+                priceUtil.getPriceDifferencePercent(
+                    productDetails.closingPrice?.amount,
+                    productDetails.currentPrice?.amount)
+        priceDifferenceLiveData.value = priceDifference
+
+        // keep connection alive during the activity lifecycle instead of application lifecycle
         val rtfService = scarletBuilder.lifecycle(lifecycle).build().create<RtfService>()
         subscribeToProduct(rtfService, productDetails)
         productFeedRetry = { subscribeToProduct(rtfService, productDetails) }
@@ -99,16 +105,26 @@ class ProductFeedViewModel
                     .subscribe({ updateEvent ->
                         Timber.i(updateEvent.toString())
                         if (updateEvent.body != null) {
-                            val currentPrice = priceUtil.getLocalisedPrice(updateEvent.body.currentPrice, productDetails.currentPrice?.currency, productDetails.currentPrice?.decimals)
-                            currentPriceLiveData.postValue(currentPrice)
+                            val currentPrice =
+                                    priceUtil.getLocalisedPrice(
+                                        updateEvent.body.currentPrice,
+                                        productDetails.currentPrice?.currency,
+                                        productDetails.currentPrice?.decimals)
+                            currentPriceLiveData.value = currentPrice
+
+                            val priceDifference =
+                                    priceUtil.getPriceDifferencePercent(
+                                        productDetails.closingPrice?.amount,
+                                        updateEvent.body.currentPrice)
+                            priceDifferenceLiveData.value = priceDifference
                         } else {
-                            productFeedExceptionLiveData.postValue(RtfException.UnknownException())
+                            productFeedExceptionLiveData.value = RtfException.UnknownException()
                         }
                     }, { throwable ->
                         if (throwable is RtfException) {
-                            productFeedExceptionLiveData.postValue(throwable)
+                            productFeedExceptionLiveData.value = throwable
                         } else {
-                            productFeedExceptionLiveData.postValue(RtfException.UnknownException())
+                            productFeedExceptionLiveData.value = RtfException.UnknownException()
                         }
                         Timber.e(throwable)
                     }))

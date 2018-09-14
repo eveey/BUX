@@ -3,7 +3,7 @@ package com.evastos.bux.inject.module
 import android.content.Context
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.network.interceptor.AuthInterceptor
-import com.evastos.bux.data.util.MoshiAdapter
+import com.evastos.bux.data.network.adapter.MoshiJsonAdapter
 import com.evastos.bux.inject.qualifier.AppContext
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.moshi.Moshi
@@ -53,5 +53,5 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMoshi(): Moshi = Moshi.Builder().add(MoshiAdapter()).build()
+    fun provideMoshi(): Moshi = Moshi.Builder().add(MoshiJsonAdapter()).build()
 }

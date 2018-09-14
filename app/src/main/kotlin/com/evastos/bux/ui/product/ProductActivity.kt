@@ -11,7 +11,7 @@ import com.evastos.bux.data.exception.api.ApiException
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.model.livedata.LiveStatus
 import com.evastos.bux.ui.base.BaseActivity
-import com.evastos.bux.ui.base.network.NetworkConnectivityObserver
+import com.evastos.bux.ui.base.network.connectivity.NetworkConnectivityObserver
 import com.evastos.bux.ui.product.feed.ProductFeedActivity
 import com.evastos.bux.ui.util.extensions.debounceClicks
 import com.evastos.bux.ui.util.extensions.disable
