@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import com.evastos.bux.ui.util.isConnectedToNetwork
+import com.evastos.bux.ui.util.extensions.isConnectedToNetwork
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
@@ -14,7 +14,7 @@ class NetworkConnectivityReceiver : BroadcastReceiver() {
 
     val observable = networkConnectivitySubject as Observable<Boolean>
 
-    /* Warning: this method of checking network connectivity will be deprecated.
+    /* Warning: this method for checking network connectivity will be deprecated.
       Use NetworkCapabilities available since API level 21 (Marshmallow)
      */
     override fun onReceive(context: Context?, intent: Intent?) {

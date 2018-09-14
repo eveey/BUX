@@ -11,8 +11,8 @@ import com.evastos.bux.data.exception.rtf.RtfException
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.ui.base.BaseActivity
 import com.evastos.bux.ui.base.network.NetworkConnectivityObserver
-import com.evastos.bux.ui.util.setGone
-import com.evastos.bux.ui.util.setVisible
+import com.evastos.bux.ui.util.extensions.setGone
+import com.evastos.bux.ui.util.extensions.setVisible
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
 import kotlinx.android.synthetic.main.activity_product_feed.currentPriceTextView
 import kotlinx.android.synthetic.main.activity_product_feed.lastUpdateLabelTextView

@@ -1,4 +1,4 @@
-package com.evastos.bux.ui.util
+package com.evastos.bux.ui.util.extensions
 
 import android.content.Context
 import android.net.ConnectivityManager
