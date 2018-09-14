@@ -1,4 +1,4 @@
-package com.evastos.bux.data.repository.product
+package com.evastos.bux.data.repository.product.details
 
 import com.evastos.bux.data.exception.api.ApiExceptionMapper
 import com.evastos.bux.data.model.api.response.ProductDetails
@@ -14,5 +14,6 @@ class ProductDetailsRepository @Inject constructor(
 ) : Repositories.ProductDetailsRepository {
 
     override fun getProductDetails(productIdentifier: String): Single<ProductDetails> =
-            apiService.getProductDetails(productIdentifier).mapException(apiExceptionMapper)
+            apiService.getProductDetails(productIdentifier)
+                    .mapException(apiExceptionMapper)
 }

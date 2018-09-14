@@ -4,14 +4,11 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.os.Handler
 import android.view.inputmethod.EditorInfo
 import com.evastos.bux.R
-import com.evastos.bux.data.exception.api.ApiException
 import com.evastos.bux.data.model.api.response.ProductDetails
-import com.evastos.bux.data.model.livedata.LiveStatus
 import com.evastos.bux.ui.base.BaseActivity
-import com.evastos.bux.ui.base.network.connectivity.NetworkConnectivityObserver
+import com.evastos.bux.ui.network.connectivity.NetworkConnectivityObserver
 import com.evastos.bux.ui.product.feed.ProductFeedActivity
 import com.evastos.bux.ui.util.extensions.debounceClicks
 import com.evastos.bux.ui.util.extensions.disable
@@ -30,13 +27,7 @@ import kotlinx.android.synthetic.main.activity_product_identifier.progressBar
 
 class ProductIdentifierActivity : BaseActivity(), NetworkConnectivityObserver {
 
-    companion object {
-        private const val ERROR_DELAY_MILLIS = 400L
-    }
-
     private lateinit var productIdentifierViewModel: ProductIdentifierViewModel
-
-    private val handler = Handler()
 
     @SuppressLint("RxSubscribeOnError", "RxLeakedSubscription")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,27 +38,26 @@ class ProductIdentifierActivity : BaseActivity(), NetworkConnectivityObserver {
         productIdentifierViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ProductIdentifierViewModel::class.java)
 
-        productIdentifierViewModel.productLiveData.observe(this,
-            Observer { productDetailsResource ->
-                when (productDetailsResource?.liveStatus) {
-                    LiveStatus.LOADING -> {
-                        hideSnackbar()
-                        progressBar.setVisible()
-                    }
-                    LiveStatus.SUCCESS -> {
-                        progressBar.setInvisible()
-                        navigateToProductFeed(productDetailsResource.productDetails!!)
-                    }
-                    LiveStatus.ERROR -> {
-                        handler.postDelayed({
-                            progressBar.setInvisible()
-                            showSnackbar(productRootView,
-                                getErrorMessage(productDetailsResource.exception),
-                                getString(R.string.action_retry)) {
-                                productIdentifierViewModel.retryGetProductDetails()
-                            }
-                        }, ERROR_DELAY_MILLIS)
-                    }
+        productIdentifierViewModel.productDetailsLiveData.observe(this,
+            Observer { productDetails ->
+                navigateToProductFeed(productDetails!!)
+            })
+
+        productIdentifierViewModel.errorMessageLiveData.observe(this,
+            Observer { errorMessage ->
+                showSnackbar(productRootView,
+                    errorMessage!!,
+                    getString(R.string.action_retry)) {
+                    productIdentifierViewModel.retryGetProductDetails()
+                }
+            })
+
+        productIdentifierViewModel.progressShowLiveData.observe(this,
+            Observer { showProgressBar ->
+                if (showProgressBar == true) {
+                    progressBar.setVisible()
+                } else {
+                    progressBar.setInvisible()
                 }
             })
 
@@ -89,20 +79,16 @@ class ProductIdentifierActivity : BaseActivity(), NetworkConnectivityObserver {
                     }
                 }
 
-        getProductDetailsButton.debounceClicks().subscribe {
-            getProductDetails()
-        }
+        getProductDetailsButton.debounceClicks()
+                .subscribe {
+                    getProductDetails()
+                }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         productRootView.requestFocus()
         productIdentifierInputEditText.hideKeyboard()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        handler.removeCallbacksAndMessages(null)
     }
 
     override fun onNetworkConnectivityAcquired() {
@@ -114,27 +100,12 @@ class ProductIdentifierActivity : BaseActivity(), NetworkConnectivityObserver {
     }
 
     private fun getProductDetails() {
+        hideSnackbar()
         productIdentifierInputEditText.hideKeyboard()
         productIdentifierViewModel.getProductDetails(productIdentifierInputEditText.text.toString())
     }
 
     private fun navigateToProductFeed(productDetails: ProductDetails) {
         startActivity(ProductFeedActivity.newIntent(this, productDetails))
-    }
-
-    private fun getErrorMessage(exception: ApiException?): String {
-        if (exception is ApiException.AuthException) {
-            return exception.errorMessage ?: getString(R.string.api_error_unauthorized)
-        }
-        if (exception is ApiException.ServerException) {
-            return exception.errorMessage ?: getString(R.string.api_error_server_unavailable)
-        }
-        if (exception is ApiException.NotFoundException) {
-            return getString(R.string.api_error_product_not_found)
-        }
-        if (exception is ApiException.NetworkException) {
-            return getString(R.string.api_error_network)
-        }
-        return getString(R.string.api_error_general)
     }
 }

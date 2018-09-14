@@ -21,7 +21,6 @@ class BuxApp : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
         instance = this
 
         initLogging()
@@ -34,9 +33,9 @@ class BuxApp : DaggerApplication() {
     }
 
     private fun initLogging() {
-//        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-//        }
+        }
     }
 
     private fun initDateTimeLibrary() {

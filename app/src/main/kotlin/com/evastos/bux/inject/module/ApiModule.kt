@@ -1,8 +1,11 @@
 package com.evastos.bux.inject.module
 
+import android.content.Context
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.exception.api.ApiExceptionMapper
+import com.evastos.bux.data.exception.api.ApiExceptionMessageProvider
 import com.evastos.bux.data.service.ApiService
+import com.evastos.bux.inject.qualifier.AppContext
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -39,5 +42,13 @@ class ApiModule {
     @Singleton
     fun provideApiExceptionMapper(moshi: Moshi): ApiExceptionMapper {
         return ApiExceptionMapper(moshi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiExceptionMessageProvider(
+        @AppContext context: Context
+    ): ApiExceptionMessageProvider {
+        return ApiExceptionMessageProvider(context)
     }
 }

@@ -167,9 +167,8 @@ dependencies {
 
     // Logging
     implementation "com.jakewharton.timber:timber:$versions.timberVersion"
-    implementation "com.readystatesoftware.chuck:library:$versions.chuckVersion"
-//    debugImplementation "com.readystatesoftware.chuck:library:$versions.chuckVersion"
-//    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$versions.chuckVersion"
+    debugImplementation "com.readystatesoftware.chuck:library:$versions.chuckVersion"
+    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$versions.chuckVersion"
 
     // Utils
     implementation "com.jakewharton.threetenabp:threetenabp:$versions.threeTenAndroidVersion"

@@ -7,10 +7,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import com.evastos.bux.R
-import com.evastos.bux.data.exception.rtf.RtfException
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.ui.base.BaseActivity
-import com.evastos.bux.ui.base.network.connectivity.NetworkConnectivityObserver
+import com.evastos.bux.ui.network.connectivity.NetworkConnectivityObserver
 import com.evastos.bux.ui.util.extensions.setGone
 import com.evastos.bux.ui.util.extensions.setVisible
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
@@ -74,12 +73,10 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
             priceDifferenceTextView.text = priceDifference
         })
 
-        productFeedViewModel.productFeedExceptionLiveData.observe(this,
-            Observer { exception ->
-                exception?.let {
-                    showSnackbar(productFeedRootView, getErrorMessage(it), getString(R.string.action_retry)) {
-                        productFeedViewModel.retrySubscribeToProductFeed()
-                    }
+        productFeedViewModel.exceptionLiveData.observe(this,
+            Observer { errorMessage ->
+                showSnackbar(productFeedRootView, errorMessage!!, getString(R.string.action_retry)) {
+                    productFeedViewModel.retrySubscribeToProductFeed()
                 }
             })
 
@@ -109,6 +106,7 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
         networkConnectivityBanner.setGone()
         lastUpdateLabelTextView.setGone()
         lastUpdateTexView.setGone()
+        hideSnackbar()
         productFeedViewModel.retrySubscribeToProductFeed()
     }
 
@@ -117,18 +115,5 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
         networkConnectivityBanner.setVisible()
         lastUpdateLabelTextView.setVisible()
         lastUpdateTexView.setVisible()
-    }
-
-    private fun getErrorMessage(exception: RtfException?): String {
-        if (exception is RtfException.NotConnectedException) {
-            return getString(R.string.rtf_error_not_connected)
-        }
-        if (exception is RtfException.NotSubscribedException) {
-            return getString(R.string.rtf_error_not_subscribed)
-        }
-        if (exception is RtfException.NetworkException) {
-            return getString(R.string.rtf_error_network)
-        }
-        return getString(R.string.rtf_error_general)
     }
 }
