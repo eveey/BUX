@@ -1,5 +1,5 @@
 # BUX
-![App icon](https://github.com/eveey/BUX/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
+![com.evastos.bux.screenshot.icon](https://github.com/eveey/BUX/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
 Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading product feed.
 
@@ -8,7 +8,10 @@ Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading produc
 ### Development
 * Start mock service by running *```java -jar bux-server.jar```* on your local host (not included in the project)
 * Run the app in the emulator
+
 ### Beta
+
+![com.evastos.bux.screenshot](https://github.com/eveey/BUX/blob/master/app/src/main/assets/tradingProductScreenshot.png)
 
 ## Architecture
 * MVVM (Model-View-ViewModel) + [Data Binding](https://developer.android.com/topic/libraries/data-binding/) + [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) + [RxKotlin](https://github.com/ReactiveX/RxKotlin)
@@ -50,4 +53,4 @@ An adaptation of the JSR-310 backport for Android
 * [Android Jetpack/Navigation](https://developer.android.com/topic/libraries/architecture/navigation/) - Android navigation framework
 
 ## Disclaimer:
-```NOT FOR COMMERCIAL USE```
+```NOT INTENDED FOR COMMERCIAL USE```
