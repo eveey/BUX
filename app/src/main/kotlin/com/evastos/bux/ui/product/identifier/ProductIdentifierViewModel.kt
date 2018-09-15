@@ -1,20 +1,20 @@
 package com.evastos.bux.ui.product.identifier
 
 import android.arch.lifecycle.MutableLiveData
-import com.evastos.bux.ui.util.exception.api.ApiExceptionMessageProvider
-import com.evastos.bux.data.model.api.response.ProductDetails
-import com.evastos.bux.ui.livedata.SingleLiveEvent
 import com.evastos.bux.data.domain.Repositories
+import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
 import com.evastos.bux.ui.base.BaseViewModel
+import com.evastos.bux.ui.livedata.SingleLiveEvent
+import com.evastos.bux.ui.util.exception.ExceptionMessageProviders
 import timber.log.Timber
 import javax.inject.Inject
 
 class ProductIdentifierViewModel
 @Inject constructor(
     private val productDetailsRepository: Repositories.ProductDetailsRepository,
-    private val exceptionMessageProvider: ApiExceptionMessageProvider,
+    private val exceptionMessageProvider: ExceptionMessageProviders.Api,
     rxSchedulers: RxSchedulers
 ) : BaseViewModel(rxSchedulers) {
 

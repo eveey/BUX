@@ -1,8 +1,8 @@
 package com.evastos.bux.data.domain.product.feed
 
 import com.evastos.bux.data.domain.Repositories
+import com.evastos.bux.data.exception.ExceptionMappers
 import com.evastos.bux.data.exception.rtf.RtfException
-import com.evastos.bux.data.exception.rtf.RtfExceptionMapper
 import com.evastos.bux.data.model.rtf.connection.ConnectEventType
 import com.evastos.bux.data.model.rtf.subscription.SubscribeChannel
 import com.evastos.bux.data.model.rtf.subscription.SubscribeEvent
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class ProductFeedRepository
 @Inject constructor(
-    private val rtfExceptionMapper: RtfExceptionMapper
+    private val rtfExceptionMapper: ExceptionMappers.Rtf
 ) : Repositories.ProductFeedRepository {
 
     companion object {

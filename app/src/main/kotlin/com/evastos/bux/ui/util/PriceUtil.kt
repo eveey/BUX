@@ -3,14 +3,14 @@ package com.evastos.bux.ui.util
 import timber.log.Timber
 import java.math.BigDecimal
 import java.text.NumberFormat
-import java.util.Currency
+import java.util.*
 import javax.inject.Inject
 
 /**
  * Wrapper around Locale, NumberFormat and Currency classes.
  * Utility class for displaying locale-aware formatted prices.
  */
-class PriceUtil @Inject constructor(private val numberUtil: NumberUtil) {
+open class PriceUtil @Inject constructor(private val numberUtil: NumberUtil) {
 
     companion object {
         private const val DEFAULT_DECIMAL_PLACES = 2

@@ -7,7 +7,7 @@ import org.threeten.bp.format.FormatStyle
 /**
  * Wrapper around date and time classes.
  */
-class DateTimeUtil {
+open class DateTimeUtil {
 
     /**
      * Returns formatted locale-aware date time with timezone.

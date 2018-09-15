@@ -2,7 +2,7 @@ package com.evastos.bux.ui.util
 
 import java.math.BigDecimal
 
-class NumberUtil {
+open class NumberUtil {
 
     companion object {
         private const val HUNDRED = 100.0 // thanks, Detekt

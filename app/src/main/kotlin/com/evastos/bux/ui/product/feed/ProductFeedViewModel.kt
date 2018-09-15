@@ -3,7 +3,6 @@ package com.evastos.bux.ui.product.feed
 import android.arch.lifecycle.MutableLiveData
 import com.evastos.bux.data.domain.Repositories
 import com.evastos.bux.data.exception.rtf.RtfException
-import com.evastos.bux.ui.util.exception.rtf.RtfExceptionMessageProvider
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.model.rtf.update.UpdateEvent
 import com.evastos.bux.data.rx.RxSchedulers
@@ -12,6 +11,7 @@ import com.evastos.bux.data.service.RtfService
 import com.evastos.bux.ui.base.BaseViewModel
 import com.evastos.bux.ui.util.DateTimeUtil
 import com.evastos.bux.ui.util.PriceUtil
+import com.evastos.bux.ui.util.exception.ExceptionMessageProviders
 import com.tinder.scarlet.Lifecycle
 import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.WebSocket
@@ -22,7 +22,7 @@ class ProductFeedViewModel
 @Inject constructor(
     private val productFeedRepository: Repositories.ProductFeedRepository,
     private val scarletBuilder: Scarlet.Builder,
-    private val exceptionMessageProvider: RtfExceptionMessageProvider,
+    private val exceptionMessageProvider: ExceptionMessageProviders.Rtf,
     private val dateTimeUtil: DateTimeUtil,
     private val priceUtil: PriceUtil,
     rxSchedulers: RxSchedulers
