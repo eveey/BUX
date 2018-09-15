@@ -155,9 +155,9 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$versions.daggerVersion"
 
     // LiveData & ViewModel
-    implementation "android.arch.lifecycle:extensions:$versions.lifecycleVersion"
-    implementation "android.arch.lifecycle:viewmodel:$versions.lifecycleVersion"
-    kapt "android.arch.lifecycle:compiler:$versions.lifecycleVersion"
+    implementation "android.arch.lifecycle:extensions:$versions.archVersion"
+    implementation "android.arch.lifecycle:viewmodel:$versions.archVersion"
+    kapt "android.arch.lifecycle:compiler:$versions.archVersion"
 
     // Data binding
     kapt "com.android.databinding:compiler:$versions.dataBindingVersion"
@@ -188,6 +188,11 @@ dependencies {
     testImplementation "com.nhaarman:mockito-kotlin:$versions.mockitoKotlinVersion"
     testImplementation "org.threeten:threetenbp:$versions.threeTenVersion"
     testImplementation "org.assertj:assertj-core:$versions.assertJVersion"
+    testImplementation("android.arch.core:core-testing:$versions.archVersion", {
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    })
 
     // Android Test
     androidTestImplementation "com.android.support.test:runner:$versions.testRunnerVersion"

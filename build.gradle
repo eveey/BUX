@@ -35,7 +35,7 @@ buildscript {
             'rxLintVersion'           : '1.6.1',
             'rxBindingVersion'        : '2.1.1',
             'threeTenAndroidVersion'  : '1.1.0',
-            'lifecycleVersion'        : '1.1.1',
+            'archVersion'             : '1.1.1',
             'junitVersion'            : '4.12',
             'mockitoVersion'          : '2.18.3',
             'mockitoKotlinVersion'    : '1.5.0',
