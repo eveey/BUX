@@ -35,7 +35,7 @@ class BaseViewModelTest {
     }
 
     @Test
-    fun getNetworkConnectivityLiveData_withNetworkConnectivityEvents_shouldPostDistinctValues() {
+    fun getNetworkConnectivityLiveData_withNetworkConnectivityEvents_postsDistinctValues() {
         viewModel.observeNetworkConnectivity(networkConnectivitySubject)
 
         networkConnectivitySubject.onNext(true)
@@ -51,7 +51,7 @@ class BaseViewModelTest {
     }
 
     @Test
-    fun getNetworkConnectivityLiveData_withNoNetworkConnectivityEvents_shouldNotPost() {
+    fun getNetworkConnectivityLiveData_withNoNetworkConnectivityEvents_doesNotPostAnything() {
         viewModel.observeNetworkConnectivity(networkConnectivitySubject)
 
         verifyNoMoreInteractions(networkConnectivityLiveDataObserver)

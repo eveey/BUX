@@ -102,6 +102,7 @@ class ProductFeedViewModelTest {
     @Test
     fun getTradingProductNameLiveData() {
         val tradingName = productDetails.displayName
+
         viewModel.subscribeToProductFeed(productDetails, rtfService)
 
         verify(tradingProductNameLiveDataObserver).onChanged(tradingName)
@@ -109,13 +110,14 @@ class ProductFeedViewModelTest {
 
     @Test
     fun getPreviousDayClosingPriceLiveData() {
+
         viewModel.subscribeToProductFeed(productDetails, rtfService)
 
         verify(previousDayClosingPriceLiveDataObserver).onChanged("1.2345@10")
     }
 
     @Test
-    fun getCurrentPriceLiveData_withSuccessfulUpdate_shouldShowInitialAndUpdatedData() {
+    fun getCurrentPriceLiveData_withSuccessfulUpdate_showsInitialAndUpdatedData() {
         viewModel.subscribeToProductFeed(productDetails, rtfService)
 
         verify(currentPriceLiveDataObserver).onChanged("2.837$4")
@@ -134,7 +136,7 @@ class ProductFeedViewModelTest {
     }
 
     @Test
-    fun getPriceDifferenceLiveData_withSuccessfulUpdate_shouldShowInitialAndUpdatedData() {
+    fun getPriceDifferenceLiveData_withSuccessfulUpdate_showsInitialAndUpdatedData() {
         viewModel.subscribeToProductFeed(productDetails, rtfService)
 
         verify(priceDifferenceLiveDataObserver).onChanged("1.2345/2.837")
@@ -142,7 +144,7 @@ class ProductFeedViewModelTest {
     }
 
     @Test
-    fun getPriceDifferenceLiveDataa_withError_shouldShowOnlyInitialData() {
+    fun getPriceDifferenceLiveDataa_withError_showsOnlyInitialData() {
         whenever(repository.subscribeToFeed(any(), any(), anyOrNull()))
                 .thenReturn(Flowable.error(Throwable()))
 
@@ -153,7 +155,7 @@ class ProductFeedViewModelTest {
     }
 
     @Test
-    fun getExceptionLiveData_withErrorSubscribeToFeed_shouldPostMessage() {
+    fun getExceptionLiveData_withErrorSubscribeToFeed_postsExceptionMessage() {
         val throwable = Throwable()
         val exceptionMessage = "exception"
         whenever(repository.subscribeToFeed(any(), any(), anyOrNull()))
@@ -166,7 +168,7 @@ class ProductFeedViewModelTest {
     }
 
     @Test
-    fun getExceptionLiveData_withConnectionFailed_shouldPostMessage() {
+    fun getExceptionLiveData_withConnectionFailed_postsExceptionMessage() {
         val exceptionMessage = "exception"
         whenever(repository.observeSocketConnectionState(any()))
                 .thenReturn(Flowable.just(WebSocket.Event.OnConnectionFailed(Throwable())))
@@ -178,7 +180,7 @@ class ProductFeedViewModelTest {
     }
 
     @Test
-    fun getExceptionLiveData_withConnectionNotFailed_shouldClearMessage() {
+    fun getExceptionLiveData_withConnectionNotFailed_clearsMessage() {
         val exceptionMessage = "exception"
         whenever(repository.observeSocketConnectionState(any())).thenReturn(
             Flowable.just(WebSocket.Event.OnConnectionClosing(ShutdownReason.GRACEFUL))
@@ -196,21 +198,21 @@ class ProductFeedViewModelTest {
     }
 
     @Test
-    fun subscribeToProductFeed_shouldSubscribeToProductFeed() {
+    fun subscribeToProductFeed_subscribesToFeedOnRtfService() {
         viewModel.subscribeToProductFeed(productDetails, rtfService)
 
         verify(repository).subscribeToFeed(rtfService, "sb27639")
     }
 
     @Test
-    fun subscribeToProductFeed_shouldObserveSocketConnectionState() {
+    fun subscribeToProductFeed_observersSocketConnectionStateOnRtfService() {
         viewModel.subscribeToProductFeed(productDetails, rtfService)
 
         verify(repository).observeSocketConnectionState(rtfService)
     }
 
     @Test
-    fun retrySubscribe_shouldRepeatLastCall() {
+    fun retrySubscribe_repeatsLastCall() {
         val productDetails1 = ProductDetails(
             "",
             "securityId1",

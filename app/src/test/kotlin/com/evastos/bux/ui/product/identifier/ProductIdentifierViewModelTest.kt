@@ -59,7 +59,7 @@ class ProductIdentifierViewModelTest {
     }
 
     @Test
-    fun getProductDetailsLiveData_withSuccess_shouldPostProductDetails() {
+    fun getProductDetailsLiveData_withSuccess_postsProductDetails() {
         whenever(repository.getProductDetails(any())).thenReturn(Single.just(productDetails))
 
         viewModel.getProductDetails("sb26000")
@@ -70,7 +70,7 @@ class ProductIdentifierViewModelTest {
     }
 
     @Test
-    fun getProductDetailsLiveData_withError_shouldDoNothing() {
+    fun getProductDetailsLiveData_withError_doesNothing() {
         whenever(repository.getProductDetails(any())).thenReturn(Single.error(Throwable()))
 
         viewModel.getProductDetails("sb26000")
@@ -79,7 +79,7 @@ class ProductIdentifierViewModelTest {
     }
 
     @Test
-    fun getErrorMessageLiveData_withError_shouldPostErrorMessage() {
+    fun getErrorMessageLiveData_withError_postsErrorMessage() {
         val errorMessage = "exception"
         val throwable = Throwable()
         whenever(exceptionMessageProvider.getMessage(throwable)).thenReturn(errorMessage)
@@ -91,7 +91,7 @@ class ProductIdentifierViewModelTest {
     }
 
     @Test
-    fun getProductDetailsLiveData_withSuccess_shouldDoNothing() {
+    fun getProductDetailsLiveData_withSuccess_doesNothing() {
         whenever(repository.getProductDetails(any())).thenReturn(Single.just(productDetails))
 
         viewModel.getProductDetails("sb26000")
@@ -100,7 +100,7 @@ class ProductIdentifierViewModelTest {
     }
 
     @Test
-    fun getProgressVisibleLiveData_withSuccess_shouldPostTrueThenFalse() {
+    fun getProgressVisibleLiveData_withSuccess_postsTrueThenFalse() {
         whenever(repository.getProductDetails(any())).thenReturn(Single.just(productDetails))
 
         viewModel.getProductDetails("sb26000")
@@ -110,7 +110,7 @@ class ProductIdentifierViewModelTest {
     }
 
     @Test
-    fun getProgressVisibleLiveData_withError_shouldPostTrueThenFalse() {
+    fun getProgressVisibleLiveData_withError_postsTrueThenFalse() {
         whenever(repository.getProductDetails(any())).thenReturn(Single.error(Throwable()))
 
         viewModel.getProductDetails("sb26000")
@@ -120,7 +120,7 @@ class ProductIdentifierViewModelTest {
     }
 
     @Test
-    fun getProductDetails_shouldGetProductDetailsForIdentifier() {
+    fun getProductDetails_getsProductDetailsForIdentifier() {
         whenever(repository.getProductDetails(any())).thenReturn(Single.just(productDetails))
         val identifier = "sb26000"
 
@@ -130,7 +130,7 @@ class ProductIdentifierViewModelTest {
     }
 
     @Test
-    fun retryGetProductDetails_shouldGetProductDetailsForLastIdentifier() {
+    fun retryGetProductDetails_getsProductDetailsForLastIdentifier() {
         whenever(repository.getProductDetails(any())).thenReturn(Single.just(productDetails))
         val identifier1 = "sb26000"
         viewModel.getProductDetails(identifier1)
