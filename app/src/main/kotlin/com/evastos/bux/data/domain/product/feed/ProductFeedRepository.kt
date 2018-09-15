@@ -22,11 +22,11 @@ class ProductFeedRepository
 ) : Repositories.ProductFeedRepository {
 
     companion object {
-        private const val THROTTLE_MILLIS = 500L
+        private const val THROTTLE_MILLIS = 400L
     }
 
     override fun observeSocketConnectionState(rtfService: RtfService): Flowable<WebSocket.Event> {
-        return rtfService.observeState().distinctUntilChanged().throttleLastMillis(THROTTLE_MILLIS)
+        return rtfService.observeState().distinctUntilChanged()
     }
 
     override fun subscribeToFeed(
