@@ -10,10 +10,10 @@ import javax.inject.Inject
 
 class ProductDetailsRepository @Inject constructor(
     private val apiService: ApiService,
-    private val apiExceptionMapper: ExceptionMappers.Api
+    private val exceptionMapper: ExceptionMappers.Api
 ) : Repositories.ProductDetailsRepository {
 
     override fun getProductDetails(productIdentifier: String): Single<ProductDetails> =
             apiService.getProductDetails(productIdentifier)
-                    .mapException(apiExceptionMapper)
+                    .mapException(exceptionMapper)
 }

@@ -5,11 +5,6 @@ import android.arch.lifecycle.Observer
 import com.evastos.bux.RxTestSchedulerRule
 import com.evastos.bux.TestUtil
 import com.evastos.bux.data.domain.Repositories
-import com.evastos.bux.data.model.api.response.ProductDetails
-import com.evastos.bux.data.model.api.response.ProductPrice
-import com.evastos.bux.data.model.rtf.update.Channel
-import com.evastos.bux.data.model.rtf.update.UpdateEvent
-import com.evastos.bux.data.model.rtf.update.UpdateEventBody
 import com.evastos.bux.data.service.RtfService
 import com.evastos.bux.ui.util.DateTimeUtil
 import com.evastos.bux.ui.util.NumberUtil
@@ -18,11 +13,10 @@ import com.evastos.bux.ui.util.exception.ExceptionMessageProviders
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.anyOrNull
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
 import com.nhaarman.mockito_kotlin.whenever
-import com.tinder.scarlet.ShutdownReason
-import com.tinder.scarlet.WebSocket
 import io.reactivex.Flowable
 import org.junit.Before
 import org.junit.Rule
@@ -49,22 +43,9 @@ class ProductFeedViewModelTest {
     private val lastUpdatedLiveDataObserver = mock<Observer<String>>()
 
     private val rtfService = mock<RtfService>()
-    private val productDetails = ProductDetails(
-        symbol = "USD",
-        securityId = "sb27639",
-        displayName = "US dollar",
-        closingPrice = ProductPrice("@", 10, BigDecimal.valueOf(1.2345)),
-        currentPrice = ProductPrice("$", 4, BigDecimal.valueOf(2.837))
-    )
-    private val updateEvent = UpdateEvent(
-        channel = Channel.TRADING_QUOTE,
-        body = UpdateEventBody(
-            securityId = "sb27639",
-            currentPrice = BigDecimal.valueOf(5.678)
-        )
-    )
-
-    private var dateTimeNow = "12/09/2018 9:24 PM CEST"
+    private val productDetails = TestUtil.productDetails
+    private val updateEvent = TestUtil.updateEvent
+    private val dateTimeNow = "12/09/2018 9:24 PM CEST"
 
     private lateinit var viewModel: ProductFeedViewModel
 
@@ -77,12 +58,13 @@ class ProductFeedViewModelTest {
             TestPriceUtil(),
             TestUtil.rxSchedulers
         )
+
         whenever(repository.subscribeToFeed(any(), any(), anyOrNull())).thenReturn(
             Flowable.just(updateEvent)
         )
+
         whenever(repository.observeSocketConnectionState(any())).thenReturn(
-            Flowable.just(
-                com.tinder.scarlet.WebSocket.Event.OnConnectionClosed(ShutdownReason.GRACEFUL))
+            Flowable.just(TestUtil.webSocketConnectionOpened)
         )
 
         viewModel.tradingProductNameLiveData
@@ -110,7 +92,6 @@ class ProductFeedViewModelTest {
 
     @Test
     fun getPreviousDayClosingPriceLiveData() {
-
         viewModel.subscribeToProductFeed(productDetails, rtfService)
 
         verify(previousDayClosingPriceLiveDataObserver).onChanged("1.2345@10")
@@ -125,7 +106,7 @@ class ProductFeedViewModelTest {
     }
 
     @Test
-    fun getCurrentPriceLiveData_withError_shouldShowOnlyInitialData() {
+    fun getCurrentPriceLiveData_withErrorUpdate_showsOnlyInitialData() {
         whenever(repository.subscribeToFeed(any(), any(), anyOrNull()))
                 .thenReturn(Flowable.error(Throwable()))
 
@@ -144,7 +125,7 @@ class ProductFeedViewModelTest {
     }
 
     @Test
-    fun getPriceDifferenceLiveDataa_withError_showsOnlyInitialData() {
+    fun getPriceDifferenceLiveData_withErrorUpdate_showsOnlyInitialData() {
         whenever(repository.subscribeToFeed(any(), any(), anyOrNull()))
                 .thenReturn(Flowable.error(Throwable()))
 
@@ -171,7 +152,7 @@ class ProductFeedViewModelTest {
     fun getExceptionLiveData_withConnectionFailed_postsExceptionMessage() {
         val exceptionMessage = "exception"
         whenever(repository.observeSocketConnectionState(any()))
-                .thenReturn(Flowable.just(WebSocket.Event.OnConnectionFailed(Throwable())))
+                .thenReturn(Flowable.just(TestUtil.webSocketConnectionFailed))
         whenever(exceptionMessageProvider.getMessage(any())).thenReturn(exceptionMessage)
 
         viewModel.subscribeToProductFeed(productDetails, rtfService)
@@ -183,7 +164,7 @@ class ProductFeedViewModelTest {
     fun getExceptionLiveData_withConnectionNotFailed_clearsMessage() {
         val exceptionMessage = "exception"
         whenever(repository.observeSocketConnectionState(any())).thenReturn(
-            Flowable.just(WebSocket.Event.OnConnectionClosing(ShutdownReason.GRACEFUL))
+            Flowable.just(TestUtil.webSocketConnectionClosing)
         )
         whenever(exceptionMessageProvider.getMessage(any())).thenReturn(exceptionMessage)
 
@@ -193,7 +174,24 @@ class ProductFeedViewModelTest {
     }
 
     @Test
-    fun getLastUpdatedLiveData() {
+    fun getLastUpdatedLiveData_onInit_postsDateTimeNow() {
+        verify(lastUpdatedLiveDataObserver).onChanged(dateTimeNow)
+    }
+
+    @Test
+    fun getLastUpdatedLiveData_withSuccessfulUpdate_showsInitialAndUpdatedTime() {
+        viewModel.subscribeToProductFeed(productDetails, rtfService)
+
+        verify(lastUpdatedLiveDataObserver, times(2)).onChanged(dateTimeNow)
+    }
+
+    @Test
+    fun getLastUpdatedLiveData_withErrorUpdate_showsOnlyInitialDateTime() {
+        whenever(repository.subscribeToFeed(any(), any(), anyOrNull()))
+                .thenReturn(Flowable.error(Throwable()))
+
+        viewModel.subscribeToProductFeed(productDetails, rtfService)
+
         verify(lastUpdatedLiveDataObserver).onChanged(dateTimeNow)
     }
 
@@ -213,32 +211,21 @@ class ProductFeedViewModelTest {
 
     @Test
     fun retrySubscribe_repeatsLastCall() {
-        val productDetails1 = ProductDetails(
-            "",
-            "securityId1",
-            "",
-            null,
-            null
-        )
+        val productDetails1 = TestUtil.getProductDetails("id1")
         val rtfService1 = mock<RtfService>()
         viewModel.subscribeToProductFeed(productDetails1, rtfService1)
-        val productDetails2 = ProductDetails(
-            "",
-            "securityId2",
-            "",
-            null,
-            null)
+        val productDetails2 = TestUtil.getProductDetails("id2")
         val rtfService2 = mock<RtfService>()
         viewModel.subscribeToProductFeed(productDetails2, rtfService2)
         val rtfService3 = mock<RtfService>()
 
         viewModel.retrySubscribe(rtfService3)
 
-        verify(repository).subscribeToFeed(rtfService1, "securityId1")
+        verify(repository).subscribeToFeed(rtfService1, "id1")
         verify(repository).observeSocketConnectionState(rtfService1)
-        verify(repository).subscribeToFeed(rtfService2, "securityId2")
+        verify(repository).subscribeToFeed(rtfService2, "id2")
         verify(repository).observeSocketConnectionState(rtfService2)
-        verify(repository).subscribeToFeed(rtfService3, "securityId2")
+        verify(repository).subscribeToFeed(rtfService3, "id2")
         verify(repository).observeSocketConnectionState(rtfService3)
     }
 

@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class ProductFeedRepository
 @Inject constructor(
-    private val rtfExceptionMapper: ExceptionMappers.Rtf
+    private val exceptionMapper: ExceptionMappers.Rtf
 ) : Repositories.ProductFeedRepository {
 
     companion object {
@@ -59,7 +59,7 @@ class ProductFeedRepository
                 updateEvent.channel == Channel.TRADING_QUOTE
             }
             .throttleLastMillis(THROTTLE_MILLIS)
-            .mapException(rtfExceptionMapper)
+            .mapException(exceptionMapper)
 
     private fun connect(rtfService: RtfService) = rtfService.connect()
 
