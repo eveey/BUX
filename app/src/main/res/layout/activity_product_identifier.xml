@@ -5,11 +5,11 @@
 
         <variable
             name="isButtonEnabled"
-            type="Boolean" />
+            type="boolean" />
 
         <variable
             name="isConnectedToNetwork"
-            type="Boolean" />
+            type="boolean" />
 
         <variable
             name="viewModel"

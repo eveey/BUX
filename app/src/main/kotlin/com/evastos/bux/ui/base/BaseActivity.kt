@@ -35,9 +35,7 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
         AndroidInjection.inject(this)
         baseViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(BaseViewModel::class.java)
-        networkConnectivityReceiver.observable?.let {
-            baseViewModel.observeNetworkConnectivity(it)
-        }
+        baseViewModel.observeNetworkConnectivity(networkConnectivityReceiver.observable)
 
         if (this is NetworkConnectivityObserver) {
             networkConnectivityObserver = this
