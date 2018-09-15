@@ -38,5 +38,5 @@ Demo Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading p
 ## Wunderlist:
 * [Android Jetpack/Navigation](https://developer.android.com/topic/libraries/architecture/navigation/)
 
-## Disclaimer
+## Disclaimer:
 ```NOT FOR COMMERCIAL USE```
