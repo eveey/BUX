@@ -9,7 +9,6 @@ Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading produc
 * Start mock service by running ```java -jar bux-server.jar``` on your local host
 * Run the app in the emulator
 ### Beta
-* Service available only during weekdays
 
 ## Architecture
 * MVVM + Data Binding + LiveData
