@@ -140,7 +140,6 @@ class ProductFeedRepositoryTest {
         whenever(service.sendSubscribe(any())).thenReturn(true)
         whenever(service.observeUpdates()).thenReturn(Flowable.just(TestUtil.updateEvent))
 
-
         productFeedRepository.subscribeToFeed(service, "").toList()
                 .subscribe { updateEventList, throwable ->
                     assertTrue(throwable is RtfException.NotConnectedException)
@@ -162,14 +161,12 @@ class ProductFeedRepositoryTest {
         whenever(service.sendSubscribe(any())).thenReturn(true)
         whenever(service.observeUpdates()).thenReturn(Flowable.just(TestUtil.updateEvent))
 
-
         productFeedRepository.subscribeToFeed(service, "").toList()
                 .subscribe { updateEventList, throwable ->
                     assertNull(throwable)
                     assertTrue(updateEventList.isEmpty())
                 }
     }
-
 
     @Test
     fun subscribeToFeed_whenConnected_whenNotSubscribed_publishesException() {
