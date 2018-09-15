@@ -19,6 +19,10 @@ import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
 
+    companion object {
+        private const val SNACKBAR_DELAY_MILLIS = 400L
+    }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -68,10 +72,10 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
         snackbarMessage: String,
         actionMessage: String? = null,
         action: (() -> Unit)? = null) {
-        if (snackbar?.isShown == true) {
-            return
-        }
-        snackbar = showSnackbarForView(view, snackbarMessage, actionMessage, action)
+        view.postDelayed({
+            snackbar = showSnackbarForView(view, snackbarMessage, actionMessage, action)
+
+        }, SNACKBAR_DELAY_MILLIS)
     }
 
     protected fun hideSnackbar() {
