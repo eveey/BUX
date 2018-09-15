@@ -3,7 +3,7 @@
 
 Sample Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading product feed.
 
-`Important note: to use this app, add your auth token to local.properties file in the project like this:
+`Important note: to use this app, add your auth token to project local.properties file like this:
  authToken="{auth token}"`
 
 ## Flavors
