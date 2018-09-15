@@ -27,8 +27,8 @@
 * [Chuck](https://github.com/jgilfelt/chuck) network interceptor
 
 ## Code quality
-* [Ktlint](https://ktlint.github.io/) for static analysis of Kotlin code
-* [Detekt](https://github.com/arturbosch/detekt)
+* [Ktlint](https://ktlint.github.io/) - An anti-bikeshedding Kotlin linter with built-in formatter
+* [Detekt](https://github.com/arturbosch/detekt) - Static code analysis for Kotlin
 
 ## Unit tests
 * In progress
