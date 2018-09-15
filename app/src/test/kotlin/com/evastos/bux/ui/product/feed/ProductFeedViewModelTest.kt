@@ -5,7 +5,6 @@ import android.arch.lifecycle.Observer
 import com.evastos.bux.RxTestSchedulerRule
 import com.evastos.bux.TestUtil
 import com.evastos.bux.data.domain.Repositories
-import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.service.RtfService
 import com.evastos.bux.ui.util.DateTimeUtil
 import com.evastos.bux.ui.util.NumberUtil
@@ -18,8 +17,6 @@ import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
 import com.nhaarman.mockito_kotlin.whenever
-import com.tinder.scarlet.ShutdownReason
-import com.tinder.scarlet.WebSocket
 import io.reactivex.Flowable
 import org.junit.Before
 import org.junit.Rule
@@ -61,12 +58,13 @@ class ProductFeedViewModelTest {
             TestPriceUtil(),
             TestUtil.rxSchedulers
         )
+
         whenever(repository.subscribeToFeed(any(), any(), anyOrNull())).thenReturn(
             Flowable.just(updateEvent)
         )
+
         whenever(repository.observeSocketConnectionState(any())).thenReturn(
-            Flowable.just(
-                com.tinder.scarlet.WebSocket.Event.OnConnectionClosed(ShutdownReason.GRACEFUL))
+            Flowable.just(TestUtil.webSocketConnectionOpened)
         )
 
         viewModel.tradingProductNameLiveData
@@ -154,7 +152,7 @@ class ProductFeedViewModelTest {
     fun getExceptionLiveData_withConnectionFailed_postsExceptionMessage() {
         val exceptionMessage = "exception"
         whenever(repository.observeSocketConnectionState(any()))
-                .thenReturn(Flowable.just(WebSocket.Event.OnConnectionFailed(Throwable())))
+                .thenReturn(Flowable.just(TestUtil.webSocketConnectionFailed))
         whenever(exceptionMessageProvider.getMessage(any())).thenReturn(exceptionMessage)
 
         viewModel.subscribeToProductFeed(productDetails, rtfService)
@@ -166,7 +164,7 @@ class ProductFeedViewModelTest {
     fun getExceptionLiveData_withConnectionNotFailed_clearsMessage() {
         val exceptionMessage = "exception"
         whenever(repository.observeSocketConnectionState(any())).thenReturn(
-            Flowable.just(WebSocket.Event.OnConnectionClosing(ShutdownReason.GRACEFUL))
+            Flowable.just(TestUtil.webSocketConnectionClosing)
         )
         whenever(exceptionMessageProvider.getMessage(any())).thenReturn(exceptionMessage)
 

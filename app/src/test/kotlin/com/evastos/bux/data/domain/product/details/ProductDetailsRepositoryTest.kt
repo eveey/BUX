@@ -11,21 +11,22 @@ import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
 class ProductDetailsRepositoryTest {
 
-    private val apiService = mock<ApiService>()
+    private val service = mock<ApiService>()
     private val exceptionMapper = mock<ExceptionMappers.Api>()
 
     private lateinit var productDetailsRepository: ProductDetailsRepository
 
     @Before
     fun setUp() {
-        productDetailsRepository = ProductDetailsRepository(apiService, exceptionMapper)
-        whenever(apiService.getProductDetails(any()))
+        productDetailsRepository = ProductDetailsRepository(service, exceptionMapper)
+        whenever(service.getProductDetails(any()))
                 .thenReturn(Single.just(TestUtil.productDetails))
     }
 
@@ -35,7 +36,7 @@ class ProductDetailsRepositoryTest {
 
         productDetailsRepository.getProductDetails(productId)
 
-        verify(apiService).getProductDetails(productId)
+        verify(service).getProductDetails(productId)
     }
 
     @Test
@@ -43,13 +44,15 @@ class ProductDetailsRepositoryTest {
         productDetailsRepository.getProductDetails("")
                 .subscribeBy(onSuccess = {
                     assertEquals(TestUtil.productDetails, it)
-                }, onError = { })
+                }, onError = {
+                    assertNull(it)
+                })
     }
 
     @Test
     fun getProductDetails_withError_throwsMappedException() {
         whenever(exceptionMapper.map(any())).thenReturn(ApiException.ServerException())
-        whenever(apiService.getProductDetails(any())).thenReturn(Single.error(Throwable()))
+        whenever(service.getProductDetails(any())).thenReturn(Single.error(Throwable()))
 
         productDetailsRepository.getProductDetails("")
                 .subscribeBy(onSuccess = { }, onError = {
