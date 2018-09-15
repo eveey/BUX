@@ -1,17 +1,18 @@
 # BUX
 ![App icon](https://github.com/eveey/BUX/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
-Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading product feed.
+**Android app in [Kotlin](https://kotlinlang.org/)** for viewing live trading product feed.
 
 ## Flavors
 
 ### Development
-* Start mock service by running ```java -jar bux-server.jar``` on your local host
+* Start mock service by running ```*java -jar bux-server.jar*``` on your local host
 * Run the app in the emulator
 ### Beta
 
 ## Architecture
-* MVVM + Data Binding + LiveData
+* MVVM (Model-View-ViewModel) + Data Binding + LiveData
+* [RxKotlin](https://github.com/ReactiveX/RxKotlin) RxJava binding for Kotlin
 
 ## Network
 * [Square/Retrofit](https://github.com/square/retrofit) for HTTP RESTful connections
