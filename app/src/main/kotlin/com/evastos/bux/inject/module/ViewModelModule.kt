@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.evastos.bux.inject.qualifier.ViewModelKey
 import com.evastos.bux.inject.viewmodel.ViewModelFactory
-import com.evastos.bux.ui.base.BaseViewModel
 import com.evastos.bux.ui.product.feed.ProductFeedViewModel
 import com.evastos.bux.ui.product.identifier.ProductIdentifierViewModel
 import dagger.Binds
@@ -14,11 +13,6 @@ import dagger.multibindings.IntoMap
 @Suppress("unused")
 @Module
 abstract class ViewModelModule {
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(BaseViewModel::class)
-    abstract fun bindBaseViewModel(baseViewModel: BaseViewModel): ViewModel
 
     @Binds
     @IntoMap
