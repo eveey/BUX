@@ -1,7 +1,7 @@
 # BUX
 ![com.evastos.bux.screenshot.icon](https://github.com/eveey/BUX/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
-Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading product feed.
+Sample Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading product feed.
 
 ## Flavors
 
