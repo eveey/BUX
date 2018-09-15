@@ -13,10 +13,9 @@ class NumberUtil {
         currentNumber: BigDecimal
     ): BigDecimal {
         return when {
-            previousNumber == BigDecimal.ZERO -> percentFull
-            currentNumber == BigDecimal.ZERO -> -percentFull
-            currentNumber > previousNumber -> (currentNumber / previousNumber) * percentFull
-            else -> -(currentNumber / previousNumber) * percentFull
+            previousNumber == currentNumber -> BigDecimal.valueOf(0.0)
+            previousNumber == BigDecimal.ZERO -> BigDecimal.valueOf(100.0)
+            else -> (currentNumber - previousNumber) / previousNumber * percentFull
         }
     }
 }
