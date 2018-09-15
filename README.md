@@ -1,5 +1,5 @@
 # BUX
-Demo Android app in [Kotlin](https://kotlinlang.org/) for viewing trading product feed
+Demo Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading product feed
 
 ## Flavors
 
