@@ -38,7 +38,7 @@ fun View.disable() {
 fun showSnackbarForView(
     view: View,
     snackbarMessage: String,
-    actionMessage: String? = null,
+    actionMessage: String?,
     action: (() -> Unit)? = null): Snackbar {
     return Snackbar.make(view, snackbarMessage, Snackbar.LENGTH_INDEFINITE)
             .apply {

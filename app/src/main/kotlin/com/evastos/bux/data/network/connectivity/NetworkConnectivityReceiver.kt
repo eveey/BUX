@@ -12,7 +12,7 @@ class NetworkConnectivityReceiver : BroadcastReceiver() {
 
     private val networkConnectivitySubject = PublishSubject.create<Boolean>()
 
-    val observable = networkConnectivitySubject as? Observable<Boolean>
+    val observable = networkConnectivitySubject as Observable<Boolean>
 
     /* Warning: this method for checking network connectivity will be deprecated.
       Use NetworkCapabilities available since API level 21 (Marshmallow)
