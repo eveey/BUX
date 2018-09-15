@@ -6,7 +6,7 @@ Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading produc
 ## Flavors
 
 ### Development
-* Start mock service by running *```java -jar bux-server.jar```* on your local host
+* Start mock service by running *```java -jar bux-server.jar```* on your local host (*not included in the project*)
 * Run the app in the emulator
 ### Beta
 
