@@ -11,7 +11,7 @@ Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading produc
 ### Beta
 
 ## Architecture
-* MVVM (Model-View-ViewModel) + Data Binding + LiveData + [RxKotlin](https://github.com/ReactiveX/RxKotlin)
+* MVVM (Model-View-ViewModel) + [Data Binding](https://developer.android.com/topic/libraries/data-binding/) + [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) + [RxKotlin](https://github.com/ReactiveX/RxKotlin)
 
 ### Dependency management
 * [Google/Dagger](https://github.com/google/dagger) - Dependency injection
