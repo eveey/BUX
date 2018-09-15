@@ -14,17 +14,17 @@
 * MVVM (Model-View-ViewModel) + Data Binding + LiveData + [RxKotlin](https://github.com/ReactiveX/RxKotlin)
 
 ### Dependency management
-* [Google/Dagger](https://github.com/google/dagger) for dependency injection
+* [Google/Dagger](https://github.com/google/dagger) - Dependency injection
 
 ## Network
-* [Square/Retrofit](https://github.com/square/retrofit) for HTTP RESTful connections
-* [Tinder/Scarlet](https://github.com/Tinder/Scarlet) for WebSocket connections
+* [Square/Retrofit](https://github.com/square/retrofit) - HTTP RESTful connections
+* [Tinder/Scarlet](https://github.com/Tinder/Scarlet) - WebSocket connections
 ```
 * Copyright (c) 2018, Match Group, LLC 
 * All rights reserved.
 ```
-* [Square/Moshi](https://github.com/square/moshi) JSON adapter
-* [Chuck](https://github.com/jgilfelt/chuck) network interceptor
+* [Square/Moshi](https://github.com/square/moshi) - JSON adapter
+* [Chuck](https://github.com/jgilfelt/chuck) - Network interceptor
 
 ## Code quality
 * [Ktlint](https://ktlint.github.io/) - An anti-bikeshedding Kotlin linter with built-in formatter
@@ -34,13 +34,13 @@
 * In progress
 
 ## Roadmap:
-* [Espresso](https://developer.android.com/training/testing/espresso/) for UI tests
-* [ProGuard](https://www.guardsquare.com/en/products/proguard) rules for code obfuscation
-* [CircleCI](https://circleci.com/) for continuous integration
-* [Firebase](https://firebase.google.com/) for analytics
+* [Espresso](https://developer.android.com/training/testing/espresso/) - UI testing framework
+* [ProGuard](https://www.guardsquare.com/en/products/proguard) - Code obfuscation
+* [CircleCI](https://circleci.com/) - Continuous integration
+* [Firebase](https://firebase.google.com/) - Analytics
 
 ## Wunderlist:
-* [Android Jetpack/Navigation](https://developer.android.com/topic/libraries/architecture/navigation/)
+* [Android Jetpack/Navigation](https://developer.android.com/topic/libraries/architecture/navigation/) - Android navigation framework
 
 ## Disclaimer:
 ```NOT FOR COMMERCIAL USE```
