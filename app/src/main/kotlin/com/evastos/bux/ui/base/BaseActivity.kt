@@ -74,7 +74,6 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
         action: (() -> Unit)? = null) {
         view.postDelayed({
             snackbar = showSnackbarForView(view, snackbarMessage, actionMessage, action)
-
         }, SNACKBAR_DELAY_MILLIS)
     }
 
