@@ -11,8 +11,10 @@
 ### Beta
 
 ## Architecture
-* MVVM (Model-View-ViewModel) + Data Binding + LiveData
-* [RxKotlin](https://github.com/ReactiveX/RxKotlin) RxJava binding for Kotlin
+* MVVM (Model-View-ViewModel) + Data Binding + LiveData + [RxKotlin](https://github.com/ReactiveX/RxKotlin)
+
+### Dependency management
+* [Google/Dagger](https://github.com/google/dagger) for dependency injection
 
 ## Network
 * [Square/Retrofit](https://github.com/square/retrofit) for HTTP RESTful connections
