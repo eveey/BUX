@@ -3,7 +3,7 @@ package com.evastos.bux.ui.product.feed
 import android.arch.lifecycle.MutableLiveData
 import com.evastos.bux.data.domain.Repositories
 import com.evastos.bux.data.exception.rtf.RtfException
-import com.evastos.bux.data.exception.rtf.RtfExceptionMessageProvider
+import com.evastos.bux.ui.util.exception.rtf.RtfExceptionMessageProvider
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.data.model.rtf.update.UpdateEvent
 import com.evastos.bux.data.rx.RxSchedulers

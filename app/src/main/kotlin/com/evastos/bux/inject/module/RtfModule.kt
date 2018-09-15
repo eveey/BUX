@@ -1,10 +1,7 @@
 package com.evastos.bux.inject.module
 
-import android.content.Context
 import com.evastos.bux.BuildConfig
 import com.evastos.bux.data.exception.rtf.RtfExceptionMapper
-import com.evastos.bux.data.exception.rtf.RtfExceptionMessageProvider
-import com.evastos.bux.inject.qualifier.AppContext
 import com.squareup.moshi.Moshi
 import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.messageadapter.moshi.MoshiMessageAdapter
@@ -36,13 +33,5 @@ class RtfModule {
     @Singleton
     fun provideRtfExceptionMapper(): RtfExceptionMapper {
         return RtfExceptionMapper()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRtfExceptionMessageProvider(
-        @AppContext context: Context
-    ): RtfExceptionMessageProvider {
-        return RtfExceptionMessageProvider(context)
     }
 }

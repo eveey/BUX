@@ -12,9 +12,11 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindProductDetailsRepository(
-        productDetailsRepository: ProductDetailsRepository): Repositories.ProductDetailsRepository
+        productDetailsRepository: ProductDetailsRepository
+    ): Repositories.ProductDetailsRepository
 
     @Binds
     abstract fun bindProductFeedRepository(
-        productFeedRepository: ProductFeedRepository): Repositories.ProductFeedRepository
+        productFeedRepository: ProductFeedRepository
+    ): Repositories.ProductFeedRepository
 }

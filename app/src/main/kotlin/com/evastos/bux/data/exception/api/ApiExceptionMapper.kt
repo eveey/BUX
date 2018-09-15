@@ -32,18 +32,23 @@ class ApiExceptionMapper(private val moshi: Moshi) : ExceptionMapper<ApiExceptio
         if (throwable is HttpException) {
             if (throwable.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                 exception = NotFoundException()
-            } else {
-                val responseBody = throwable.response().errorBody()?.string()
-                responseBody?.let { errorResponse ->
-                    val apiError = moshi.adapter(ApiError::class.java).fromJson(errorResponse)
-                    exception = when (apiError?.errorCode) {
-                        TRADING_002 -> ServerException()
-                        AUTH_007, AUTH_014, AUTH_009, AUTH_008 -> AuthException()
-                        else -> UnknownException()
-                    }
-                }
+            } else getExceptionFromResponse(throwable).let {
+                exception = it
             }
         }
         return exception
+    }
+
+    private fun getExceptionFromResponse(httpException: HttpException): ApiException {
+        val responseBody = httpException.response().errorBody()?.string()
+        responseBody?.let { errorResponse ->
+            val apiError = moshi.adapter(ApiError::class.java).fromJson(errorResponse)
+            return when (apiError?.errorCode) {
+                TRADING_002 -> ServerException()
+                AUTH_007, AUTH_014, AUTH_009, AUTH_008 -> AuthException()
+                else -> UnknownException()
+            }
+        }
+        return UnknownException()
     }
 }

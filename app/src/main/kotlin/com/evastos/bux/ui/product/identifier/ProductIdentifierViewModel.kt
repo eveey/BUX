@@ -1,7 +1,7 @@
 package com.evastos.bux.ui.product.identifier
 
 import android.arch.lifecycle.MutableLiveData
-import com.evastos.bux.data.exception.api.ApiExceptionMessageProvider
+import com.evastos.bux.ui.util.exception.api.ApiExceptionMessageProvider
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.ui.livedata.SingleLiveEvent
 import com.evastos.bux.data.domain.Repositories
