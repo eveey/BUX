@@ -26,6 +26,13 @@ Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading produc
 * [Square/Moshi](https://github.com/square/moshi) - JSON adapter
 * [Chuck](https://github.com/jgilfelt/chuck) - Network interceptor
 
+## Other
+### Date/time
+* [ThreeTenABP](https://github.com/JakeWharton/ThreeTenABP) - 
+An adaptation of the JSR-310 backport for Android
+### Logging
+* [Timber](https://github.com/JakeWharton/timber)
+
 ## Code quality
 * [Ktlint](https://ktlint.github.io/) - An anti-bikeshedding Kotlin linter with built-in formatter
 * [Detekt](https://github.com/arturbosch/detekt) - Static code analysis for Kotlin
