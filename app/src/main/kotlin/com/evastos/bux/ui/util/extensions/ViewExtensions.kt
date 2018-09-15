@@ -38,7 +38,8 @@ fun showSnackbarForView(
     view: View,
     snackbarMessage: String,
     actionMessage: String?,
-    action: (() -> Unit)? = null): Snackbar {
+    action: (() -> Unit)? = null
+): Snackbar {
     return Snackbar.make(view, snackbarMessage, Snackbar.LENGTH_INDEFINITE)
             .apply {
                 setAction(actionMessage, View.OnClickListener {

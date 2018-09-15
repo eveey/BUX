@@ -36,8 +36,8 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
-        baseViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(BaseViewModel::class.java)
+        baseViewModel =
+                ViewModelProviders.of(this, viewModelFactory).get(BaseViewModel::class.java)
         networkConnectivityReceiver.observable?.let {
             baseViewModel.observeNetworkConnectivity(it)
         }
@@ -54,13 +54,14 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
                 } else {
                     networkConnectivityObserver?.onNetworkConnectivityLost()
                 }
-            })
+            }
+        )
     }
 
     @Suppress("DEPRECATION")
     override fun onResume() {
         super.onResume()
-        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(networkConnectivityReceiver, intentFilter)
     }
 
@@ -73,7 +74,8 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
         view: View,
         snackbarMessage: String,
         actionMessage: String? = null,
-        action: (() -> Unit)? = null) {
+        action: (() -> Unit)? = null
+    ) {
         view.postDelayed({
             snackbar = showSnackbarForView(view, snackbarMessage, actionMessage, action)
         }, SNACKBAR_DELAY_MILLIS)

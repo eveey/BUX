@@ -54,7 +54,10 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
                 if (errorMessage != null) {
                     lastUpdateTexView.setVisible()
                     lastUpdateLabelTextView.setVisible()
-                    showSnackbar(productFeedRootView, errorMessage, getString(R.string.action_retry)) {
+                    showSnackbar(
+                        productFeedRootView,
+                        errorMessage, getString(R.string.action_retry)
+                    ) {
                         productFeedViewModel.retrySubscribe(getActivityLifecycle())
                     }
                 } else {

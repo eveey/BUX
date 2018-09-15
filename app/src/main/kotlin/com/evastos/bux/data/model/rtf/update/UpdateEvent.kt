@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class UpdateEvent(
     @Json(name = "t") val channel: Channel,
-    @Json(name = "body") val body: UpdateEventBody) {
-}
+    @Json(name = "body") val body: UpdateEventBody
+)
