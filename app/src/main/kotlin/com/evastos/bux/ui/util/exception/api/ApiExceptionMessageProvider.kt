@@ -1,9 +1,10 @@
-package com.evastos.bux.data.exception.api
+package com.evastos.bux.ui.util.exception.api
 
 import android.content.Context
 import com.evastos.bux.R
-import com.evastos.bux.data.exception.ExceptionMessageProvider
+import com.evastos.bux.data.exception.api.ApiException
 import com.evastos.bux.inject.qualifier.AppContext
+import com.evastos.bux.ui.util.exception.ExceptionMessageProvider
 
 class ApiExceptionMessageProvider
 constructor(@AppContext private val context: Context) : ExceptionMessageProvider<ApiException>() {

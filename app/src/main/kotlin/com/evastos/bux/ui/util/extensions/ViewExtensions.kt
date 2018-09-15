@@ -4,7 +4,6 @@ import android.app.Activity
 import android.support.design.widget.Snackbar
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.evastos.bux.R
 import com.jakewharton.rxbinding2.view.clicks
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -58,6 +57,6 @@ fun Snackbar?.hideIfShown() {
 }
 
 fun View.hideKeyboard() {
-    val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(windowToken, 0)
+    val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager
+    imm?.hideSoftInputFromWindow(windowToken, 0)
 }

@@ -1,4 +1,4 @@
-package com.evastos.bux.data.exception
+package com.evastos.bux.ui.util.exception
 
 abstract class ExceptionMessageProvider<in Exception> {
 

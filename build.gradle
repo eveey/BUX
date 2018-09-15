@@ -78,7 +78,7 @@ detekt {
     profile("main") {
         input = "$projectDir/app/src/"
         config = "$projectDir/config/code_quality/detekt.yml"
-        output = "$projectDir/app/build/reports/detekt"
+//        output = "$projectDir/app/build/reports/detekt"
         filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
     }
 }
