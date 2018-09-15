@@ -3,7 +3,7 @@ package com.evastos.bux.ui.util
 import timber.log.Timber
 import java.math.BigDecimal
 import java.text.NumberFormat
-import java.util.*
+import java.util.Currency
 import javax.inject.Inject
 
 /**

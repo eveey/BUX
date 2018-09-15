@@ -12,7 +12,6 @@ import com.evastos.bux.ui.base.BaseViewModel
 import com.evastos.bux.ui.util.DateTimeUtil
 import com.evastos.bux.ui.util.PriceUtil
 import com.evastos.bux.ui.util.exception.ExceptionMessageProviders
-import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.WebSocket
 import timber.log.Timber
 import javax.inject.Inject

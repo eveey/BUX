@@ -1,8 +1,7 @@
 package com.evastos.bux.data.exception.rtf
 
 import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -43,7 +42,6 @@ class RtfExceptionMapperTest {
 
         assertTrue(exception is RtfException.ServerException)
     }
-
 
     @Test
     fun map_withOtherException_returnsUnknownException() {

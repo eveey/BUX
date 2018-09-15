@@ -2,7 +2,6 @@ package com.evastos.bux
 
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.schedulers.TestScheduler
 import org.junit.rules.TestRule
 import org.junit.runner.Description

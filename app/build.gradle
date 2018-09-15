@@ -38,10 +38,10 @@ android {
         buildConfigField STRING, AUTH_TOKEN, props['authToken']
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 
     signingConfigs {
         release {
