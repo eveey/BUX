@@ -14,16 +14,20 @@ import com.evastos.bux.data.model.api.error.ApiErrorCode.AUTH_014
 import com.evastos.bux.data.model.api.error.ApiErrorCode.TRADING_002
 import com.squareup.moshi.Moshi
 import retrofit2.HttpException
-import java.io.IOException
+import java.net.ConnectException
 import java.net.HttpURLConnection
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 class ApiExceptionMapper(private val moshi: Moshi) : ExceptionMapper<ApiException> {
 
     override fun map(throwable: Throwable): ApiException {
-        // SocketTimeoutException or UnknownHostException
         var exception: ApiException = UnknownException()
-        if (throwable is IOException) {
+        if (throwable is SocketTimeoutException || throwable is UnknownHostException) {
             exception = NetworkException()
+        }
+        if (throwable is ConnectException) {
+            exception = ServerException()
         }
         if (throwable is HttpException) {
             if (throwable.code() == HttpURLConnection.HTTP_NOT_FOUND) {
@@ -33,8 +37,8 @@ class ApiExceptionMapper(private val moshi: Moshi) : ExceptionMapper<ApiExceptio
                 responseBody?.let { errorResponse ->
                     val apiError = moshi.adapter(ApiError::class.java).fromJson(errorResponse)
                     exception = when (apiError?.errorCode) {
-                        TRADING_002 -> ServerException(apiError.message)
-                        AUTH_007, AUTH_014, AUTH_009, AUTH_008 -> AuthException(apiError.message)
+                        TRADING_002 -> ServerException()
+                        AUTH_007, AUTH_014, AUTH_009, AUTH_008 -> AuthException()
                         else -> UnknownException()
                     }
                 }

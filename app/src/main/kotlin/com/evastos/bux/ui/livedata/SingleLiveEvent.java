@@ -1,4 +1,4 @@
-package com.evastos.bux.data.model.livedata;
+package com.evastos.bux.ui.livedata;
 
 /*
  *  Copyright 2017 Google Inc.

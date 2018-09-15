@@ -3,8 +3,8 @@ package com.evastos.bux.ui.product.identifier
 import android.arch.lifecycle.MutableLiveData
 import com.evastos.bux.data.exception.api.ApiExceptionMessageProvider
 import com.evastos.bux.data.model.api.response.ProductDetails
-import com.evastos.bux.data.model.livedata.SingleLiveEvent
-import com.evastos.bux.data.repository.Repositories
+import com.evastos.bux.ui.livedata.SingleLiveEvent
+import com.evastos.bux.data.domain.Repositories
 import com.evastos.bux.data.rx.RxSchedulers
 import com.evastos.bux.data.rx.applySchedulers
 import com.evastos.bux.ui.base.BaseViewModel

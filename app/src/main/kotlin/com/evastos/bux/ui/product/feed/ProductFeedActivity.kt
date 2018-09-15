@@ -12,7 +12,11 @@ import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.databinding.ActivityProductFeedBinding
 import com.evastos.bux.ui.base.BaseActivity
 import com.evastos.bux.ui.base.network.connectivity.NetworkConnectivityObserver
+import com.evastos.bux.ui.util.extensions.setGone
+import com.evastos.bux.ui.util.extensions.setVisible
+import com.tinder.scarlet.Lifecycle
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
+import kotlinx.android.synthetic.main.activity_product_feed.lastUpdateLabelTextView
 import kotlinx.android.synthetic.main.activity_product_feed.lastUpdateTexView
 import kotlinx.android.synthetic.main.activity_product_feed.productFeedRootView
 
@@ -39,6 +43,7 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
                 .get(ProductFeedViewModel::class.java)
         binding.viewModel = productFeedViewModel
         binding.isConnectedToNetwork = true
+
         supportActionBar?.apply {
             title = getString(R.string.activity_product_feed_title)
             setDisplayHomeAsUpEnabled(true)
@@ -46,18 +51,21 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
 
         productFeedViewModel.exceptionLiveData.observe(this,
             Observer { errorMessage ->
-                errorMessage?.let {
-                    showSnackbar(productFeedRootView, it, getString(R.string.action_retry)) {
-                        productFeedViewModel.retrySubscribeToProductFeed()
+                if (errorMessage != null) {
+                    lastUpdateTexView.setVisible()
+                    lastUpdateLabelTextView.setVisible()
+                    showSnackbar(productFeedRootView, errorMessage, getString(R.string.action_retry)) {
+                        productFeedViewModel.retrySubscribe(getActivityLifecycle())
                     }
+                } else {
+                    hideSnackbar()
+                    lastUpdateTexView.setGone()
+                    lastUpdateLabelTextView.setGone()
                 }
-
             })
 
         val productDetails = intent.getParcelableExtra<ProductDetails>(EXTRA_PRODUCT_DETAILS)
-        productFeedViewModel.subscribeToProductFeed(productDetails,
-            AndroidLifecycle.ofLifecycleOwnerForeground(application, this))
-
+        productFeedViewModel.subscribeToProductFeed(productDetails, getActivityLifecycle())
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -71,11 +79,14 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
     override fun onNetworkConnectivityAcquired() {
         binding.isConnectedToNetwork = true
         hideSnackbar()
-        productFeedViewModel.retrySubscribeToProductFeed()
+        productFeedViewModel.retrySubscribe(getActivityLifecycle())
     }
 
     override fun onNetworkConnectivityLost() {
         binding.isConnectedToNetwork = false
         lastUpdateTexView.text = productFeedViewModel.lastUpdatedLiveData.value
     }
+
+    private fun getActivityLifecycle(): Lifecycle =
+            AndroidLifecycle.ofLifecycleOwnerForeground(application, this)
 }

@@ -2,6 +2,7 @@ package com.evastos.bux.inject.module
 
 import android.content.Context
 import com.evastos.bux.BuildConfig
+import com.evastos.bux.data.exception.rtf.RtfExceptionMapper
 import com.evastos.bux.data.exception.rtf.RtfExceptionMessageProvider
 import com.evastos.bux.inject.qualifier.AppContext
 import com.squareup.moshi.Moshi
@@ -29,6 +30,12 @@ class RtfModule {
                 .webSocketFactory(okhttpClient.newWebSocketFactory(url))
                 .addMessageAdapterFactory(MoshiMessageAdapter.Factory(moshi))
                 .addStreamAdapterFactory(RxJava2StreamAdapterFactory())
+    }
+
+    @Provides
+    @Singleton
+    fun provideRtfExceptionMapper(): RtfExceptionMapper {
+        return RtfExceptionMapper()
     }
 
     @Provides

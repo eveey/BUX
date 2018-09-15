@@ -31,7 +31,6 @@ open class BaseViewModel
                     networkConnectivityLiveData.postValue(isConnected)
                 }, {
                     Timber.e(it)
-                    // ignored
                 }))
     }
 }

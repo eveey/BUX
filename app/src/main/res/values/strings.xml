@@ -25,6 +25,7 @@
 
     <string name="rtf_error_not_connected">Failed to connect to product feed. Please try again.</string>
     <string name="rtf_error_not_subscribed">Failed to subscribe to product feed. Please try again.</string>
+    <string name="rtf_error_server_unavailable">Service is temporarily unavailable. Please try again later.</string>
     <string name="rtf_error_network">@string/error_network</string>
     <string name="rtf_error_general">Failed to get product feed. Please contact support or try again later.</string>
 </resources>

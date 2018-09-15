@@ -2,9 +2,9 @@ package com.evastos.bux.data.exception.api
 
 sealed class ApiException : Throwable() {
 
-    class AuthException(val errorMessage: String? = null) : ApiException()
+    class AuthException : ApiException()
 
-    class ServerException(val errorMessage: String? = null) : ApiException()
+    class ServerException : ApiException()
 
     class NotFoundException : ApiException()
 

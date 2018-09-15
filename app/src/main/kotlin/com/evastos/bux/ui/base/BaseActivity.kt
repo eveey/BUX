@@ -22,13 +22,12 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private var snackbar: Snackbar? = null
-
-    private val networkConnectivityReceiver = NetworkConnectivityReceiver()
-
     private lateinit var baseViewModel: BaseViewModel
 
     private var networkConnectivityObserver: NetworkConnectivityObserver? = null
+    private var snackbar: Snackbar? = null
+
+    private val networkConnectivityReceiver = NetworkConnectivityReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +36,7 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
                 .get(BaseViewModel::class.java)
         baseViewModel.observeNetworkConnectivity(networkConnectivityReceiver.observable)
 
-        if (this is NetworkConnectivityObserver) {
-            networkConnectivityObserver = this
-        }
+        if (this is NetworkConnectivityObserver) networkConnectivityObserver = this
     }
 
     override fun onStart() {
@@ -71,6 +68,9 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
         snackbarMessage: String,
         actionMessage: String? = null,
         action: (() -> Unit)? = null) {
+        if (snackbar?.isShown == true) {
+            return
+        }
         snackbar = showSnackbarForView(view, snackbarMessage, actionMessage, action)
     }
 

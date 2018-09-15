@@ -16,6 +16,9 @@ constructor(@AppContext private val context: Context) : ExceptionMessageProvider
         if (exception is RtfException.NotSubscribedException) {
             messageResId = R.string.rtf_error_not_subscribed
         }
+        if (exception is RtfException.ServerException) {
+            messageResId = R.string.rtf_error_server_unavailable
+        }
         if (exception is RtfException.NetworkException) {
             messageResId = R.string.rtf_error_network
         }

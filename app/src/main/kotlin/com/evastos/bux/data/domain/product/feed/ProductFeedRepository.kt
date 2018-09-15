@@ -1,18 +1,33 @@
-package com.evastos.bux.data.repository.product.feed
+package com.evastos.bux.data.domain.product.feed
 
+import com.evastos.bux.data.domain.Repositories
 import com.evastos.bux.data.exception.rtf.RtfException
+import com.evastos.bux.data.exception.rtf.RtfExceptionMapper
 import com.evastos.bux.data.model.rtf.connection.ConnectEventType
 import com.evastos.bux.data.model.rtf.subscription.SubscribeChannel
 import com.evastos.bux.data.model.rtf.subscription.SubscribeEvent
 import com.evastos.bux.data.model.rtf.update.Channel
 import com.evastos.bux.data.model.rtf.update.UpdateEvent
-import com.evastos.bux.data.repository.Repositories
+import com.evastos.bux.data.rx.mapException
+import com.evastos.bux.data.rx.throttleLastMillis
 import com.evastos.bux.data.service.RtfService
+import com.tinder.scarlet.WebSocket
 import io.reactivex.Flowable
 import timber.log.Timber
 import javax.inject.Inject
 
-class ProductFeedRepository @Inject constructor() : Repositories.ProductFeedRepository {
+class ProductFeedRepository
+@Inject constructor(
+    private val rtfExceptionMapper: RtfExceptionMapper
+) : Repositories.ProductFeedRepository {
+
+    companion object {
+        private const val THROTTLE_MILLIS = 500L
+    }
+
+    override fun observeSocketConnectionState(rtfService: RtfService): Flowable<WebSocket.Event> {
+        return rtfService.observeState().distinctUntilChanged().throttleLastMillis(THROTTLE_MILLIS)
+    }
 
     override fun subscribeToFeed(
         rtfService: RtfService,
@@ -43,6 +58,8 @@ class ProductFeedRepository @Inject constructor() : Repositories.ProductFeedRepo
             .filter { updateEvent ->
                 updateEvent.channel == Channel.TRADING_QUOTE
             }
+            .throttleLastMillis(THROTTLE_MILLIS)
+            .mapException(rtfExceptionMapper)
 
     private fun connect(rtfService: RtfService) = rtfService.connect()
 
