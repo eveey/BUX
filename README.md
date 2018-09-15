@@ -68,4 +68,4 @@ An adaptation of the JSR-310 backport for Android
 * [Android Jetpack/Navigation](https://developer.android.com/topic/libraries/architecture/navigation/) - Android navigation framework
 
 ## Disclaimer:
-```NOT INTENDED FOR COMMERCIAL USE```
+```PERSONAL PROJECT - NOT INTENDED FOR COMMERCIAL USE```
