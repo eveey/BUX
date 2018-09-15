@@ -4,10 +4,11 @@ import android.content.Context
 import com.evastos.bux.R
 import com.evastos.bux.data.exception.rtf.RtfException
 import com.evastos.bux.inject.qualifier.AppContext
-import com.evastos.bux.ui.util.exception.ExceptionMessageProvider
+import com.evastos.bux.ui.util.exception.ExceptionMessageProviders
+import javax.inject.Inject
 
 class RtfExceptionMessageProvider
-constructor(@AppContext private val context: Context) : ExceptionMessageProvider<RtfException>() {
+@Inject constructor(@AppContext private val context: Context) : ExceptionMessageProviders.Rtf {
 
     override fun getMessage(exception: RtfException): String {
         var messageResId = R.string.rtf_error_general

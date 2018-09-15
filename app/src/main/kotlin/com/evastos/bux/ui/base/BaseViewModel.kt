@@ -7,12 +7,8 @@ import com.evastos.bux.data.rx.applySchedulers
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
-import javax.inject.Inject
 
-open class BaseViewModel
-@Inject constructor(
-    protected val rxSchedulers: RxSchedulers
-) : ViewModel() {
+abstract class BaseViewModel constructor(protected val rxSchedulers: RxSchedulers) : ViewModel() {
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
 

@@ -10,7 +10,7 @@ import javax.inject.Inject
  * Wrapper around Locale, NumberFormat and Currency classes.
  * Utility class for displaying locale-aware formatted prices.
  */
-class PriceUtil @Inject constructor(private val numberUtil: NumberUtil) {
+open class PriceUtil @Inject constructor(private val numberUtil: NumberUtil) {
 
     companion object {
         private const val DEFAULT_DECIMAL_PLACES = 2
@@ -19,7 +19,7 @@ class PriceUtil @Inject constructor(private val numberUtil: NumberUtil) {
     /**
      * Returns formatted locale-aware price, provided the currency code is in ISO 4217 format.
      */
-    fun getLocalisedPrice(
+    internal open fun getLocalisedPrice(
         price: BigDecimal?,
         currencyCode: String?,
         decimalPlaces: Int? = null
@@ -41,7 +41,7 @@ class PriceUtil @Inject constructor(private val numberUtil: NumberUtil) {
     /**
      * Returns formatted locale-aware price difference percent.
      */
-    fun getPriceDifferencePercent(
+    internal open fun getPriceDifferencePercent(
         previousPrice: BigDecimal?,
         currentPrice: BigDecimal?
     ): String {

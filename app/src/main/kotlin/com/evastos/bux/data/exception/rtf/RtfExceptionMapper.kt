@@ -1,11 +1,12 @@
 package com.evastos.bux.data.exception.rtf
 
-import com.evastos.bux.data.exception.ExceptionMapper
+import com.evastos.bux.data.exception.ExceptionMappers
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class RtfExceptionMapper : ExceptionMapper<RtfException> {
+class RtfExceptionMapper @Inject constructor() : ExceptionMappers.Rtf {
 
     override fun map(throwable: Throwable): RtfException {
         var exception: RtfException = RtfException.UnknownException()

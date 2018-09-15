@@ -9,16 +9,18 @@ import android.os.Bundle
 import android.view.MenuItem
 import com.evastos.bux.R
 import com.evastos.bux.data.model.api.response.ProductDetails
+import com.evastos.bux.data.service.RtfService
 import com.evastos.bux.databinding.ActivityProductFeedBinding
 import com.evastos.bux.ui.base.BaseActivity
 import com.evastos.bux.ui.base.network.connectivity.NetworkConnectivityObserver
 import com.evastos.bux.ui.util.extensions.setGone
 import com.evastos.bux.ui.util.extensions.setVisible
-import com.tinder.scarlet.Lifecycle
+import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
 import kotlinx.android.synthetic.main.activity_product_feed.lastUpdateLabelTextView
 import kotlinx.android.synthetic.main.activity_product_feed.lastUpdateTexView
 import kotlinx.android.synthetic.main.activity_product_feed.productFeedRootView
+import javax.inject.Inject
 
 class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
 
@@ -34,6 +36,9 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
 
     private lateinit var productFeedViewModel: ProductFeedViewModel
     private lateinit var binding: ActivityProductFeedBinding
+
+    @Inject
+    lateinit var scarletBuilder: Scarlet.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +63,7 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
                         productFeedRootView,
                         errorMessage, getString(R.string.action_retry)
                     ) {
-                        productFeedViewModel.retrySubscribe(getActivityLifecycle())
+                        productFeedViewModel.retrySubscribe(getRtfService())
                     }
                 } else {
                     hideSnackbar()
@@ -68,7 +73,7 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
             })
 
         val productDetails = intent.getParcelableExtra<ProductDetails>(EXTRA_PRODUCT_DETAILS)
-        productFeedViewModel.subscribeToProductFeed(productDetails, getActivityLifecycle())
+        productFeedViewModel.subscribeToProductFeed(productDetails, getRtfService())
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -82,7 +87,7 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
     override fun onNetworkConnectivityAcquired() {
         binding.isConnectedToNetwork = true
         hideSnackbar()
-        productFeedViewModel.retrySubscribe(getActivityLifecycle())
+        productFeedViewModel.retrySubscribe(getRtfService())
     }
 
     override fun onNetworkConnectivityLost() {
@@ -90,6 +95,9 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
         lastUpdateTexView.text = productFeedViewModel.lastUpdatedLiveData.value
     }
 
-    private fun getActivityLifecycle(): Lifecycle =
-            AndroidLifecycle.ofLifecycleOwnerForeground(application, this)
+    // keep connection alive during the activity lifecycle instead of application lifecycle
+    private fun getRtfService(): RtfService = scarletBuilder
+            .lifecycle(AndroidLifecycle.ofLifecycleOwnerForeground(application, this))
+            .build()
+            .create()
 }

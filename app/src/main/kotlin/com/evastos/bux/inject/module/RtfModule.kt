@@ -1,7 +1,6 @@
 package com.evastos.bux.inject.module
 
 import com.evastos.bux.BuildConfig
-import com.evastos.bux.data.exception.rtf.RtfExceptionMapper
 import com.squareup.moshi.Moshi
 import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.messageadapter.moshi.MoshiMessageAdapter
@@ -10,7 +9,6 @@ import com.tinder.scarlet.websocket.okhttp.newWebSocketFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import javax.inject.Singleton
 
 @Suppress("unused")
 @Module
@@ -27,11 +25,5 @@ class RtfModule {
                 .webSocketFactory(okhttpClient.newWebSocketFactory(url))
                 .addMessageAdapterFactory(MoshiMessageAdapter.Factory(moshi))
                 .addStreamAdapterFactory(RxJava2StreamAdapterFactory())
-    }
-
-    @Provides
-    @Singleton
-    fun provideRtfExceptionMapper(): RtfExceptionMapper {
-        return RtfExceptionMapper()
     }
 }

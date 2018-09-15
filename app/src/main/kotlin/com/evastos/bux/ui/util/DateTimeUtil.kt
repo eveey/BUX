@@ -7,12 +7,12 @@ import org.threeten.bp.format.FormatStyle
 /**
  * Wrapper around date and time classes.
  */
-class DateTimeUtil {
+open class DateTimeUtil {
 
     /**
      * Returns formatted locale-aware date time with timezone.
      */
-    fun getTimeNow(): String {
+    internal open fun getTimeNow(): String {
         return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).format(ZonedDateTime.now())
     }
 }

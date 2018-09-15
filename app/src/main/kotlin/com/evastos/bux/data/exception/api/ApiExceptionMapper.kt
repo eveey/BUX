@@ -1,6 +1,6 @@
 package com.evastos.bux.data.exception.api
 
-import com.evastos.bux.data.exception.ExceptionMapper
+import com.evastos.bux.data.exception.ExceptionMappers
 import com.evastos.bux.data.exception.api.ApiException.AuthException
 import com.evastos.bux.data.exception.api.ApiException.NetworkException
 import com.evastos.bux.data.exception.api.ApiException.NotFoundException
@@ -18,8 +18,12 @@ import java.net.ConnectException
 import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class ApiExceptionMapper(private val moshi: Moshi) : ExceptionMapper<ApiException> {
+class ApiExceptionMapper
+@Inject constructor(
+    private val moshi: Moshi
+) : ExceptionMappers.Api {
 
     override fun map(throwable: Throwable): ApiException {
         var exception: ApiException = UnknownException()

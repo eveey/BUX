@@ -4,10 +4,11 @@ import android.content.Context
 import com.evastos.bux.R
 import com.evastos.bux.data.exception.api.ApiException
 import com.evastos.bux.inject.qualifier.AppContext
-import com.evastos.bux.ui.util.exception.ExceptionMessageProvider
+import com.evastos.bux.ui.util.exception.ExceptionMessageProviders
+import javax.inject.Inject
 
 class ApiExceptionMessageProvider
-constructor(@AppContext private val context: Context) : ExceptionMessageProvider<ApiException>() {
+@Inject constructor(@AppContext private val context: Context) : ExceptionMessageProviders.Api {
 
     override fun getMessage(exception: ApiException): String {
         var messageResId = R.string.api_error_general

@@ -1,8 +1,8 @@
 package com.evastos.bux.ui.util.exception
 
-abstract class ExceptionMessageProvider<in Exception> {
+interface ExceptionMessageProvider<in Exception> {
 
-    abstract fun getMessage(exception: Exception): String
+    fun getMessage(exception: Exception): String
 
-    abstract fun getMessage(throwable: Throwable): String
+    fun getMessage(throwable: Throwable): String
 }
