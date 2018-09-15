@@ -12,7 +12,6 @@ import com.evastos.bux.ui.base.BaseViewModel
 import com.evastos.bux.ui.util.DateTimeUtil
 import com.evastos.bux.ui.util.PriceUtil
 import com.evastos.bux.ui.util.exception.ExceptionMessageProviders
-import com.tinder.scarlet.Lifecycle
 import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.WebSocket
 import timber.log.Timber
@@ -21,7 +20,6 @@ import javax.inject.Inject
 class ProductFeedViewModel
 @Inject constructor(
     private val productFeedRepository: Repositories.ProductFeedRepository,
-    private val scarletBuilder: Scarlet.Builder,
     private val exceptionMessageProvider: ExceptionMessageProviders.Rtf,
     private val dateTimeUtil: DateTimeUtil,
     private val priceUtil: PriceUtil,
@@ -41,7 +39,7 @@ class ProductFeedViewModel
         lastUpdatedLiveData.postValue(dateTimeUtil.getTimeNow())
     }
 
-    fun subscribeToProductFeed(productDetails: ProductDetails, lifecycle: Lifecycle) {
+    fun subscribeToProductFeed(productDetails: ProductDetails, rtfService: RtfService) {
         this.productDetails = productDetails
         tradingProductNameLiveData.postValue(productDetails.displayName)
 
@@ -69,13 +67,10 @@ class ProductFeedViewModel
         )
         priceDifferenceLiveData.postValue(priceDifference)
 
-        // keep connection alive during the activity lifecycle instead of application lifecycle
-        val rtfService = scarletBuilder.lifecycle(lifecycle).build().create<RtfService>()
         subscribeToProduct(rtfService)
     }
 
-    fun retrySubscribe(lifecycle: Lifecycle) {
-        val rtfService = scarletBuilder.lifecycle(lifecycle).build().create<RtfService>()
+    fun retrySubscribe(rtfService: RtfService) {
         subscribeToProduct(rtfService)
     }
 

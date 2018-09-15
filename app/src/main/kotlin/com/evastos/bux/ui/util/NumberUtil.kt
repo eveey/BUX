@@ -9,7 +9,7 @@ open class NumberUtil {
         private val percentFull = 100.toBigDecimal()
     }
 
-    fun getPercentDifference(
+    internal open fun getPercentDifference(
         previousNumber: BigDecimal,
         currentNumber: BigDecimal
     ): BigDecimal {
