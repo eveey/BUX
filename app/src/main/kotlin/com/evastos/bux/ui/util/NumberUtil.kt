@@ -5,6 +5,7 @@ import java.math.BigDecimal
 class NumberUtil {
 
     companion object {
+        private const val HUNDRED = 100.0 // thanks, Detekt
         private val percentFull = 100.toBigDecimal()
     }
 
@@ -14,7 +15,7 @@ class NumberUtil {
     ): BigDecimal {
         return when {
             previousNumber == currentNumber -> BigDecimal.valueOf(0.0)
-            previousNumber == BigDecimal.ZERO -> BigDecimal.valueOf(100.0)
+            previousNumber == BigDecimal.ZERO -> BigDecimal.valueOf(HUNDRED)
             else -> (currentNumber - previousNumber) / previousNumber * percentFull
         }
     }
