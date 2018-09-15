@@ -9,24 +9,25 @@ class ApiExceptionMessageProvider
 constructor(@AppContext private val context: Context) : ExceptionMessageProvider<ApiException>() {
 
     override fun getMessage(exception: ApiException): String {
+        var messageResId = R.string.api_error_general
         if (exception is ApiException.NotFoundException) {
-            return context.getString(R.string.api_error_product_not_found)
+            messageResId = R.string.api_error_product_not_found
         }
         if (exception is ApiException.AuthException) {
-            return context.getString(R.string.api_error_unauthorized)
+            messageResId = R.string.api_error_unauthorized
         }
         if (exception is ApiException.ServerException) {
-            return context.getString(R.string.api_error_server_unavailable)
+            messageResId = R.string.api_error_server_unavailable
         }
         if (exception is ApiException.NetworkException) {
-            return context.getString(R.string.api_error_network)
+            messageResId = R.string.api_error_network
         }
-        return context.getString(R.string.api_error_general)
+        return context.getString(messageResId)
     }
 
     override fun getMessage(throwable: Throwable): String {
         if (throwable is ApiException) {
-            return getMessage(throwable as ApiException)
+            return getMessage(throwable)
         }
         return context.getString(R.string.api_error_general)
     }

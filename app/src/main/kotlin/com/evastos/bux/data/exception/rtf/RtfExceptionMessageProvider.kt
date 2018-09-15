@@ -9,21 +9,22 @@ class RtfExceptionMessageProvider
 constructor(@AppContext private val context: Context) : ExceptionMessageProvider<RtfException>() {
 
     override fun getMessage(exception: RtfException): String {
+        var messageResId = R.string.rtf_error_general
         if (exception is RtfException.NotConnectedException) {
-            return context.getString(R.string.rtf_error_not_connected)
+            messageResId = R.string.rtf_error_not_connected
         }
         if (exception is RtfException.NotSubscribedException) {
-            return context.getString(R.string.rtf_error_not_subscribed)
+            messageResId = R.string.rtf_error_not_subscribed
         }
         if (exception is RtfException.NetworkException) {
-            return context.getString(R.string.rtf_error_network)
+            messageResId = R.string.rtf_error_network
         }
-        return context.getString(R.string.rtf_error_general)
+        return context.getString(messageResId)
     }
 
     override fun getMessage(throwable: Throwable): String {
         if (throwable is RtfException) {
-            return getMessage(throwable as RtfException)
+            return getMessage(throwable)
         }
         return context.getString(R.string.rtf_error_general)
     }

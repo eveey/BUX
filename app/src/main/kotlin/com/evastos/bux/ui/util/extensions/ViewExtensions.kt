@@ -45,7 +45,6 @@ fun showSnackbarForView(
                 setAction(actionMessage, View.OnClickListener {
                     action?.invoke()
                 })
-                view.setBackgroundColor(context.getColorInt(R.color.snackbarBackground))
                 show()
             }
 }

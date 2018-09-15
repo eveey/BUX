@@ -7,6 +7,8 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import com.evastos.bux.R
+import com.evastos.bux.R.id.getProductDetailsButton
+import com.evastos.bux.R.id.productIdentifierInputEditText
 import com.evastos.bux.data.model.api.response.ProductDetails
 import com.evastos.bux.databinding.ActivityProductIdentifierBinding
 import com.evastos.bux.ui.base.BaseActivity
@@ -59,15 +61,19 @@ class ProductIdentifierActivity : BaseActivity(), NetworkConnectivityObserver {
 
         productIdentifierViewModel.productDetailsLiveData.observe(this,
             Observer { productDetails ->
-                navigateToProductFeed(productDetails!!)
+                productDetails?.let {
+                    navigateToProductFeed(it)
+                }
             })
 
         productIdentifierViewModel.errorMessageLiveData.observe(this,
             Observer { errorMessage ->
-                showSnackbar(productRootView,
-                    errorMessage!!,
-                    getString(R.string.action_retry)) {
-                    productIdentifierViewModel.retryGetProductDetails()
+                errorMessage?.let {
+                    showSnackbar(productRootView,
+                        it,
+                        getString(R.string.action_retry)) {
+                        productIdentifierViewModel.retryGetProductDetails()
+                    }
                 }
             })
 

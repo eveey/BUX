@@ -46,9 +46,12 @@ class ProductFeedActivity : BaseActivity(), NetworkConnectivityObserver {
 
         productFeedViewModel.exceptionLiveData.observe(this,
             Observer { errorMessage ->
-                showSnackbar(productFeedRootView, errorMessage!!, getString(R.string.action_retry)) {
-                    productFeedViewModel.retrySubscribeToProductFeed()
+                errorMessage?.let {
+                    showSnackbar(productFeedRootView, it, getString(R.string.action_retry)) {
+                        productFeedViewModel.retrySubscribeToProductFeed()
+                    }
                 }
+
             })
 
         val productDetails = intent.getParcelableExtra<ProductDetails>(EXTRA_PRODUCT_DETAILS)
