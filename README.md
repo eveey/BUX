@@ -13,6 +13,7 @@ Sample Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading
 * Run the app in the emulator
 
 ### Beta
+* Auth token needed to access the servers
 
 ![com.evastos.bux.screenshot](https://github.com/eveey/BUX/blob/master/app/src/main/assets/tradingProductScreenshot.png)
 
