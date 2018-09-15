@@ -1,4 +1,4 @@
-package com.evastos.bux.ui.util
+package com.evastos.bux.ui.util.extensions
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -12,9 +12,10 @@ fun Context.getColorInt(@ColorRes colorRes: Int): Int {
 }
 
 fun Context?.isConnectedToNetwork(): Boolean {
-    val connectivityManager = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-    connectivityManager?.activeNetworkInfo?.let {
-        return it.isConnected
+    val connectivityManager =
+            this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+    connectivityManager?.activeNetworkInfo?.let { info ->
+        return info.isConnected
     }
     return false
 }

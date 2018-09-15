@@ -1,4 +1,4 @@
-package com.evastos.bux.ui.util
+package com.evastos.bux.ui.util.extensions
 
 import android.app.Activity
 import android.support.design.widget.Snackbar
@@ -9,7 +9,6 @@ import com.jakewharton.rxbinding2.view.clicks
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
-
 
 private const val DEBOUNCE_MILLIS = 300L
 
@@ -39,14 +38,13 @@ fun View.disable() {
 fun showSnackbarForView(
     view: View,
     snackbarMessage: String,
-    actionMessage: String? = null,
+    actionMessage: String?,
     action: (() -> Unit)? = null): Snackbar {
     return Snackbar.make(view, snackbarMessage, Snackbar.LENGTH_INDEFINITE)
             .apply {
                 setAction(actionMessage, View.OnClickListener {
                     action?.invoke()
                 })
-                view.setBackgroundColor(context.getColorInt(R.color.snackbarBackground))
                 show()
             }
 }

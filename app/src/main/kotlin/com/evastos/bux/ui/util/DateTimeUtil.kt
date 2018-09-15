@@ -1,6 +1,6 @@
 package com.evastos.bux.ui.util
 
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
@@ -9,7 +9,10 @@ import org.threeten.bp.format.FormatStyle
  */
 class DateTimeUtil {
 
+    /**
+     * Returns formatted locale-aware date time with timezone.
+     */
     fun getTimeNow(): String {
-        return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(LocalDateTime.now())
+        return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).format(ZonedDateTime.now())
     }
 }

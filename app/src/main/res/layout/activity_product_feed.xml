@@ -1,158 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/productFeedRootView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    tools:context=".ui.product.feed.ProductFeedActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include
-        android:id="@+id/networkConnectivityBanner"
-        layout="@layout/network_connectivity_banner"
+    <data>
+
+        <variable
+            name="isConnectedToNetwork"
+            type="boolean" />
+
+        <variable
+            name="viewModel"
+            type="com.evastos.bux.ui.product.feed.ProductFeedViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/productFeedRootView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/activityBackground"
+        tools:context=".ui.product.feed.ProductFeedActivity">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tradingProductLabelTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_1x"
-        android:layout_marginStart="@dimen/spacing_2x"
-        android:layout_marginTop="@dimen/spacing_5x"
-        android:gravity="end"
-        android:text="@string/trading_product_label"
-        android:textAllCaps="true"
-        android:textSize="@dimen/textSizeMedium"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/tradingProductTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        <include
+            android:id="@+id/networkConnectivityBanner"
+            layout="@layout/network_connectivity_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:isShown="@{!isConnectedToNetwork}"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tradingProductTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_2x"
-        android:textColor="@color/accent"
-        android:textSize="@dimen/textSizeMedium"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@+id/tradingProductLabelTextView"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tradingProductLabelTextView"
-        tools:text="APPLE STOCK" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tradingProductLabelTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_1x"
+            android:layout_marginStart="@dimen/spacing_2x"
+            android:layout_marginTop="@dimen/spacing_5x"
+            android:gravity="end"
+            android:text="@string/trading_product_label"
+            android:textAllCaps="true"
+            android:textSize="@dimen/textSizeMedium"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tradingProductTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/previousDayClosingPriceLabelTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_1x"
-        android:layout_marginStart="@dimen/spacing_2x"
-        android:layout_marginTop="@dimen/spacing_2x"
-        android:gravity="end"
-        android:text="@string/previous_day_closing_price_label"
-        android:textSize="@dimen/textSizeXSmall"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/previousDayClosingPriceTextView"
-        app:layout_constraintTop_toBottomOf="@+id/tradingProductLabelTextView" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tradingProductTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_2x"
+            android:text="@{viewModel.tradingProductNameLiveData}"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/textSizeMedium"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/tradingProductLabelTextView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tradingProductLabelTextView"
+            tools:text="APPLE STOCK" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/previousDayClosingPriceTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_2x"
-        android:text="@string/not_available"
-        android:textColor="@color/white"
-        android:textSize="@dimen/textSizeXSmall"
-        app:layout_constraintLeft_toRightOf="@+id/previousDayClosingPriceLabelTextView"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/previousDayClosingPriceLabelTextView"
-        tools:text="23 USD" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/previousDayClosingPriceLabelTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_1x"
+            android:layout_marginStart="@dimen/spacing_2x"
+            android:layout_marginTop="@dimen/spacing_2x"
+            android:gravity="end"
+            android:text="@string/previous_day_closing_price_label"
+            android:textSize="@dimen/textSizeXSmall"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/previousDayClosingPriceTextView"
+            app:layout_constraintTop_toBottomOf="@+id/tradingProductLabelTextView" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/currentPriceLabelTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_1x"
-        android:layout_marginStart="@dimen/spacing_2x"
-        android:layout_marginTop="@dimen/spacing_2x"
-        android:gravity="end"
-        android:text="@string/current_price_label"
-        android:textSize="@dimen/textSizeXSmall"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/currentPriceTextView"
-        app:layout_constraintTop_toBottomOf="@+id/previousDayClosingPriceLabelTextView" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/previousDayClosingPriceTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_2x"
+            android:text="@{viewModel.previousDayClosingPriceLiveData}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSizeXSmall"
+            app:layout_constraintLeft_toRightOf="@+id/previousDayClosingPriceLabelTextView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/previousDayClosingPriceLabelTextView"
+            tools:text="23 USD" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/currentPriceTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_2x"
-        android:text="@string/not_available"
-        android:textColor="@color/white"
-        android:textSize="@dimen/textSizeXSmall"
-        app:layout_constraintLeft_toRightOf="@+id/currentPriceLabelTextView"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/currentPriceLabelTextView"
-        tools:text="23 USD" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/currentPriceLabelTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_1x"
+            android:layout_marginStart="@dimen/spacing_2x"
+            android:layout_marginTop="@dimen/spacing_2x"
+            android:gravity="end"
+            android:text="@string/current_price_label"
+            android:textSize="@dimen/textSizeXSmall"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/currentPriceTextView"
+            app:layout_constraintTop_toBottomOf="@+id/previousDayClosingPriceLabelTextView" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/priceDifferenceLabelTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_1x"
-        android:layout_marginStart="@dimen/spacing_2x"
-        android:layout_marginTop="@dimen/spacing_2x"
-        android:gravity="end"
-        android:text="@string/price_difference_label"
-        android:textSize="@dimen/textSizeXSmall"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/priceDifferenceTextView"
-        app:layout_constraintTop_toBottomOf="@+id/currentPriceLabelTextView" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/currentPriceTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_2x"
+            android:text="@{viewModel.currentPriceLiveData}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSizeXSmall"
+            app:layout_constraintLeft_toRightOf="@+id/currentPriceLabelTextView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/currentPriceLabelTextView"
+            tools:text="23 USD" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/priceDifferenceTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_2x"
-        android:text="@string/not_available"
-        android:textColor="@color/white"
-        android:textSize="@dimen/textSizeXSmall"
-        app:layout_constraintLeft_toRightOf="@+id/priceDifferenceLabelTextView"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/priceDifferenceLabelTextView"
-        tools:text="150%" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/priceDifferenceLabelTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_1x"
+            android:layout_marginStart="@dimen/spacing_2x"
+            android:layout_marginTop="@dimen/spacing_2x"
+            android:gravity="end"
+            android:text="@string/price_difference_label"
+            android:textSize="@dimen/textSizeXSmall"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/priceDifferenceTextView"
+            app:layout_constraintTop_toBottomOf="@+id/currentPriceLabelTextView" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/lastUpdateLabelTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_1x"
-        android:layout_marginStart="@dimen/spacing_2x"
-        android:layout_marginTop="@dimen/spacing_2x"
-        android:gravity="end"
-        android:text="@string/last_update_label"
-        android:textSize="@dimen/textSizeXSmall"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/lastUpdateTexView"
-        app:layout_constraintTop_toBottomOf="@+id/priceDifferenceLabelTextView" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/priceDifferenceTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_2x"
+            android:text="@{viewModel.priceDifferenceLiveData}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSizeXSmall"
+            app:layout_constraintLeft_toRightOf="@+id/priceDifferenceLabelTextView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/priceDifferenceLabelTextView"
+            tools:text="150%" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/lastUpdateTexView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_2x"
-        android:text="@string/not_available"
-        android:textColor="@color/white"
-        android:textSize="@dimen/textSizeXSmall"
-        android:visibility="gone"
-        app:layout_constraintLeft_toRightOf="@+id/lastUpdateLabelTextView"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lastUpdateLabelTextView"
-        tools:text="17:24:03" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/lastUpdateLabelTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_1x"
+            android:layout_marginStart="@dimen/spacing_2x"
+            android:layout_marginTop="@dimen/spacing_2x"
+            android:gravity="end"
+            android:text="@string/last_update_label"
+            android:textSize="@dimen/textSizeXSmall"
+            android:visibility="gone"
+            app:isShown="@{!isConnectedToNetwork}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/lastUpdateTexView"
+            app:layout_constraintTop_toBottomOf="@+id/priceDifferenceLabelTextView" />
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/lastUpdateTexView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_2x"
+            android:text="@{viewModel.lastUpdatedLiveData}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSizeXSmall"
+            android:visibility="gone"
+            app:isShown="@{!isConnectedToNetwork}"
+            app:layout_constraintLeft_toRightOf="@+id/lastUpdateLabelTextView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lastUpdateLabelTextView"
+            tools:text="17:24:03" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

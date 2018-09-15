@@ -13,4 +13,4 @@ data class ProductDetails(
     @Json(name = "displayName") val displayName: String?,
     @Json(name = "currentPrice") val currentPrice: ProductPrice?,
     @Json(name = "closingPrice") val closingPrice: ProductPrice?
-): Parcelable
+) : Parcelable

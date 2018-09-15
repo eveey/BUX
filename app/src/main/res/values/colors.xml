@@ -4,6 +4,6 @@
     <color name="error">#EA333D</color>
     <color name="white">@android:color/white</color>
     <color name="black">@android:color/black</color>
-    <color name="snackbarBackground">#212121</color>
-    <color name="networkConnectivityBackground">#CCEA333D</color>
+    <color name="activityBackground">#212121</color>
+    <color name="networkConnectivityBackground">#D97271</color>
 </resources>

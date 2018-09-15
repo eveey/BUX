@@ -1,6 +1,7 @@
 package com.evastos.bux.inject.module
 
 import com.evastos.bux.ui.util.DateTimeUtil
+import com.evastos.bux.ui.util.NumberUtil
 import com.evastos.bux.ui.util.PriceUtil
 import dagger.Module
 import dagger.Provides
@@ -18,7 +19,13 @@ class UtilModule {
 
     @Provides
     @Singleton
-    fun providesPriceUtil(): PriceUtil {
-        return PriceUtil()
+    fun providesPriceUtil(numberUtil: NumberUtil): PriceUtil {
+        return PriceUtil(numberUtil)
+    }
+
+    @Provides
+    @Singleton
+    fun providesNumberUtil(): NumberUtil {
+        return NumberUtil()
     }
 }

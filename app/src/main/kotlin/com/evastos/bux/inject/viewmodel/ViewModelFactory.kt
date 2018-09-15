@@ -2,18 +2,18 @@ package com.evastos.bux.inject.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
-open class ViewModelFactory @Inject constructor(
+open class ViewModelFactory
+@Inject constructor(
     private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val creator = creators[modelClass] ?: creators.entries.firstOrNull {
-            modelClass.isAssignableFrom(it.key)
+        val creator = creators[modelClass] ?: creators.entries.firstOrNull { entry ->
+            modelClass.isAssignableFrom(entry.key)
         }?.value ?: throw IllegalArgumentException("unknown model class $modelClass")
         try {
             @Suppress("UNCHECKED_CAST")

@@ -64,7 +64,7 @@ android {
 
     productFlavors {
         development {
-            // Only for debugging using the emulator, run bux-server.jar on your local host
+            // For debugging on the emulator; requires to run bux-server.jar on the local host
             dimension 'api'
             applicationIdSuffix '.dev'
             buildConfigField STRING, BASE_API_URL, '"http://10.0.2.2:8080/"'
@@ -167,9 +167,8 @@ dependencies {
 
     // Logging
     implementation "com.jakewharton.timber:timber:$versions.timberVersion"
-    implementation "com.readystatesoftware.chuck:library:$versions.chuckVersion"
-//    debugImplementation "com.readystatesoftware.chuck:library:$versions.chuckVersion"
-//    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$versions.chuckVersion"
+    debugImplementation "com.readystatesoftware.chuck:library:$versions.chuckVersion"
+    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$versions.chuckVersion"
 
     // Utils
     implementation "com.jakewharton.threetenabp:threetenabp:$versions.threeTenAndroidVersion"

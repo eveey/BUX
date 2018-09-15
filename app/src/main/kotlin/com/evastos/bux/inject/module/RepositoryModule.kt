@@ -1,7 +1,7 @@
 package com.evastos.bux.inject.module
 
 import com.evastos.bux.data.repository.Repositories
-import com.evastos.bux.data.repository.product.ProductDetailsRepository
+import com.evastos.bux.data.repository.product.details.ProductDetailsRepository
 import com.evastos.bux.data.repository.product.feed.ProductFeedRepository
 import dagger.Binds
 import dagger.Module

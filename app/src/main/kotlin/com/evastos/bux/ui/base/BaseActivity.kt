@@ -11,9 +11,9 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.evastos.bux.data.network.connectivity.NetworkConnectivityReceiver
-import com.evastos.bux.ui.base.network.NetworkConnectivityObserver
-import com.evastos.bux.ui.util.hideIfShown
-import com.evastos.bux.ui.util.showSnackbarForView
+import com.evastos.bux.ui.base.network.connectivity.NetworkConnectivityObserver
+import com.evastos.bux.ui.util.extensions.hideIfShown
+import com.evastos.bux.ui.util.extensions.showSnackbarForView
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -54,6 +54,7 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleOwner {
             })
     }
 
+    @Suppress("DEPRECATION")
     override fun onResume() {
         super.onResume()
         val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
