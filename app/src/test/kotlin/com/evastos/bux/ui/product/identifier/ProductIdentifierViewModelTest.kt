@@ -36,13 +36,7 @@ class ProductIdentifierViewModelTest {
     private val errorMessageLiveDataObserver = mock<Observer<String>>()
     private val progressVisibleLiveDataObserver = mock<Observer<Boolean>>()
 
-    private val productDetails = ProductDetails(
-        "",
-        "",
-        "",
-        null,
-        null
-    )
+    private val productDetails = TestUtil.productDetails
 
     private lateinit var viewModel: ProductIdentifierViewModel
 
