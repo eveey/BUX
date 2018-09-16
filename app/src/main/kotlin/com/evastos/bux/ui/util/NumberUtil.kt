@@ -1,12 +1,12 @@
 package com.evastos.bux.ui.util
 
 import java.math.BigDecimal
+import java.math.MathContext
 
 open class NumberUtil {
 
     companion object {
-        private const val HUNDRED = 100.0 // thanks, Detekt
-        private val percentFull = 100.toBigDecimal()
+        private const val ONE = 1.0 // thanks, Detekt
     }
 
     internal open fun getPercentDifference(
@@ -14,9 +14,10 @@ open class NumberUtil {
         currentNumber: BigDecimal
     ): BigDecimal {
         return when {
-            previousNumber == currentNumber -> BigDecimal.valueOf(0.0)
-            previousNumber == BigDecimal.ZERO -> BigDecimal.valueOf(HUNDRED)
-            else -> (currentNumber - previousNumber) / previousNumber * percentFull
+            previousNumber.compareTo(currentNumber) == 0 -> BigDecimal.valueOf(0.0)
+            previousNumber.compareTo(BigDecimal.ZERO) == 0 -> BigDecimal.valueOf(ONE)
+            else ->
+                (currentNumber.minus(previousNumber)).divide(previousNumber, MathContext.DECIMAL64)
         }
     }
 }

@@ -8,7 +8,8 @@ import com.evastos.bux.data.service.ApiService
 import io.reactivex.Single
 import javax.inject.Inject
 
-class ProductDetailsRepository @Inject constructor(
+class ProductDetailsRepository
+@Inject constructor(
     private val apiService: ApiService,
     private val exceptionMapper: ExceptionMappers.Api
 ) : Repositories.ProductDetailsRepository {

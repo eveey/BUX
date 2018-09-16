@@ -15,47 +15,47 @@ class NumberUtilTest {
     }
 
     @Test
-    fun getPercentDifference_withPositiveNumbers_shouldCalculatePositiveDifference() {
+    fun getPercentDifference_withPositiveNumbers_calculatesPositiveDifference() {
         val firstNumber = BigDecimal.valueOf(100.0)
         val secondNumber = BigDecimal.valueOf(150.0)
 
         val percentDifference = numberUtil.getPercentDifference(firstNumber, secondNumber)
 
-        assertEquals(BigDecimal.valueOf(50.0), percentDifference)
+        assertEquals(BigDecimal.valueOf(0.5), percentDifference)
     }
 
     @Test
-    fun getPercentDifference_withPositiveNumbers_shouldCalculateNegativeDifference() {
+    fun getPercentDifference_withPositiveNumbers_calculatesNegativeDifference() {
         val firstNumber = BigDecimal.valueOf(250.0)
         val secondNumber = BigDecimal.valueOf(100.0)
 
         val percentDifference = numberUtil.getPercentDifference(firstNumber, secondNumber)
 
-        assertEquals(BigDecimal.valueOf(-60.0), percentDifference)
+        assertEquals(BigDecimal.valueOf(-0.6), percentDifference)
     }
 
     @Test
-    fun getPercentDifference_withFirstNumberZero_shouldReturnHundredPercent() {
+    fun getPercentDifference_withFirstNumberZero_returnsHundredPercent() {
         val firstNumber = BigDecimal.ZERO
         val secondNumber = BigDecimal.valueOf(276.0)
 
         val percentDifference = numberUtil.getPercentDifference(firstNumber, secondNumber)
 
-        assertEquals(BigDecimal.valueOf(100.0), percentDifference)
+        assertEquals(BigDecimal.valueOf(1.0), percentDifference)
     }
 
     @Test
-    fun getPercentDifference_withSecondNumberZero_shouldReturnNegativeHundredPercent() {
+    fun getPercentDifference_withSecondNumberZero_returnsNegativeHundredPercent() {
         val firstNumber = BigDecimal.valueOf(276.0)
         val secondNumber = BigDecimal.ZERO
 
         val percentDifference = numberUtil.getPercentDifference(firstNumber, secondNumber)
 
-        assertEquals(BigDecimal.valueOf(-100.0), percentDifference)
+        assertEquals(BigDecimal.valueOf(-1), percentDifference)
     }
 
     @Test
-    fun getPercentDifference_withBothNumbersZero_shouldReturnZeroPercent() {
+    fun getPercentDifference_withBothNumbersZero_returnsZeroPercent() {
         val firstNumber = BigDecimal.ZERO
         val secondNumber = BigDecimal.ZERO
 
@@ -65,7 +65,7 @@ class NumberUtilTest {
     }
 
     @Test
-    fun getPercentDifference_withEqualNumbers_shouldReturnZeroPercent() {
+    fun getPercentDifference_withEqualNumbers_returnsZeroPercent() {
         val firstNumber = BigDecimal.valueOf(276.0)
         val secondNumber = BigDecimal.valueOf(276.0)
 

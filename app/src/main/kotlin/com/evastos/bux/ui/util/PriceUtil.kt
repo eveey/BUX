@@ -3,7 +3,7 @@ package com.evastos.bux.ui.util
 import timber.log.Timber
 import java.math.BigDecimal
 import java.text.NumberFormat
-import java.util.Currency
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -49,7 +49,9 @@ open class PriceUtil @Inject constructor(private val numberUtil: NumberUtil) {
             return ""
         }
         val differencePercent = numberUtil.getPercentDifference(previousPrice, currentPrice)
-        return NumberFormat.getPercentInstance().format(differencePercent)
+        val percentInstance = NumberFormat.getPercentInstance()
+        percentInstance.minimumFractionDigits = DEFAULT_DECIMAL_PLACES
+        return percentInstance.format(differencePercent)
     }
 
     private fun getCurrency(currencyCode: String?): Currency? {
