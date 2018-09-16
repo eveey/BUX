@@ -49,7 +49,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * [Detekt](https://github.com/arturbosch/detekt) - Static code analysis for Kotlin
 
 ## Unit tests
-* In progress
+* [JUnit4](https://junit.org/junit4/)
+* [Mockito-Kotlin](https://github.com/nhaarman/mockito-kotlin)
 
 ## Other
 ### Date/time
