@@ -3,7 +3,11 @@
 
 Sample Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading product feed.
 
-`Important note: to use this app, add your auth token to project local.properties file like this:
+## Building the app
+* Gradle build system
+* Requires [Java 8](https://java.com/en/download/faq/java8.xml)
+
+`Important note: to use the services you need to add your auth token to project local.properties file like this:
  authToken="{auth token}"`
 
 ## Flavors
@@ -18,7 +22,7 @@ Sample Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading
 ![com.evastos.bux.screenshot](https://github.com/eveey/BUX/blob/master/app/src/main/assets/tradingProductScreenshot.png)
 
 ## Architecture
-* MVVM (Model-View-ViewModel) + [Data Binding](https://developer.android.com/topic/libraries/data-binding/) + [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) + [RxKotlin](https://github.com/ReactiveX/RxKotlin)
+* MVVM (Model-View-ViewModel) = [Android Arhitecture Components](https://developer.android.com/topic/libraries/architecture/) + [Data Binding](https://developer.android.com/topic/libraries/data-binding/) + [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) + [RxKotlin](https://github.com/ReactiveX/RxKotlin)
 
 ## Dependency management
 * [Google/Dagger](https://github.com/google/dagger) - Dependency injection
@@ -41,6 +45,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
+* [OkHttp 3](https://square.github.io/okhttp/3.x/okhttp/)
 * [Square/Moshi](https://github.com/square/moshi) - JSON adapter
 * [Chuck](https://github.com/jgilfelt/chuck) - Network interceptor
 
