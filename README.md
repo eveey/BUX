@@ -22,7 +22,11 @@ Sample Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading
 ![com.evastos.bux.screenshot](https://github.com/eveey/BUX/blob/master/app/src/main/assets/tradingProductScreenshot.png)
 
 ## Architecture
-* MVVM (Model-View-ViewModel) = [Android Arhitecture Components](https://developer.android.com/topic/libraries/architecture/) + [Data Binding](https://developer.android.com/topic/libraries/data-binding/) + [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) + [RxKotlin](https://github.com/ReactiveX/RxKotlin)
+* MVVM (Model-View-ViewModel)
+* [Android Arhitecture Components](https://developer.android.com/topic/libraries/architecture/)
+* [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData)
+* [RxKotlin](https://github.com/ReactiveX/RxKotlin)
+* [Data Binding](https://developer.android.com/topic/libraries/data-binding/)
 
 ## Dependency management
 * [Google/Dagger](https://github.com/google/dagger) - Dependency injection
