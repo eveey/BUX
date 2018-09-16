@@ -4,7 +4,7 @@
 Sample Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading product feed.
 
 ## Building the app
-* [Gradle build system](https://gradle.org/)
+* Gradle build tools
 * Requires [Java 8](https://java.com/en/download/faq/java8.xml)
 
 `Important note: to use the services you need to add your auth token to project local.properties file like this:
