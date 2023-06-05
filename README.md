@@ -1,4 +1,6 @@
-# BUX
+# BUXDemo
+
+MVVM
 ![com.evastos.bux.screenshot.icon](https://github.com/eveey/BUX/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
 Sample Android app in [Kotlin](https://kotlinlang.org/) for viewing live trading product feed.
